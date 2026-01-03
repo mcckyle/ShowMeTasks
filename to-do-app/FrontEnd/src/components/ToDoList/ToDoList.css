@@ -1,0 +1,50 @@
+/* Filename: ToDoList.css */
+.todo-list-container
+{
+	width: 100%;
+	max-width: 600px;
+	margin: 32px auto;
+	padding: 12px 0;
+	border-radius: 16px;
+	background-color: #ffffff;
+	box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.08);
+	
+	transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.todo-list-container:hover
+{
+	transform: translateY(-2px);
+	box-shadow: 0px 10px 24px rgba(0, 0, 0, 0.1);
+}
+
+.todo-list
+{
+	padding: 0;
+    margin: 0;
+}
+
+.empty-message
+{
+	text-align: center;
+	color: #616161;
+	padding: 40px 20px;
+	font-style: italic;
+	font-size: 1rem;
+	letter-spacing: 0.3px;
+}
+
+/* List Container Styling for Mobile */
+@media (max-width: 600px) {
+    .todo-list-container {
+        max-width: 90%;
+		margin: 24px auto;
+		padding: 8px 0;
+    }
+	
+	.empty-message
+	{
+		font-size: 0.95rem;
+		padding: 32px 16px;
+	}
+}

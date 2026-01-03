@@ -1,0 +1,154 @@
+/* Filename: src/components/Profile/Profile.css */
+
+/* Profile Container Styles. */
+.profile-card {
+	max-width: 620px;
+	margin: 2.5rem auto;
+	padding: 2.5rem 2rem;
+	border-radius: 20px;
+	background: var(--color-surface);
+	box-shadow: var(--shadow-md);
+	display: flex;
+	flex-direction: column;
+	gap: 2rem;
+	
+	transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+.profile-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+
+.profile-header
+{
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+}
+
+.profile-header h1 {
+	font-size: clamp(1.8rem, 4vw, 2rem);
+	font-weight: 600;
+	margin: 0;
+}
+
+.profile-header p {
+	font-size: var(--font-body);
+	opacity: 0.65;
+}
+
+/* Profile Info Section Styles. */
+.profile-info {
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem;
+}
+.profile-info div { display: flex; flex-direction: column; }
+
+.profile-info span {
+	font-size: 0.8rem;
+	text-transform: uppercase;
+	opacity: 0.6;
+	letter-spacing: 0.03em;
+	margin-bottom: 0.15rem;
+}
+
+.profile-info p {
+	font-size: 1rem;
+	line-height: 1.5;
+	margin: 0;
+}
+
+.profile-actions {
+	display: flex;
+	gap: 1rem;
+	justify-content: center;
+}
+
+.button {
+	padding: 0.65rem 1.25rem;
+	font-size: var(--font-base);
+	font-weight: 600;
+	border-radius: var(--radius);
+	border: none;
+	cursor: pointer;
+	background: var(--color-primary);
+	color: #fff;
+	
+	transition: transform var(--transition-fast),
+	            box-shadow var(--transition-fast);
+}
+.button:hover { transform: translateY(-1px); box-shadow: var(--shadow-sm); }
+.button.danger { background: #e25555; }
+
+.profile-error {
+	margin-top: 1rem;
+	font-size: 0.9rem;
+	color: #e25555;
+	text-align: center;
+}
+
+/* Modal Overlay Styles. */
+.modal-overlay {
+	position: fixed;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.35);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 1rem;
+	z-index: 1000;
+}
+
+/* Modal Card Styles. */
+.modal-card {
+	background: var(--color-surface);
+	width: 100%;
+	max-width: 460px;
+	padding: 2rem;
+	border-radius: 22px;
+	display: flex;
+	flex-direction: column;
+	gap: 1.25rem;
+	box-shadow: var(--shadow-lg);
+	
+	animation: fadeScale 0.25s ease;
+}
+
+.modal-card h2 {
+	margin: 0 0 0.5rem;
+	font-size: 1.5rem;
+	font-weight: 600;
+	text-align: center;
+}
+
+.input {
+	width: 100%;
+	padding: 0.75rem 1rem;
+	border-radius: 14px;
+	border: 1px solid rgba(0, 0, 0, 0.15);
+	font-size: 1rem;
+	
+	transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.input:focus {
+	outline: none;
+	border-color: var(--color-primary);
+	box-shadow: 0 0 0 3px rgba(75, 123, 253, 0.12);
+}
+
+.textarea {
+	min-height: 110px;
+	resize: vertical;
+}
+
+.modal-actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: 0.75rem;
+	margin-top: 1rem;
+}
+
+@keyframes fadeScale {
+	from { opacity: 0; transform: scale(0.96); }
+	to { opacity: 1; transform: scale(1); }
+}

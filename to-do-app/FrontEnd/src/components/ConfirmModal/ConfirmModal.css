@@ -1,0 +1,79 @@
+/* Filename: src/components/ConfirmModal/ConfirmModal.css */
+
+.confirm-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  
+  animation: fadeIn 0.22s ease-out;
+}
+
+.confirm-modal {
+	background: rgba(255, 255, 255, 0.88);
+	backdrop-filter: blur(12px);
+	padding: 28px 26px;
+	border-radius: 16px;
+	width: min(92%, 400px);
+	box-shadow: 0 10px 32px rgba(0, 0, 0, 0.12);
+	
+	animation: slideUp 0.24s ease-out;
+}
+
+.confirm-title {
+	font-size: 1.32rem;
+	font-weight: 700;
+	margin-bottom: 10px;
+}
+
+.confirm-message {
+	font-size: 1rem;
+	opacity: 0.9;
+	margin-bottom: 20px;
+	line-height: 1.55;
+}
+
+.confirm-actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: 0.9rem;
+}
+
+.confirm-btn {
+	padding: 0.55rem 1rem;
+	border-radius: 10px;
+	border: none;
+	cursor: pointer;
+	font-size: 0.98rem;
+	font-weight: 600;
+	
+	transition: opacity 0.15s, transform 0.15s ease;
+}
+
+.confirm-btn.cancel {
+	background: #e5e6eb;
+}
+
+.confirm-btn.confirm {
+	background: black;
+	color: white;
+}
+
+.confirm-btn:hover {
+	opacity: 0.85;
+	transform: translateY(-2px);
+}
+
+@keyframes fadeIn {
+	from { opacity: 0; }
+	from { opacity: 1; }
+}
+
+@keyframes slideUp {
+	from { opacity: 0; transform: translateY(18px); }
+	to { opacity: 1; transform: translateY(0); }
+}

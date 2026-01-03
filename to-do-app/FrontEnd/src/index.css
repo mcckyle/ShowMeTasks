@@ -1,16 +1,74 @@
-/* index.css */
+/* Filename: src/index.css */
 
-/* Reset default margins and paddings */
-html, body {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    height: 100%;
-    width: 100%;
+:root {
+	--color-bg-light: #ffffff;
+	--color-bg-dark: #1a1a1a;
+	--color-primary: #646cff;
+	--color-accent: #ff7b72;
+	--color-text-light: #ffffff;
+	--color-text-dark: #242424;
+	--font-sans: 'Roboto', system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
 
-/* Ensure root fills the viewport */
-#root {
-    height: 100%;
-    width: 100%;
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-sans);
+  line-height: 1.5;
+  min-height: 100%;
+  scroll-behavior: smooth;
+  background-color: var(--color-bg-dark);
+  color: var(--color-text-light);
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 500;
+  
+  transition: color 0.25s ease;
+}
+a:hover { color: var(--color-accent); }
+
+button {
+  border-radius: 12px;
+  border: none;
+  padding: 0.6em 1.4em;
+  font-size: 1em;
+  font-weight: 500;
+  cursor: pointer;
+  background-color: var(--color-primary);
+  color: var(--color-text-light);
+  
+  transition: transform 0.2s, background-color 0.2s;
+}
+button:hover {
+	background-color: var(--color-accent);
+	transform: translateY(-2px);
+}
+button:disabled {
+	opacity: 0.6;
+	cursor: not-allowed;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0.5em 0;
+  font-weight: 700;
+}
+
+/* Animations Styles. */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-color-scheme: light) {
+  body {
+	  background-color: var(--color-bg-light);
+	  color: var(--color-text-dark);
+  }
+  button {
+	  background-color: var(--color-primary);
+	  color: var(--color-text-light);
+  }
 }

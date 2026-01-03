@@ -1,0 +1,59 @@
+/* Filename: ToDoItem.css */
+.todo-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+	margin: 6px 12px;
+    padding: 14px 16px; 
+    border-radius: 12px;
+    background: linear-gradient(90deg, #e8f1ff 0%, #cfe0fc 100%);
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.08);
+
+    transition: all 0.25s ease;
+}
+
+/* Hover Effect */
+.todo-item:hover {
+    transform: scale(1.02);
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* Task Text Styling */
+.todo-text {
+    font-size: 1rem;
+    font-weight: 500;
+	color: #0d47a1;
+    flex-grow: 1;
+    word-wrap: break-word;
+	line-height: 1.5;
+}
+
+.todo-text::before {
+    content: attr(data-number) ". ";  /* Use the number as content */
+    margin-right: 6px; /* Space between the number and the description */
+    font-weight: 600; /* Make the number bold */
+    color: #1565c0; /* Change the color of the number to differentiate */
+}
+
+/* Delete Button Styling */
+.delete-button {
+    color: #e53935;
+    transition: color 0.25s ease, transform 0.25s ease;
+}
+
+.delete-button:hover {
+    color: #b71c1c;
+    transform: scale(1.15);
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .todo-item {
+        padding: 10px 12px;
+        margin: 4px 8px;
+    }
+
+    .todo-text {
+        font-size: 0.95rem;
+    }
+}

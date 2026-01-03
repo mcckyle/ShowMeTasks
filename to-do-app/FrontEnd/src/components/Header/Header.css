@@ -1,0 +1,165 @@
+/* Filename: src/components/Header/Header.css */
+
+/* Header Shell Styles. */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  backdrop-filter: blur(14px);
+  background: rgba(20, 20, 20, 0.85);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  width: 100%;
+  
+  transition: background 0.3s ease;
+}
+
+/* Inner Wrapper Styles. */
+.header-inner {
+	max-width: 1280px;
+	margin: 0 auto;
+	padding: 0.85rem 1.5rem;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+}
+
+/* Logo Text Styles. */
+.logo {
+	font-size: 1.5rem;
+	font-weight: 700;
+	letter-spacing: -0.02em;
+	color: var(--color-primary);
+	
+	transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.logo:hover { transform: scale(1.05); color: var(--color-accent); }
+
+/* Navigation Styles. */
+.nav {
+  display: flex;
+  gap: 1.8rem;
+}
+
+.nav-item {
+  font-weight: 500;
+  font-size: 0.95rem;
+  opacity: 0.75;
+  
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.nav-item:hover { opacity: 1; transform: translateY(-1px); }
+
+/* Right Side Styles. */
+.header-actions {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+}
+
+/* Auth Links Styles. */
+.auth-links {
+	display: flex;
+	gap: 0.5rem;
+}
+
+.auth-link {
+	padding: 0.5rem 1rem;
+	border-radius: 999px;
+	font-weight: 500;
+	font-size: 0.95rem;
+	opacity: 0.85;
+	
+	transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.auth-link:hover { opacity: 1; transform: translateY(-1px); }
+
+.auth-link.primary {
+	background: var(--color-primary);
+	color: #fff;
+}
+.auth-link.primary:hover { background-color: var(--color-accent); }
+
+/* Avatar Wrapper Styles. */
+.avatar-wrapper { position: relative; cursor: pointer; outline: none; }
+
+/* Avatar Circle Styles. */
+.avatar {
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	background: var(--color-primary);
+	color: #fff;
+	font-weight: 700;
+	display: grid;
+	place-items: center;
+	
+	transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.avatar-wrapper:hover .avatar,
+.avatar-wrapper:focus-within .avatar
+{
+	transform: translateY(-2px);
+	box-shadow: 0 0 0 4px rgba(100, 108, 255, 0.35);
+}
+
+/* Avatar Dropdown Menu Styles. */
+.menu {
+	position: absolute;
+	top: calc(100% + 10px);
+	right: 0;
+	min-width: 200px;
+	background: rgba(30, 30, 30, 0.95);
+	border-radius: 16px;
+	padding: 6px 0;
+	opacity: 0;
+	transform: translateY(-6px);
+	pointer-events: none;
+	
+	transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.menu.open {
+	opacity: 1;
+	transform: translateY(0);
+	pointer-events: auto;
+}
+
+/* Menu Items Styles. */
+.menu-item {
+	display: block;
+	width: 100%;
+	padding: 0.65rem 1rem;
+	font-size: 0.95rem;
+	text-align: left;
+	border-radius: 12px;
+	color: #fff;
+	cursor: pointer;
+	
+	transition: background 0.2s ease;
+}
+.menu-item:hover { background: rgba(100, 108, 255, 0.1); }
+.menu-item.danger { color: #e25b5b; }
+.menu-item.danger:hover { background: rgba(226, 91, 91, 0.15); }
+
+/* Menu Divider Styles. */
+.menu-divider {
+	height: 1px;
+	margin: 6px 0;
+	background: rgba(255, 255, 255, 0.1);
+}
+
+@media (prefers-color-scheme: light) {
+  .header {
+	  background: rgba(255, 255, 255, 0.92);
+	  border-bottom-color: rgba(0, 0, 0, 0.08);
+  }
+}
+
+/* Media Query Styles. */
+@media (max-width: 768px)
+{
+	.nav { display: none; }
+}

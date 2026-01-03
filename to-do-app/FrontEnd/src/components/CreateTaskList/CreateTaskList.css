@@ -1,0 +1,89 @@
+/* Filename: CreateTaskList.css */
+
+.create-tasklist-container
+{
+	max-width: 420px;
+	margin: 40px auto;
+	padding: 32px 28px;
+	border-radius: 16px;
+	background: linear-gradient(145deg, #ffffff, #f7faff);
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+	text-align: center;
+	
+	transition: transform 0.3s ease;
+	animation: fadeIn 0.8s ease-out;
+}
+
+.create-tasklist-container:hover
+{
+	transform: translateY(-3px);
+}
+
+
+.create-tasklist-form {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.create-tasklist-title
+{
+	font-weight: 600 !important;
+	color: #1976d2;
+	letter-spacing: 0.5px;
+	margin-bottom: 8px !important;
+}
+
+.create-tasklist-fields
+{
+	display: flex;
+	flex-direction: column;
+	gap: 18px;
+}
+
+/* Button Styling */
+.create-tasklist-button {
+    padding: 12px 0 !important;
+    font-weight: 600 !important;
+	text-transform: none !important;
+	border-radius: 8px !important;
+    background-color: #1976d2 !important;
+
+    transition: background-color 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+.create-tasklist-button:hover {
+    background-color: #1565c0 !important;
+	box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3) !important;
+}
+
+/* FadeIn Animation */
+@keyframes fadeIn {
+    from
+	{
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to
+	{
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 600px)
+{
+	.create-task-container
+	{
+		padding: 24px 20px;
+		margin: 24px auto;
+	}
+
+	.create-tasklist-title
+	{
+		font-size: 1.1rem !important;
+	}
+}
+	
