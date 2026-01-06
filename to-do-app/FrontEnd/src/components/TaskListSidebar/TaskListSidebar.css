@@ -1,0 +1,82 @@
+/* Filename: src/components/TaskListSidebar/TaskListSidebar.css */
+
+/* Sidebar Shell Styles. */
+.tasklist-sidebar {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	padding: 20px 16px;
+	gap: 12px;
+}
+
+/* Header Styles. */
+.sidebar-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.sidebar-title {
+	font-size: 0.75rem;
+	font-weight: 600;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	opacity: 0.6;
+}
+
+/* New List Button Styles. */
+.new-list-btn {
+	border-radius: 999px !important;
+	font-size: 0.75rem !important;
+	padding: 4px 12px !important;
+	text-transform: none !important;
+}
+
+/* Lists Container Styles. */
+.lists {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	margin-top: 6px;
+}
+
+/* Empty State Styles. */
+.empty-state {
+	margin-top: 24px;
+	font-size: 0.85rem;
+	opacity: 0.6;
+	text-align: center;
+}
+
+/* List Cards Styles. */
+.list-card {
+	padding: 10px 14px;
+	border-radius: 12px;
+	cursor: pointer;
+	background: transparent;
+	box-shadow: none;
+	
+	display: flex;
+	align-items: center;
+	
+	transition: background 0.2s ease, transform 0.15s ease;
+}
+.list-card:hover { background: rgba(0, 0, 0, 0.04); }
+.list-card.active { background: rgba(25, 118, 210, 0.12); }
+.list-card:active { transform: scale(0.98); }
+
+:root[data-theme="dark"] .list-card:hover {
+	background: rgba(255, 255, 255, 0.06);
+}
+:root[data-theme="dark"] .list-card.active {
+	background: rgba(75, 123, 253, 0.18);
+}
+
+.list-meta {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.list-name { font-size: 0.95rem; font-weight: 500; }
+.list-count { font-size: 0.75rem; opacity: 0.6; }

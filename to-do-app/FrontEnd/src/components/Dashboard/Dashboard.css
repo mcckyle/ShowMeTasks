@@ -1,5 +1,62 @@
 /* Filename: src/components/Dashboard/Dashboard.css */
 
-.dashboard {
-  display: flex;
+/* Dashboard Shell Styles. */
+.dashboard-shell {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  min-height: calc(100vh - 72px);
+  background: var(--color-bg-light);
+}
+
+/* Dashboard Sidebar Styles. */
+.dashboard-sidebar {
+	background: var(--color-bg-dark);
+	border-right: 1px solid rgba(0, 0, 0, 0.06);
+	position: sticky;
+	top: 72px;
+	height: calc(100vh - 72px);
+	overflow-y: auto;
+}
+
+/* Dashboard Main Content Area Styles. */
+.dashboard-main {
+	display: flex;
+	justify-content: center;
+	padding: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+/* Dashboard Canvas (Main Content Wrapper) Styles. */
+.dashboard-canvas {
+	width: 100%;
+	max-width: 860px;
+	display: flex;
+	align-items: flex-start;
+}
+
+/* Dashboard Empty / Loading States Styles. */
+.dashboard-state {
+	margin-top: 140px;
+	max-width: 420px;
+	text-align: center;
+	font-size: 1rem;
+	line-height: 1.6;
+	opacity: 0.65;
+}
+
+/* Dashboard Dark Mode Styles */
+:root[data-theme="dark"] .dashboard-shell {
+	background: var(--color-bg-dark);
+}
+
+:root[data-theme="dark"] .dashboard-sidebar {
+	border-right-color: rgba(255, 255, 255, 0.08);
+}
+
+/* Media Query Styles. */
+@media (max-width: 900px)
+{
+	.dashboard-shell { grid-template-columns: 1fr; }
+	.dashboard-sidebar { position: relative; height: auto; border-right: none; border-bottom: 1px solid rgba(0, 0, 0, 0.06); }
+	.dashboard-main { padding: 1.25rem; }
+	.dashboard-canvas { max-width: 100%; }
 }

@@ -1,20 +1,20 @@
 //****************************************************************************************
 // Filename: Register.jsx
-// Date: 2 January 2026
+// Date: 4 January 2026
 // Author: Kyle McColgan
 // Description: This file contains the React Registration component for ShowMeTasks.
 //****************************************************************************************
 
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { registerUser } from "../../services/AuthService";
 import { AuthContext } from "../../context/AuthContext";
 import { TextField, Button, Typography, Paper, Box, Fade } from "@mui/material";
 import "./Register.css"; // Import the custom CSS file
 
-const Register = ({ onRegister }) => {
-    const { register, handleSubmit, formState: { errors } } = useForm();
+const Register = () => {
+    const { register, handleSubmit } = useForm();
     const navigate = useNavigate();
     const { setAccessToken, setUser } = useContext(AuthContext);
 	const [errorMessage, setErrorMessage] = useState("");
@@ -47,45 +47,57 @@ const Register = ({ onRegister }) => {
         }
     };
 
-     return (
-	 <Fade in timeout={700}>
-	   <Paper elevation={6} className="register-container">
+    return (
+	 <Fade in timeout={500}>
+	   <Paper elevation={0} className="register-card">
         <form className="register-form" onSubmit={handleSubmit(onSubmit)}>
-            <Typography variant="h5" className="register-title">
-                Create Your Account ✨
+		  <div className="register-header">
+            <Typography className="register-title">
+                Create an account
             </Typography>
+			<Typography className="register-subtitle">
+                Get started with ShowMeTasks
+            </Typography>
+		  </div>
 			
 			<Box className="register-fields">
                     <TextField
 					    label="Username"
-                        variant="outlined"
                         fullWidth
                         {...register("username", { required: true })}  
                     />
                     <TextField
 					    label="Email"
 						type="email"
-                        variant="outlined"
                         fullWidth
                         {...register("email", { required: true })}      
                     />
                     <TextField
 					    label="Password"
                         type="password"
-						variant="outlined"
                         fullWidth
                         {...register("password", { required: true })}
                     />
 					<TextField
 					    label="Confirm Password"
                         type="password"
-						variant="outlined"
                         fullWidth
                         {...register("confirmPassword", { required: true })}
                     />
 				  </Box>
-				<Button type="submit" variant="contained" fullWidth className="register-button">
-					Create account
+				  
+				  {errorMessage && (
+				    <Typography className="register-error">
+					  {errorMessage}
+					</Typography>
+				  )}
+				<Button
+				  type="submit"
+				  variant="contained"
+				  fullWidth
+				  className="register-button"
+				>
+				  Create account
 				</Button>
             </form>
 		</Paper>

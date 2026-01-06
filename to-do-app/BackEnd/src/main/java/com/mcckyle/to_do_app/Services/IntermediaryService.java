@@ -2,7 +2,7 @@
 //
 //     Filename: IntermediaryService.java
 //     Author: Kyle McColgan
-//     Date: 2 January 2026
+//     Date: 4 January 2026
 //     Description: This class acts as a bridge for two other classes,
 //                  the ToDoService.java and TaskListService.java classes.
 //
@@ -59,21 +59,27 @@ public class IntermediaryService
     }
 
     /**
-     * Retrieves a user's to-do tasks by username.
-     */
-    public List<ToDoObj> getUserToDos(String username)
-    {
-        User user = userService.findByUsername(username).orElseThrow(() -> new RuntimeException("User not found"));
-        return toDoService.getToDosByUser(user);
-    }
-
-    /**
      * Create a new TaskList for a user
      */
     public TaskList createTaskList(User user, String name)
     {
         TaskList taskList = new TaskList(name, user);
         return taskListService.createTaskList(taskList);  // Returns TaskList, not TaskListResponse
+    }
+
+    /**
+     * Create a new ToDo task within a specific TaskList
+     */
+    public ToDoObj createTaskInList(String description, TaskList taskList, User user)
+    {
+        //Set the creation time and assign the task to the TaskList and user.
+        LocalDateTime creationTime = LocalDateTime.now();
+
+        ToDoObj task = new ToDoObj(description, false, creationTime, taskList);
+        task.setUser(user); //Set the user for the ToDoObj.
+
+        //Save the task to the database through toDoService.
+        return toDoService.createToDoForTaskList(task, taskList);
     }
 
     /**
@@ -93,19 +99,24 @@ public class IntermediaryService
         return taskListService.getTaskListsByUser(user);
     }
 
-    /**
-     * Create a new ToDo task within a specific TaskList
-     */
-    public ToDoObj createTaskInList(String description, TaskList taskList, User user)
+    public TaskList getOrCreateDefaultTaskListForUser(User user)
     {
-        //Set the creation time and assign the task to the TaskList and user.
-        LocalDateTime creationTime = LocalDateTime.now();
+        //Check if the user already has a default task list.
+        TaskList defaultTaskList = taskListService.findDefaultTaskListForUser(user);
 
-        ToDoObj task = new ToDoObj(description, false, creationTime, taskList);
-        task.setUser(user); //Set the user for the ToDoObj.
+        if (defaultTaskList == null)
+        {
+            //Create a new default task list.
+            defaultTaskList = new TaskList();
+            defaultTaskList.setName("Default Task List");
+            defaultTaskList.setUser(user);
+            defaultTaskList.setDefault(true);
 
-        //Save the task to the database through toDoService.
-        return toDoService.createToDoForTaskList(task, taskList);
+            //Save the new task list to the database.
+            defaultTaskList = taskListService.saveTaskList(defaultTaskList);
+        }
+
+        return defaultTaskList;
     }
 
     /**
@@ -116,10 +127,13 @@ public class IntermediaryService
         return toDoService.getToDosByTaskList(taskList); // Assuming this is a method in ToDoService
     }
 
-    public void deleteTaskById(Integer taskId)
+    /**
+     * Retrieves a user's to-do tasks by username.
+     */
+    public List<ToDoObj> getUserToDos(String username)
     {
-        // Use the ToDoService to handle the deletion
-        toDoService.deleteTaskById(taskId);
+        User user = userService.findByUsername(username).orElseThrow(() -> new RuntimeException("User not found"));
+        return toDoService.getToDosByUser(user);
     }
 
     public TaskList updateTaskList(Integer id, TaskList updatedTaskList, User user)
@@ -183,24 +197,41 @@ public class IntermediaryService
         return taskListService.saveTaskList(existingTaskList);
     }
 
-    public TaskList getOrCreateDefaultTaskListForUser(User user)
+    //Update a task...
+    public ToDoObj updateTaskDescription(Integer taskId, String description, User user)
     {
-        //Check if the user already has a default task list.
-        TaskList defaultTaskList = taskListService.findDefaultTaskListForUser(user);
+        ToDoObj task = toDoService.updateTaskDescription(taskId, description);
 
-        if (defaultTaskList == null)
+        //Ownership check here.
+        if ( ! task.getUser().getId().equals(user.getId()))
         {
-            //Create a new default task list.
-            defaultTaskList = new TaskList();
-            defaultTaskList.setName("Default Task List");
-            defaultTaskList.setUser(user);
-            defaultTaskList.setDefault(true);
-
-            //Save the new task list to the database.
-            defaultTaskList = taskListService.saveTaskList(defaultTaskList);
+            throw new RuntimeException("Unauthorized");
         }
 
-        return defaultTaskList;
+        return task;
+    }
+
+    public void deleteTaskList(Integer taskListId, User user)
+    {
+        TaskList taskList = taskListService.getTaskListById(taskListId);
+
+        if ( ! taskList.getUser().getId().equals(user.getId()))
+        {
+            throw new RuntimeException("Unauthorized");
+        }
+
+        if (taskList.isDefault())
+        {
+            throw new IllegalArgumentException("Default task list cannot be deleted.");
+        }
+
+        taskListService.deleteTaskList(taskListId);
+    }
+
+    public void deleteTaskById(Integer taskId)
+    {
+        //Use the ToDoService to handle the deletion.
+        toDoService.deleteTaskById(taskId);
     }
 }
 

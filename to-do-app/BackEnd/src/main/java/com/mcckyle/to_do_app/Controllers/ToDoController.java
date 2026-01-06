@@ -2,7 +2,7 @@
 //
 //   Filename: ToDoController.java
 //   Author: Kyle McColgan
-//   Date: 2 January 2026
+//   Date: 4 January 2026
 //   Description: This file implements task list creation functionality.
 //
 //***************************************************************************************
@@ -17,6 +17,7 @@ import com.mcckyle.to_do_app.Services.UserService;
 import com.mcckyle.to_do_app.payload.TaskCreateRequest;
 import com.mcckyle.to_do_app.payload.TaskListDTO;
 import com.mcckyle.to_do_app.payload.TaskListResponse;
+import com.mcckyle.to_do_app.payload.TaskUpdateRequest;
 import com.mcckyle.to_do_app.security.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -219,6 +220,79 @@ public class ToDoController
         return ResponseEntity.ok(tasks);
     }
 
+    @GetMapping("/tasklists/default")
+    public ResponseEntity<TaskList> getOrCreateDefaultTaskList(@AuthenticationPrincipal UserDetailsImpl principal)
+    {
+        //Find the user by username.
+        User user = userService.findById(principal.getId())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // Use the IntermediaryService to get or create the default task list
+        TaskList defaultTaskList = intermediaryService.getOrCreateDefaultTaskListForUser(user);
+
+        return ResponseEntity.ok(defaultTaskList);
+    }
+
+    @PutMapping("/list/update/{id}")
+    public ResponseEntity<TaskListResponse> updateTaskList(
+            @PathVariable("id") Integer id,
+            @RequestBody TaskList updatedTaskList)
+    {
+        // Get the authenticated username
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        System.out.println("Authenticated user: " + username);
+
+        // Check if the user has the required role
+        if (SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream()
+                .noneMatch(a -> a.getAuthority().equals("ROLE_USER")))
+        {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+        }
+
+        // Find the user by username
+        User user = userService.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // Delegate the update operation to the intermediary service
+        TaskList updatedList = intermediaryService.updateTaskList(id, updatedTaskList, user);
+
+        // Create and return a simplified response
+        TaskListResponse response = new TaskListResponse(updatedList.getId(), updatedList.getName());
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/{taskId}")
+    public ResponseEntity<ToDoObj> updateTask(
+            @PathVariable Integer taskId,
+            @RequestBody TaskUpdateRequest request,
+            @AuthenticationPrincipal UserDetailsImpl principal)
+    {
+        // Find the user by ID.
+        User user = userService.findById(principal.getId())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // Delegate the update operation to the intermediary service.
+        ToDoObj updatedTask = intermediaryService.updateTaskDescription(
+                taskId,
+                request.getDescription(),
+                user
+        );
+
+        return ResponseEntity.ok(updatedTask);
+    }
+
+    @DeleteMapping("/list/{taskListId}")
+    public ResponseEntity<Void> deleteTaskList(
+            @PathVariable Integer taskListId,
+            @AuthenticationPrincipal UserDetailsImpl principal)
+    {
+        User user = userService.findById(principal.getId())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        intermediaryService.deleteTaskList(taskListId, user);
+        return ResponseEntity.noContent().build();
+    }
+
     /**
      * Deletes a task by its unique ID.
      * <p>
@@ -251,47 +325,6 @@ public class ToDoController
         {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-    }
-
-    @PutMapping("/list/update/{id}")
-    public ResponseEntity<TaskListResponse> updateTaskList(
-            @PathVariable("id") Integer id,
-            @RequestBody TaskList updatedTaskList)
-    {
-        // Get the authenticated username
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        System.out.println("Authenticated user: " + username);
-
-        // Check if the user has the required role
-        if (SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream()
-                .noneMatch(a -> a.getAuthority().equals("ROLE_USER")))
-        {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
-        }
-
-        // Find the user by username
-        User user = userService.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        // Delegate the update operation to the intermediary service
-        TaskList updatedList = intermediaryService.updateTaskList(id, updatedTaskList, user);
-
-        // Create and return a simplified response
-        TaskListResponse response = new TaskListResponse(updatedList.getId(), updatedList.getName());
-        return ResponseEntity.ok(response);
-    }
-
-    @GetMapping("/tasklists/default")
-    public ResponseEntity<TaskList> getOrCreateDefaultTaskList(@AuthenticationPrincipal UserDetailsImpl principal)
-    {
-        //Find the user by username.
-        User user = userService.findById(principal.getId())
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        // Use the IntermediaryService to get or create the default task list
-        TaskList defaultTaskList = intermediaryService.getOrCreateDefaultTaskListForUser(user);
-
-        return ResponseEntity.ok(defaultTaskList);
     }
 }
 

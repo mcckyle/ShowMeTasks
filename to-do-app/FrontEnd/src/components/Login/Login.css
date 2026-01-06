@@ -1,66 +1,71 @@
-.login-container
+/* Filename: src/components/Login/Login.css */
+
+/* Shared Auth Container Styles. */
+.auth-container
 {
 	max-width: 400px;
-	margin: 60px auto;
+	margin: 64px auto;
 	padding: 40px 36px;
 	border-radius: 16px;
 	background: linear-gradient(145deg, #ffffff, #f6f9fc);
-	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+	box-shadow: 0 10px 28px rgba(0, 0, 0, 0.1);
 	text-align: center;
 	
-	transition: transform 0.3s ease;
+	transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
+.auth-container:hover { transform: translateY(-2px); box-shadow: 0 14px 36px rgba(0, 0, 0, 0.12); }
 
-.login-container:hover
-{
-	transform: translateY(-3px);
-}
-
-/* Wrapper Form */
-.login-form {
+/* Form Layout Styles. */
+.auth-form {
     display: flex;
     flex-direction: column;
-	gap: 24px;
+	gap: 28px;
 }
 
-/* Typography */
-.login-title {
+.auth-header {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+
+/* Typography Styles. */
+.auth-title {
     font-weight: 600 !important;
     color: #1976d2;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.3px;
 }
+.auth-subtitle { color: #6b7280; }
 
-.login-fields {
+.auth-fields {
     display: flex;
     flex-direction: column;
 	gap: 18px;
 }
 
-/* Button Styling */
-.login-button {
+/* Error Message Styles. */
+.auth-error {
+	color: #d32f2f;
+	font-size: 0.875rem;
+	text-align: left;
+}
+
+/* Button Styles. */
+.auth-button {
     padding: 12px 0 !important;
 	border-radius: 8px !important;
-	background-color: #1976d2 !important;
     font-weight: 600 !important;
     text-transform: none !important;
 	
-	transition: background-color 0.3s ease, box-shadow 0.3s ease;
+	transition: box-shadow 0.25s ease, transform 0.2s ease;
 }
 
-.login-button:hover {
-    background-color: #1565c0 !important;
-    box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3) !important;
+.auth-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(25, 118, 210, 0.3) !important;
 }
 
-/* Additional Responsiveness */
+/* Media Query Styles. */
 @media (max-width: 600px) {
-    .login-container {
-        padding: 28px 20px;
-        margin: 30px auto;
-    }
-	
-	.login-form
-	{
-		gap: 20px;
-	}
+	.auth-container { margin: 32px auto; padding: 28px 20px; }
+	.auth-form { gap: 22px; }
 }

@@ -1,15 +1,17 @@
 //****************************************************************************************
 // Filename: TaskListSidebar.jsx
-// Date: 2 January 2026
+// Date: 4 January 2026
 // Author: Kyle McColgan
 // Description: This file contains the TaskListSidebar React component for ShowMeTasks.
 //****************************************************************************************
 
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { Button, Card, Typography, Dialog, DialogContent, DialogActions, TextField } from "@mui/material";
 
-const TaskListSidebar = ({ user, taskLists, onSelect, selectedList, onListCreated }) => {
+import "./TaskListSidebar.css";
+
+const TaskListSidebar = ({ taskLists, onSelect, selectedList, onListCreated }) => {
 	const { accessToken } = useContext(AuthContext);
 	const [open, setOpen] = useState(false);
 	const [newListName, setNewListName] = useState("");
@@ -22,7 +24,7 @@ const TaskListSidebar = ({ user, taskLists, onSelect, selectedList, onListCreate
 		
 		try
 		{
-			const result = await fetch('http://localhost:8080/api/todos/list/create', {
+			const result = await fetch("http://localhost:8080/api/todos/list/create", {
 				method: "POST",
 				headers: {
 					Authorization: `Bearer ${accessToken}`,
@@ -38,8 +40,8 @@ const TaskListSidebar = ({ user, taskLists, onSelect, selectedList, onListCreate
 			
 			const data = await result.json();
 			onListCreated(data);
-			setOpen(false);
 			setNewListName("");
+			setOpen(false);
 		}
 		catch (error)
 		{
@@ -48,36 +50,72 @@ const TaskListSidebar = ({ user, taskLists, onSelect, selectedList, onListCreate
 	};
 	
 	return (
-	  <div className="sidebar">
-	    <Button variant="contained" onClick={() => setOpen(true)}>+ New List</Button>
+	  <div className="tasklist-sidebar">
+	    {/* Header. */}
+		<div className="sidebar-header">
+		  <Typography className="sidebar-title">
+		    Task Lists
+		  </Typography>
+		  
+		  <Button
+		    variant="contained"
+			size="small"
+			className="new-list-btn"
+		    onClick={() => setOpen(true)}
+		  >
+		    New
+		  </Button>
+		</div>
+		
+		{/* Lists. */}
+		<div className="lists">
+		  {taskLists.length === 0 ? (
+		    <Typography className="empty-state">
+			  Create your first list
+			</Typography>
+		  ) : (
+		    taskLists.map((list) => {
+			  const isActive = selectedList?.id === list.id;
+			  
+			  return (
+			  <Card
+			    key={list.id}
+				className={`list-card ${isActive ? "active" : ""}`}
+				onClick={() => onSelect(list)}
+				role="button"
+				tabIndex={0}
+			  >
+			   <span className="list-meta">
+			    <Typography className="list-name">
+				  {list.name}
+				</Typography>
+				<Typography className="list-count">
+				  {list.tasks?.length || 0}
+				</Typography>
+			   </span>
+			  </Card>
+			);
+		  })
+		)}
+	  </div>
+		
+		{/* Create Dialog. */}		
 		<Dialog open={open} onClose={() => setOpen(false)}>
 		  <DialogContent>
 		    <TextField
+			  autoFocus
+			  label="Task List Name"
 			  value={newListName}
 			  onChange={(e) => setNewListName(e.target.value)}
-			  label="Task List Name"
 			  fullWidth
 			/>
 		  </DialogContent>
 		  <DialogActions>
 		    <Button onClick={() => setOpen(false)}>Cancel</Button>
-			<Button onClick={handleCreateList}>Create</Button>
+			<Button variant="contained" onClick={handleCreateList} disabled={ ! newListName.trim()}>Create</Button>
 		  </DialogActions>
 		</Dialog>
-		
-		<div className="lists">
-		{taskLists.map((list) => (
-		  <Card
-		    key={list.id}
-			className={`list-card ${selectedList?.id === list.id ? 'active' : ''}`}
-			onClick={() => onSelect(list)}
-		  >
-		    <Typography variant="body1">{list.name}</Typography>
-			<Typography variant="caption">{list.tasks?.length || 0} tasks</Typography>
-		  </Card>
-		))}
 	  </div>
-	</div>
 	);
 };
 

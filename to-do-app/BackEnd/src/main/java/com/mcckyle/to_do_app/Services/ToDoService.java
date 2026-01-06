@@ -2,7 +2,7 @@
 //
 //     Filename: ToDoService.java
 //     Author: Kyle McColgan
-//     Date: 21 November 2024
+//     Date: 4 January 2026
 //     Description: This file provides abstracted task-level functionality.
 //
 //***************************************************************************************
@@ -52,6 +52,18 @@ public class ToDoService
     public List<ToDoObj> getToDosByTaskList(TaskList taskList)
     {
         return toDoRepository.findByTaskList(taskList);
+    }
+
+    /**
+     * Update a task from a specific TaskList.
+     */
+    public ToDoObj updateTaskDescription(Integer taskId, String description)
+    {
+        ToDoObj task = toDoRepository.findById(taskId)
+                .orElseThrow(() -> new RuntimeException("Task not found"));
+
+        task.setDescription(description);
+        return toDoRepository.save(task);
     }
 
     /**

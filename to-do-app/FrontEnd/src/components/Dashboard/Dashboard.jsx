@@ -1,11 +1,11 @@
 //****************************************************************************************
 // Filename: Dashboard.jsx
-// Date: 2 January 2026
+// Date: 4 January 2026
 // Author: Kyle McColgan
 // Description: This file contains the Dashboard React component for ShowMeTasks.
 //****************************************************************************************
 
-import React, { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import TaskListSidebar from "../TaskListSideBar/TaskListSidebar.jsx";
 import TaskListView from "../TaskListView/TaskListView.jsx";
@@ -27,7 +27,7 @@ const Dashboard = () => {
 		const fetchLists = async () => {
 			try
 			{
-				const result = await fetch('http://localhost:8080/api/todos/list', {
+				const result = await fetch("http://localhost:8080/api/todos/list", {
 					headers: { Authorization: `Bearer ${accessToken}` },
 				});
 				
@@ -68,17 +68,25 @@ const Dashboard = () => {
 		</aside>
 		
 		<main className="dashboard-main">
-		  {loading ? (
-		    <div className="dashboard-state">Loading your lists...</div>
-		  ) : selectedList ? (
-		    <TaskListView selectedList={selectedList} />
-		  ) : (
-		    <div className="dashboard-state">
-			  Create your first task list to get started.
-			</div>
-		  )}
+		  <div className="dashboard-canvas">
+		    {loading && (
+		      <div className="dashboard-state">
+			    Loading your workspace...
+			  </div>
+		    )} 
+		  
+		    { ! loading && selectedList && (
+		      <TaskListView selectedList={selectedList} />
+		    )}
+		  
+		    { ! loading && ! selectedList && (
+		      <div className="dashboard-state">
+			    Create your first task list to begin.
+			  </div>
+		    )}
+		  </div>
 		</main>
-	   </section>
+	  </section>
 	);
 };
 
