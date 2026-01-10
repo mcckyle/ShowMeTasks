@@ -5,8 +5,8 @@
 	height: 100%;
 	display: flex;
 	flex-direction: column;
-	padding: 20px 16px;
-	gap: 12px;
+	padding: 20px 14px;
+	gap: 14px;
 }
 
 /* Header Styles. */
@@ -17,11 +17,11 @@
 }
 
 .sidebar-title {
-	font-size: 0.75rem;
+	font-size: 0.7rem;
 	font-weight: 600;
-	letter-spacing: 0.08em;
+	letter-spacing: 0.12em;
 	text-transform: uppercase;
-	opacity: 0.6;
+	opacity: 0.55;
 }
 
 /* New List Button Styles. */
@@ -36,47 +36,46 @@
 .lists {
 	display: flex;
 	flex-direction: column;
-	gap: 6px;
-	margin-top: 6px;
+	gap: 4px;
 }
 
 /* Empty State Styles. */
 .empty-state {
-	margin-top: 24px;
+	margin-top: 28px;
 	font-size: 0.85rem;
 	opacity: 0.6;
 	text-align: center;
 }
 
-/* List Cards Styles. */
-.list-card {
-	padding: 10px 14px;
-	border-radius: 12px;
-	cursor: pointer;
+/* List Items Styles. */
+.list-item {
+	appearance: none;
+	border: none;
 	background: transparent;
-	box-shadow: none;
-	
-	display: flex;
-	align-items: center;
-	
-	transition: background 0.2s ease, transform 0.15s ease;
-}
-.list-card:hover { background: rgba(0, 0, 0, 0.04); }
-.list-card.active { background: rgba(25, 118, 210, 0.12); }
-.list-card:active { transform: scale(0.98); }
-
-:root[data-theme="dark"] .list-card:hover {
-	background: rgba(255, 255, 255, 0.06);
-}
-:root[data-theme="dark"] .list-card.active {
-	background: rgba(75, 123, 253, 0.18);
-}
-
-.list-meta {
 	width: 100%;
+	
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	
+	padding: 10px 14px;
+	border-radius: 10px;
+	cursor: pointer;
+	
+	font-size: 0.95rem;
+	font-weight: 500;
+	text-align: left;
+	
+	transition: background 0.2s ease, transform 0.15s ease;
 }
-.list-name { font-size: 0.95rem; font-weight: 500; }
+.list-item:hover { background: rgba(0, 0, 0, 0.04); }
+.list-item.active { background: rgba(25, 118, 210, 0.14); }
+.list-item:active { transform: scale(0.98); }
 .list-count { font-size: 0.75rem; opacity: 0.6; }
+
+:root[data-theme="dark"] .list-item:hover {
+	background: rgba(255, 255, 255, 0.06);
+}
+:root[data-theme="dark"] .list-item.active {
+	background: rgba(75, 123, 253, 0.18);
+}

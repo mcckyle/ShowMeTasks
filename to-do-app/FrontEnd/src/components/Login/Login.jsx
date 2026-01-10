@@ -1,6 +1,6 @@
 //****************************************************************************************
 // Filename: Login.jsx
-// Date: 4 January 2026
+// Date: 6 January 2026
 // Author: Kyle McColgan
 // Description: This file contains the React Login component for ShowMeTasks.
 //****************************************************************************************
@@ -24,7 +24,7 @@ const Login = () => {
 		try
 		{
 			await login(data);
-			navigate("/dashboard");
+			navigate("/tasks");
 		}
 		catch
 		{
@@ -33,50 +33,49 @@ const Login = () => {
 	};
 
     return (
-	  <Fade in timeout={700}>
-	    <Paper elevation={6} className="auth-container">
-			<form className="auth-form" onSubmit={handleSubmit(onSubmit)}>
-			  <Box className="auth-header">
-				<Typography variant="h5" className="auth-title">
+	  <Fade in timeout={400}>
+	    <Paper elevation={6} className="login">
+			<form className="login-form" onSubmit={handleSubmit(onSubmit)}>
+			 <header className="login-header">
+				<Typography className="login-title">
 					Welcome Back
 				</Typography>
-				<Typography variant="body2" className="auth-subtitle">
+				<Typography className="login-subtitle">
 					Sign in to continue
 				</Typography>
-			  </Box>
+			 </header>
 				
-				<Box className="auth-fields">
-					<TextField
-						label="Email"
-						fullWidth
-						autoComplete="email"
-						{...register("email", { required: true })}
-					/>
-					<TextField
-						label="Password"
-						type="password"
-						fullWidth
-						autoComplete="current-password"
-						{...register("password", { required: true })}
-					/>
-				</Box>
-				
-				{errorMessage && (
-				    <Typography className="auth-error">
-					  {errorMessage}
-					</Typography>
-				  )}
-				
-				<Button
-				  type="submit"
-				  variant="contained"
-				  size="large"
-				  fullWidth
-				  className="auth-button"
-				>
-					Login
-				</Button>
-			</form>
+			<Box className="login-fields">
+				<TextField
+					label="Email"
+					fullWidth
+					autoComplete="email"
+					fullWidth
+					{...register("email", { required: true })}
+				/>
+				<TextField
+					label="Password"
+					type="password"
+					autoComplete="current-password"
+					fullWidth
+					{...register("password", { required: true })}
+				/>
+			</Box>
+			
+			{errorMessage && (
+				<Typography className="login-error">
+				  {errorMessage}
+				</Typography>
+			  )}
+			
+			<Button
+			  type="submit"
+			  variant="contained"
+			  fullWidth
+			>
+				Sign in
+			</Button>
+		  </form>
 	    </Paper>
 	</Fade>
     );

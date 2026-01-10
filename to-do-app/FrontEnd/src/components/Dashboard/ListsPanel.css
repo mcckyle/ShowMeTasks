@@ -1,0 +1,23 @@
+/* Filename: src/components/Dashboard/ListsPanel.css */
+
+.lists-panel {
+	width: 280px;
+	background: var(--color-surface-light);
+	padding: 20px;
+}
+
+.lists-title {
+	font-size: 0.75rem;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	opacity: 0.6;
+	margin-bottom: 12px;
+}
+
+.lists-item {
+	padding: 10px 14px;
+	margin-bottom: 6px;
+	cursor: pointer;
+	box-shadow: none;
+}
+.lists-item.active { background: rgba(25, 118, 210, 0.12); }

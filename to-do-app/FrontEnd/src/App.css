@@ -1,77 +1,26 @@
 /* Filename: src/App.css */
 
 /* App Wrapper Styles. */
-.app
+.app-shell
 {
-    width: 100%;
 	min-height: 100vh;
 	
 	display: flex;
 	flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-	
-	padding: 20px;
-	animation: fadeIn 0.5s ease-in-out;
 }
 
-/* Page Container Styles. */
-.page-container {
-	width: 100%;
-	max-width: 1080px;
-	margin: 0 auto;
-	padding: 20px;
+/* Main Content Area Styles. */
+.app-main {
+	flex: 1;
 	display: flex;
-	flex-direction: column;
-	gap: 20px;
+	justify-content: center;
+	padding: clamp(1.25rem, 3vw, 3rem);
 }
 
 /* Not Found Styles. */
 .not-found {
 	text-align: center;
-	font-size: 2em;
-	color: var(--color-accent);
-	margin-top: 50px;
-}
-
-/* Task And Card Containers Styles. */
-.card {
-	background-color: rgba(30, 30, 30, 0.95);
-	padding: 20px;
-	border-radius: 16px;
-	box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-	width: 100%;
-	max-width: 800px;
-	
-	animation: fadeIn 0.6s ease-in-out;
-}
-
-/* Input Fields Styles. */
-input, textarea, .MuiTextField-root {
-	border-radius: 12px;
-	border: 1px solid #444;
-	padding: 0.6em 1em;
-	width: 100%;
-	font-size: 1rem;
-	background-color: #222;
-	color: var(--color-text-light);
-	
-	transition: border-color 0.2s, background-color 0.2s;
-}
-input:focus, textarea:focus, .MuiTextField-root input:focus {
-	border-color: var(--color-primary);
-	outline: none;
-}
-
-/* Flex Layouts Styles. */
-.flex {
-	display: flex;
-	gap: 12px;
-	align-items: center;
-	justify-content: space-between;
-}
-.flex-column {
-	display: flex;
-	flex-direction: column;
-	gap: 12px;
+	margin-top: 120px;
+	font-size: 1.5em;
+	opacity: 0.7;
 }

@@ -195,15 +195,16 @@ const TaskListView = ({ selectedList }) => {
 	{
 		return (
 		  <Typography className="tasklist-placeholder">
-		    Select a list to view tasks.
+		    Select a list to begin.
 		  </Typography>
 		);
 	}
 	
 	return (
-	  <Card className="tasklist-view">
+	  <Card className="tasklist-view" elevation={0}>
 	    {/* Header. */}
-		<div className="tasklist-header">
+		<header className="tasklist-header">
+		 <div className="tasklist-header-main">
 		 {editingListName ? (
 		   <TextField
 		     value={listName}
@@ -229,23 +230,23 @@ const TaskListView = ({ selectedList }) => {
 		  </Typography>
 		 )}
 		 
-		 <div>
-		  <Typography className="tasklist-count">
-		    {todos.length} tasks
+		 <Typography className="tasklist-count">
+		    {todos.length} {todos.length === 1 ? "task" : "tasks"}
 		  </Typography>
+		</div>
 		  
 		  <Button
 		    size="small"
 			color="error"
+			className="delete-list-btn"
 			onClick={handleDeleteList}
 		  >
-		    Delete List
+		    Delete
 		  </Button>
-		</div>
-	  </div>
+		</header>
 		
 		{/* Tasks. */}
-		<div className="tasklist-content">
+		<section className="tasklist-content">
 		  {todos.length === 0 ? (
 		    <Typography className="tasklist-empty">
 			  Add your first task below.
@@ -277,13 +278,13 @@ const TaskListView = ({ selectedList }) => {
 			            {task.description}
 			        </span>
 		        )}
-				<Button
-			     size="small"
-			     onClick={() => handleUpdateTask(task.id)}
-			   >
-			     Update
+				
+				<div className="task-actions">
+				{editingId === task.id ? (
+				<Button size="small" onClick={() => handleUpdateTask(task.id)}>
+			     Save
 			   </Button>
-			   {editingId !== task.id && (
+			   ) : (
 				   <Button
 					 size="small"
 					 color="error"
@@ -293,16 +294,17 @@ const TaskListView = ({ selectedList }) => {
 				   </Button>
 			   )}
 			 </div>
+			</div>
 			))
 		  )}
-		</div>
+		</section>
 		
 		{/* Input. */}
-		<div className="tasklist-input">
+		<footer className="tasklist-input">
 		  <TextField
 			value={newTask}
 			onChange={(e) => setNewTask(e.target.value)}
-			label="New Task"
+			placeholder="Add a new task..."
 			size="small"
 			fullWidth
 		  />
@@ -313,7 +315,7 @@ const TaskListView = ({ selectedList }) => {
 		  >
 		    Add
 		  </Button>
-		</div>
+		</footer>
 	</Card>
 	);
 };

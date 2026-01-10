@@ -5,19 +5,19 @@
   position: sticky;
   top: 0;
   z-index: 1000;
-  backdrop-filter: blur(14px);
-  background: rgba(20, 20, 20, 0.85);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   width: 100%;
   
-  transition: background 0.3s ease;
+  backdrop-filter: blur(12px);
+  background: rgba(15, 17, 21, 0.85);
+  border-bottom: 1px solid var(--color-border-dark);
 }
 
-/* Inner Wrapper Styles. */
+/* Inner Layout Styles. */
 .header-inner {
 	max-width: 1280px;
 	margin: 0 auto;
-	padding: 0.85rem 1.5rem;
+	padding: 0.75rem 1.5rem;
+	
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -26,30 +26,36 @@
 
 /* Logo Text Styles. */
 .logo {
-	font-size: 1.5rem;
+	font-size: 1.25rem;
 	font-weight: 700;
 	letter-spacing: -0.02em;
 	color: var(--color-primary);
-	
-	transition: transform 0.2s ease, color 0.2s ease;
 }
-
-.logo:hover { transform: scale(1.05); color: var(--color-accent); }
 
 /* Navigation Styles. */
 .nav {
   display: flex;
-  gap: 1.8rem;
+  gap: 1.5rem;
 }
 
 .nav-item {
+  font-size: 0.9rem;
   font-weight: 500;
-  font-size: 0.95rem;
-  opacity: 0.75;
-  
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  opacity: 0.65;
+  position: relative;
 }
-.nav-item:hover { opacity: 1; transform: translateY(-1px); }
+.nav-item:hover { opacity: 1; }
+.nav-item.active { opacity: 1; }
+.nav-item.active::after {
+	content: "";
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: -8px;
+	height: 2px;
+	border-radius: 2px;
+	background: var(--color-primary);
+}
 
 /* Right Side Styles. */
 .header-actions {
@@ -65,44 +71,33 @@
 }
 
 .auth-link {
-	padding: 0.5rem 1rem;
+	padding: 0.45rem 0.9rem;
 	border-radius: 999px;
-	font-weight: 500;
-	font-size: 0.95rem;
-	opacity: 0.85;
-	
-	transition: opacity 0.2s ease, transform 0.2s ease;
+	font-size: 0.9rem;
+	opacity: 0.75;
 }
-.auth-link:hover { opacity: 1; transform: translateY(-1px); }
+.auth-link:hover { opacity: 1; }
 
 .auth-link.primary {
 	background: var(--color-primary);
 	color: #fff;
 }
-.auth-link.primary:hover { background-color: var(--color-accent); }
+.auth-link.primary:hover { background: var(--color-accent); }
 
 /* Avatar Wrapper Styles. */
-.avatar-wrapper { position: relative; cursor: pointer; outline: none; }
+.avatar-wrapper { position: relative; cursor: pointer; }
 
 /* Avatar Circle Styles. */
 .avatar {
-	width: 40px;
-	height: 40px;
+	width: 36px;
+	height: 36px;
 	border-radius: 50%;
 	background: var(--color-primary);
 	color: #fff;
-	font-weight: 700;
+	font-weight: 600;
+	
 	display: grid;
 	place-items: center;
-	
-	transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.avatar-wrapper:hover .avatar,
-.avatar-wrapper:focus-within .avatar
-{
-	transform: translateY(-2px);
-	box-shadow: 0 0 0 4px rgba(100, 108, 255, 0.35);
 }
 
 /* Avatar Dropdown Menu Styles. */
@@ -110,15 +105,18 @@
 	position: absolute;
 	top: calc(100% + 10px);
 	right: 0;
-	min-width: 200px;
-	background: rgba(30, 30, 30, 0.95);
-	border-radius: 16px;
-	padding: 6px 0;
+	min-width: 190px;
+	
+	background: var(--color-surface-dark);
+	border-radius: var(--radius-md);
+	border: 1px solid var(--color-border-dark);
+	
+	padding: 6px;
 	opacity: 0;
-	transform: translateY(-6px);
+	transform: translateY(-4px);
 	pointer-events: none;
 	
-	transition: opacity 0.2s ease, transform 0.2s ease;
+	transition: opacity 0.15s ease, transform 0.15s ease;
 }
 
 .menu.open {
@@ -131,30 +129,30 @@
 .menu-item {
 	display: block;
 	width: 100%;
-	padding: 0.65rem 1rem;
-	font-size: 0.95rem;
+	padding: 0.55rem 0.75rem;
+	border-radius: 10px;
+	font-size: 0.9rem;
+	color: inherit;
 	text-align: left;
-	border-radius: 12px;
-	color: #fff;
-	cursor: pointer;
-	
-	transition: background 0.2s ease;
 }
-.menu-item:hover { background: rgba(100, 108, 255, 0.1); }
+.menu-item:hover { background: rgba(255, 255, 255, 0.06); }
 .menu-item.danger { color: #e25b5b; }
-.menu-item.danger:hover { background: rgba(226, 91, 91, 0.15); }
 
 /* Menu Divider Styles. */
 .menu-divider {
 	height: 1px;
 	margin: 6px 0;
-	background: rgba(255, 255, 255, 0.1);
+	background: var(--color-border-dark);
 }
 
 @media (prefers-color-scheme: light) {
   .header {
-	  background: rgba(255, 255, 255, 0.92);
-	  border-bottom-color: rgba(0, 0, 0, 0.08);
+	  background: rgba(255, 255, 255, 0.9);
+	  border-bottom-color: var(--color-border-light);
+  }
+  .menu {
+	  background: var(--color-surface-light);
+	  border-color: var(--color-border-light);
   }
 }
 

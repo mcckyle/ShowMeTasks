@@ -1,13 +1,9 @@
 /* Filename: src/components/Register/Register.css */
 
-/* Card Styles. */
-.register-card {
-    max-width: 420px;
-	margin: 48px auto;
-    padding: 36px 34px;
-    border-radius: 18px;
-	background: linear-gradient(145deg, #ffffff, #f6f9fc);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+/* Register Wrapper Styles. */
+.register {
+	background: transparent;
+    padding: 0;
 }
 
 /* Layout Styles. */
@@ -15,14 +11,14 @@
 {
 	display: flex;
 	flex-direction: column;
-	gap: 24px;
+	gap: 22px;
 }
 .register-header { text-align: center }
-.register-title { font-size: 1.25rem; font-weight: 600; }
+.register-title { font-size: 1.15rem; font-weight: 600; letter-spacing: -0.02em; }
 
 .register-subtitle {
 	font-size: 0.9rem;
-	opacity: 0.65;
+	opacity: 0.7;
 	margin-top: 4px;
 }
 
@@ -35,20 +31,11 @@
 
 .register-error {
 	font-size: 0.85rem;
-	color: #d32f2f;
+	color: #e25b5b;
 	text-align: center;
-}
-
-/* Button Styles. */
-.register-button {
-	margin-top: 6px;
-    padding: 11px 0;
-	font-weight: 600;
-    text-transform: none;
-	border-radius: 10px;
 }
 
 /* Media Query Styles. */
 @media (max-width: 600px) {
-	.register-card { margin: 28px 16px; padding: 28px 22px;  }
+	.register-form { gap: 18px;  }
 }

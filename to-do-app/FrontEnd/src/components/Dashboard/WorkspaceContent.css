@@ -1,0 +1,10 @@
+/* Filename: src/components/Dashboard/WorkspaceContent.css */
+
+.workspace-content { display: flex; flex-direction: column; }
+
+/* Dashboard Empty / Loading States Styles. */
+.dashboard-state {
+	margin-top: 20vh;
+	text-align: center;
+	opacity: 0.6;
+}

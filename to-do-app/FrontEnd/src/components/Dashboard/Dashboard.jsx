@@ -1,12 +1,17 @@
 //****************************************************************************************
 // Filename: Dashboard.jsx
-// Date: 4 January 2026
+// Date: 6 January 2026
 // Author: Kyle McColgan
 // Description: This file contains the Dashboard React component for ShowMeTasks.
 //****************************************************************************************
 
 import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext";
+import DashboardLayout from "./DashboardLayout";
+import WorkspaceHeader from "./WorkspaceHeader";
+import WorkspaceContent from "./WorkspaceContent";
+import TaskComposer from "./TaskComposer";
+import ListsPanel from "./ListsPanel";
 import TaskListSidebar from "../TaskListSideBar/TaskListSidebar.jsx";
 import TaskListView from "../TaskListView/TaskListView.jsx";
 
@@ -17,6 +22,7 @@ const Dashboard = () => {
 	const [taskLists, setTaskLists] = useState([]);
 	const [selectedList, setSelectedList] = useState(null);
 	const [loading, setLoading] = useState(true);
+	const [listsOpen, setListsOpen] = useState(false);
 	
 	useEffect(() => {
 		if ( ! accessToken)
@@ -56,37 +62,43 @@ const Dashboard = () => {
 	};
 	
 	return (
-	  <section className="dashboard-shell">
-	    <aside className="dashboard-sidebar">
-			<TaskListSidebar
-			  user={user}
-			  taskLists={taskLists}
-			  selectedList={selectedList}
-			  onSelect={setSelectedList}
-			  onListCreated={handleListCreated}
+	  <DashboardLayout
+	    header={
+			<WorkspaceHeader
+			  list={selectedList}
+			  onOpenLists={() => setListsOpen(true)}
 			/>
-		</aside>
-		
-		<main className="dashboard-main">
-		  <div className="dashboard-canvas">
-		    {loading && (
-		      <div className="dashboard-state">
-			    Loading your workspace...
-			  </div>
-		    )} 
-		  
-		    { ! loading && selectedList && (
-		      <TaskListView selectedList={selectedList} />
-		    )}
-		  
-		    { ! loading && ! selectedList && (
-		      <div className="dashboard-state">
-			    Create your first task list to begin.
-			  </div>
-		    )}
-		  </div>
-		</main>
-	  </section>
+		}
+		content={
+			<WorkspaceContent>
+			  {loading && <div className="dashboard-state">Loading...</div>} 
+			  { ! loading && selectedList && (
+			    <TaskListView selectedList={selectedList} />
+			  )}
+			  { ! loading && ! selectedList && (
+			    <div className="dashboard-state">
+				  Create your first task list to begin.
+			    </div>
+			  )}
+			</WorkspaceContent>
+		}
+		composer={
+			selectedList && (
+			  <TaskComposer
+			    onAdd={() => {}}
+			  />
+			)
+		}
+		panel={
+			<ListsPanel
+			  open={listsOpen}
+			  lists={taskLists}
+			  selected={selectedList}
+			  onSelect={setSelectedList}
+			  onClose={() => setListsOpen(false)}
+			/>
+		}
+	  />
 	);
 };
 

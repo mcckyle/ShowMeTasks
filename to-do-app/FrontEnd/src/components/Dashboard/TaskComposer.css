@@ -1,0 +1,11 @@
+/* Filename: src/components/Dashboard/TaskComposer.css */
+
+.task-composer {
+	position: sticky;
+	bottom: 0;
+	display: flex;
+	gap: 10px;
+	padding: 16px;
+	background: var(--color-surface-light);
+	border-top: 1px solid rgba(0, 0, 0, 0.06);
+}

@@ -1,0 +1,11 @@
+/* Filename: src/components/Dashboard/WorkspaceHeader.css */
+
+/* Header Styles. */
+.workspace-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: baseline;
+	margin-bottom: 24px;
+}
+.workspace-title { font-size: 1.4rem; font-weight: 600; }
+.workspace-meta { font-size: 0.75rem; opacity: 0.6; }

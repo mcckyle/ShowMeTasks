@@ -1,6 +1,6 @@
 //****************************************************************************************
 // Filename: Register.jsx
-// Date: 4 January 2026
+// Date: 6 January 2026
 // Author: Kyle McColgan
 // Description: This file contains the React Registration component for ShowMeTasks.
 //****************************************************************************************
@@ -39,7 +39,7 @@ const Register = () => {
 			setAccessToken(response.accessToken);
 			setUser({ username: response.username, email: response.email });
 			
-			navigate("/dashboard");
+			navigate("/tasks");
         }
         catch
         {
@@ -48,17 +48,17 @@ const Register = () => {
     };
 
     return (
-	 <Fade in timeout={500}>
-	   <Paper elevation={0} className="register-card">
+	 <Fade in timeout={400}>
+	   <Paper elevation={0} className="register">
         <form className="register-form" onSubmit={handleSubmit(onSubmit)}>
-		  <div className="register-header">
+		  <header className="register-header">
             <Typography className="register-title">
                 Create an account
             </Typography>
 			<Typography className="register-subtitle">
                 Get started with ShowMeTasks
             </Typography>
-		  </div>
+		  </header>
 			
 			<Box className="register-fields">
                     <TextField
@@ -91,17 +91,13 @@ const Register = () => {
 					  {errorMessage}
 					</Typography>
 				  )}
-				<Button
-				  type="submit"
-				  variant="contained"
-				  fullWidth
-				  className="register-button"
-				>
-				  Create account
-				</Button>
-            </form>
-		</Paper>
-	</Fade>
+				  
+				  <Button type="submit" variant="contained" fullWidth>
+				    Create account
+				  </Button>
+              </form>
+		  </Paper>
+	  </Fade>
     );
 };
 

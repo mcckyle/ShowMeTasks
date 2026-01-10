@@ -1,13 +1,13 @@
 //****************************************************************************************
 // Filename: TaskListSidebar.jsx
-// Date: 4 January 2026
+// Date: 6 January 2026
 // Author: Kyle McColgan
 // Description: This file contains the TaskListSidebar React component for ShowMeTasks.
 //****************************************************************************************
 
 import { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
-import { Button, Card, Typography, Dialog, DialogContent, DialogActions, TextField } from "@mui/material";
+import { Button, Typography, Dialog, DialogContent, DialogActions, TextField } from "@mui/material";
 
 import "./TaskListSidebar.css";
 
@@ -50,50 +50,41 @@ const TaskListSidebar = ({ taskLists, onSelect, selectedList, onListCreated }) =
 	};
 	
 	return (
-	  <div className="tasklist-sidebar">
+	  <nav className="tasklist-sidebar">
 	    {/* Header. */}
-		<div className="sidebar-header">
-		  <Typography className="sidebar-title">
-		    Task Lists
-		  </Typography>
-		  
+		<header className="sidebar-header">
+		  <Typography className="sidebar-title">Lists</Typography>
 		  <Button
+		    size="small"
 		    variant="contained"
-			size="small"
 			className="new-list-btn"
 		    onClick={() => setOpen(true)}
 		  >
 		    New
 		  </Button>
-		</div>
+		</header>
 		
 		{/* Lists. */}
 		<div className="lists">
 		  {taskLists.length === 0 ? (
 		    <Typography className="empty-state">
-			  Create your first list
+			  Start by creating a task list
 			</Typography>
 		  ) : (
 		    taskLists.map((list) => {
 			  const isActive = selectedList?.id === list.id;
 			  
 			  return (
-			  <Card
-			    key={list.id}
-				className={`list-card ${isActive ? "active" : ""}`}
-				onClick={() => onSelect(list)}
-				role="button"
-				tabIndex={0}
-			  >
-			   <span className="list-meta">
-			    <Typography className="list-name">
-				  {list.name}
-				</Typography>
-				<Typography className="list-count">
-				  {list.tasks?.length || 0}
-				</Typography>
-			   </span>
-			  </Card>
+			    <button
+			      key={list.id}
+				  className={`list-item ${isActive ? "active" : ""}`}
+				  onClick={() => onSelect(list)}
+			    >
+			      <span className="list-name">{list.name}</span>
+				  <span className="list-count">
+				    {list.tasks?.length || 0}
+				  </span>
+			  </button>
 			);
 		  })
 		)}
@@ -115,7 +106,7 @@ const TaskListSidebar = ({ taskLists, onSelect, selectedList, onListCreated }) =
 			<Button variant="contained" onClick={handleCreateList} disabled={ ! newListName.trim()}>Create</Button>
 		  </DialogActions>
 		</Dialog>
-	  </div>
+	  </nav>
 	);
 };
 

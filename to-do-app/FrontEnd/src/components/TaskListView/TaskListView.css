@@ -1,19 +1,19 @@
 /* Filename: src/components/TaskListView/TaskListView.css */
 
-/* Card Shell Styles. */
+/* TaskListView Shell Styles. */
 .tasklist-view {
 	flex: 1;
-	padding: 26px 28px;
+	padding: 28px 30px;
 	border-radius: 20px;
-	box-shadow: none;
 	display: flex;
 	flex-direction: column;
+	background: var(--color-surface-dark);
 }
 
 /* Placeholder Styles. */
 .tasklist-placeholder {
 	opacity: 0.6;
-	padding: 48px;
+	padding: 64px;
 	text-align: center;
 	font-size: 0.95rem;
 }
@@ -21,24 +21,27 @@
 /* Header Styles. */
 .tasklist-header {
 	display: flex;
-	align-items: baseline;
 	justify-content: space-between;
-	margin-bottom: 20px;
+	align-items: flex-start;
+	margin-bottom: 22px;
 }
-.tasklist-title { font-size: 1.1rem; font-weight: 600; }
-.tasklist-count { font-size: 0.75rem; opacity: 0.6; }
+.tasklist-header-main { display: flex; flex-direction: column; gap: 4px; }
+.tasklist-title { font-size: 1.15rem; font-weight: 600; cursor: text; }
+.tasklist-count { font-size: 0.75rem; opacity: 0.55; }
+.delete-list-btn { opacity: 0.6; }
+.delete-list-btn:hover { opacity: 1; }
 
 /* Content Styles. */
 .tasklist-content {
 	flex: 1;
 	display: flex;
 	flex-direction: column;
-	gap: 8px;
+	gap: 6px;
 }
 
 /* Empty State Styles. */
 .tasklist-empty {
-	margin-top: 48px;
+	margin-top: 56px;
 	text-align: center;
 	font-size: 0.9rem;
 	opacity: 0.55;
@@ -48,9 +51,10 @@
 .task-row {
 	display: flex;
 	align-items: center;
-	justify-content: space-between;
-	padding: 10px 12px;
-	border-radius: 12px;
+	gap: 12px;
+	
+	padding: 10px 14px;
+	border-radius: 10px;
 	
 	transition: background 0.15s ease;
 }
@@ -60,15 +64,20 @@
 :root[data-theme="dark"] .task-row:hover {
 	background: rgba(255, 255, 255, 0.06);
 }
-.task-text { font-size: 0.95rem; line-height: 1.4; cursor: text; }
+.task-text { flex: 1; font-size: 0.95rem; line-height: 1.45; cursor: text; }
+.task-actions { display: flex; gap: 6px; }
 
 /* Input Row Styles. */
 .tasklist-input {
 	display: flex;
 	gap: 10px;
-	margin-top: 18px;
-	padding-top: 12px;
+	margin-top: 22px;
+	padding-top: 14px;
 	border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+:root[data-theme="dark"] .task-row:hover {
+	background: rgba(255, 255, 255, 0.06);
 }
 
 :root[data-theme="dark"] .tasklist-input {

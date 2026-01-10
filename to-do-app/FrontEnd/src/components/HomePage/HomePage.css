@@ -14,6 +14,7 @@
 	text-align: center;
 	display: flex;
 	flex-direction: column;
+	gap: 1.25rem;
 	
 	animation: heroFade 0.6s ease-out forwards;
 }
@@ -31,7 +32,7 @@
 	font-size: clamp(2.4rem, 5vw, 3.2rem);
 	font-weight: 700;
 	letter-spacing: -0.025em;
-	line-height: 1.06;
+	line-height: 1.05;
 }
 
 .home-subtitle {
@@ -47,39 +48,54 @@
 	justify-content: center;
 	
 	padding: 0.9rem 2.4rem;
+	border-radius: 999px;
+	
 	background: var(--color-primary);
 	color: #fff;
 	font-weight: 600;
+	
+	transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .home-cta:hover {
-	transform: translateY(-1px);
+	transform: translateY(-2px);
+	box-shadow: 0 10px 30px rgba(100, 108, 255, 0.35);
 }
 
 /* Feature Grid Styles. */
 .home-grid {
 	width: 100%;
 	max-width: 1100px;
+	
 	display: grid;
+	gap: 1.5rem;
 }
 
 /* Feature Card Styles. */
 .home-card {
 	padding: clamp(1.9rem, 3vw, 2.4rem);
-	border: 1px solid rgba(0, 0, 0, 0.05);
+	border-radius: 20px;
+	
+	background: rgba(255, 255, 255, 0.55);
+	backdrop-filter: blur(10px);
+	
+	transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 :root[data-theme="dark"] .home-card {
-	border-color: rgba(255, 255, 255, 0.08);
+	background: rgba(30, 30, 30, 0.6);
 }
 
 .home-card:hover {
-	transform: translateY(-3px);
+	transform: translateY(-4px);
+	box-shadow: 0 18px 40px rgba(0, 0, 0, 0.08);
+	
 }
 
 .card-title {
 	font-size: 1.05rem;
 	font-weight: 600;
+	margin-bottom: 0.4rem;
 }
 .card-text { font-size: 0.95rem; line-height: 1.6; opacity: 0.85; }
 

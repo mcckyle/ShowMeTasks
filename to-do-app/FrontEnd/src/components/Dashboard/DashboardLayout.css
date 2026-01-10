@@ -1,0 +1,18 @@
+/* Filename: src/components/Dashboard/DashboardLayout.css */
+
+/* Dashboard Root Shell Styles. */
+.dashboard-root {
+  min-height: calc(100vh - 72px);
+  display: flex;
+  flex-direction: column;
+  background: var(--color-bg-light);
+}
+
+/* Central Workspace Container Styles. */
+.dashboard-workspace {
+	flex: 1;
+	max-width: 1100px;
+	width: 100%;
+	margin: 0 auto;
+	padding: clamp(2rem, 4vw, 3rem);
+}

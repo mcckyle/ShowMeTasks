@@ -1,20 +1,20 @@
 //****************************************************************************************
 // Filename: ToDoApp.jsx
-// Date: 2 January 2026
+// Date: 6 January 2026
 // Author: Kyle McColgan
 // Description: This file contains the React parent component for ShowMeTasks.
 //****************************************************************************************
 
-import React, { useState, useEffect } from 'react';
-import Register from '../Register/Register.jsx';
-import Login from '../Login/Login.jsx';
-import Dashboard from '../Dashboard/Dashboard.jsx';
-import { Container, Typography, Card, Divider } from '@mui/material';
-import './ToDoApp.css';
+import React, { useContext } from "react";
+import Register from "../Register/Register.jsx";
+import Login from "../Login/Login.jsx";
+import Dashboard from "../Dashboard/Dashboard.jsx";
+import { AuthContext } from "../../context/AuthContext";
+import { Container, Typography, Card, Divider } from "@mui/material";
+import "./ToDoApp.css";
 
 const ToDoApp = () => {
-    const [user, setUser] = useState(null);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const { user } = useContext(AuthContext);
 	
 	const getGreeting = () => {
 		const hour = new Date().getHours();
@@ -28,13 +28,13 @@ const ToDoApp = () => {
 
     return (
 		<Container className="todo-shell" maxWidth="sm">
-		  {!isLoggedIn ? (
+		  {!user ? (
 			<Card className="auth-surface" elevation={0}>
 			  <header className="auth-hero">
 				<Typography variant="h4" component="h1">
 					ShowMeTasks
 				</Typography>
-				<Typography variant="body1" className="hero-subtitle">
+				<Typography className="hero-subtitle">
 					A focused space to organize what matters today.
 				</Typography>
 			  </header>
@@ -46,10 +46,10 @@ const ToDoApp = () => {
 				<Login />
 			</section>
 		</Card>
-	) : (
-		<Dashboard user={user} />
-	)}
-	</Container>
+	    ) : (
+		  <Dashboard user={user} />
+	  )}
+	 </Container>
     );
 };
 
