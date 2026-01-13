@@ -1,6 +1,6 @@
 //****************************************************************************************
 // Filename: TaskListSidebar.jsx
-// Date: 6 January 2026
+// Date: 10 January 2026
 // Author: Kyle McColgan
 // Description: This file contains the TaskListSidebar React component for ShowMeTasks.
 //****************************************************************************************
@@ -79,10 +79,11 @@ const TaskListSidebar = ({ taskLists, onSelect, selectedList, onListCreated }) =
 			      key={list.id}
 				  className={`list-item ${isActive ? "active" : ""}`}
 				  onClick={() => onSelect(list)}
+				  aria-current={isActive ? "true" : "false"}
 			    >
 			      <span className="list-name">{list.name}</span>
 				  <span className="list-count">
-				    {list.tasks?.length || 0}
+				    {list.tasks?.length ?? 0}
 				  </span>
 			  </button>
 			);

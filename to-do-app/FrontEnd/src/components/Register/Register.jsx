@@ -1,6 +1,6 @@
 //****************************************************************************************
 // Filename: Register.jsx
-// Date: 6 January 2026
+// Date: 11 January 2026
 // Author: Kyle McColgan
 // Description: This file contains the React Registration component for ShowMeTasks.
 //****************************************************************************************
@@ -49,13 +49,13 @@ const Register = () => {
 
     return (
 	 <Fade in timeout={400}>
-	   <Paper elevation={0} className="register">
+	   <Paper elevation={1} className="register">
         <form className="register-form" onSubmit={handleSubmit(onSubmit)}>
 		  <header className="register-header">
-            <Typography className="register-title">
+            <Typography variant="h6" fontWeight={600}>
                 Create an account
             </Typography>
-			<Typography className="register-subtitle">
+			<Typography variant="body2" color="text.secondary">
                 Get started with ShowMeTasks
             </Typography>
 		  </header>
@@ -64,24 +64,28 @@ const Register = () => {
                     <TextField
 					    label="Username"
                         fullWidth
+						size="small"
                         {...register("username", { required: true })}  
                     />
                     <TextField
 					    label="Email"
 						type="email"
                         fullWidth
+						size="small"
                         {...register("email", { required: true })}      
                     />
                     <TextField
 					    label="Password"
                         type="password"
                         fullWidth
+						size="small"
                         {...register("password", { required: true })}
                     />
 					<TextField
 					    label="Confirm Password"
                         type="password"
                         fullWidth
+						size="small"
                         {...register("confirmPassword", { required: true })}
                     />
 				  </Box>
@@ -92,7 +96,7 @@ const Register = () => {
 					</Typography>
 				  )}
 				  
-				  <Button type="submit" variant="contained" fullWidth>
+				  <Button type="submit" variant="contained" size="large" fullWidth>
 				    Create account
 				  </Button>
               </form>

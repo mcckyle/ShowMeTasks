@@ -2,38 +2,51 @@
 
 /* App Shell Styles. */
 .todo-shell {
-	margin-top: 64px;
-	padding: 0 16px;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	padding: clamp(3rem, 8vh, 5rem) 0;
 	
 	animation: fadeIn 0.35s ease;
 }
 
 /* Auth Surface Styles. */
 .auth-surface {
-	padding: 40px 36px;
-	border-radius: 24px;
-	background-color: var(--color-surface);
-	box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+	width: 100%;
+	max-width: 420px;
+	
+	padding: clamp(2rem, 4vw, 2.5rem);
+	border-radius: var(--radius-lg);
+	
+	background: var(--color-surface-dark);
+	border: 1px solid var(--color-border-dark);
 }
-.auth-hero { text-align: center; margin-bottom: 28px; }
+.auth-hero { text-align: center; margin-bottom: 1.75rem; }
 
-.auth-hero h1 {
+.auth-title {
+	font-size: 1.75rem;
 	font-weight: 700;
 	letter-spacing: -0.03em;
-	margin-bottom: 10px;
+	margin-bottom: 0.5rem;
 }
 
-.hero-subtitle {
-	font-size: 1.05rem;
+.auth-subtitle {
+	font-size: 1rem;
 	line-height: 1.6;
-	opacity: 0.75;
+	opacity: 0.8;
+}
+
+/* Divider Styles. */
+.auth-divider {
+	height: 1px;
+	background: var(--color-border-dark);
+	margin: 1.75rem 0;
 }
 
 .auth-forms {
-	margin-top: 28px;
 	display: flex;
 	flex-direction: column;
-	gap: 28px;
+	gap: 2rem;
 }
 
 /* Animations Styles. */
@@ -42,8 +55,13 @@
     to { opacity: 1; transform: translateY(0); }
 }
 
-@media (max-width: 600px)
-{
-	.auth-surface { padding: 28px 22px; }
-	.auth-hero h1 { font-size: 1.8rem; }
+@media (prefers-color-scheme: light) {
+  .auth-surface {
+	  background: var(--color-surface-light);
+	  border-color: var(--color-border-light);
+  }
+  
+  .auth-divider {
+	  background: var(--color-border-light);
+  }
 }

@@ -1,17 +1,19 @@
 /* Filename: src/components/HomePage/HomePage.css */
 
 .home {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: clamp(3.5rem, 7vw, 5rem);
-  padding: clamp(3.5rem, 7vw, 5.5rem);
+  padding: clamp(3.5rem, 7vw, 5.5rem) 0;
 }
 
 /* Hero Section Styles. */
 .home-hero {
 	max-width: 760px;
 	text-align: center;
+	
 	display: flex;
 	flex-direction: column;
 	gap: 1.25rem;
@@ -20,16 +22,16 @@
 }
 
 .home-eyebrow {
-	font-size: 0.72rem;
+	font-size: 0.7rem;
 	font-weight: 600;
 	letter-spacing: 0.18em;
 	text-transform: uppercase;
 	color: var(--color-primary);
-	opacity: 0.65;
+	opacity: 0.6;
 }
 
 .home-title {
-	font-size: clamp(2.4rem, 5vw, 3.2rem);
+	font-size: clamp(2.4rem, 5vw, 3.1rem);
 	font-weight: 700;
 	letter-spacing: -0.025em;
 	line-height: 1.05;
@@ -38,28 +40,30 @@
 .home-subtitle {
 	max-width: 600px;
 	margin-inline: auto;
+	font-size: 1.05rem;
 	line-height: 1.65;
 	opacity: 0.85;
 }
+.home-actions { margin-top: 0.75rem; }
 
 .home-cta {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
 	
-	padding: 0.9rem 2.4rem;
+	padding: 0.85rem 2.25rem;
 	border-radius: 999px;
 	
 	background: var(--color-primary);
 	color: #fff;
 	font-weight: 600;
 	
-	transition: transform 0.2s ease, box-shadow 0.2s ease;
+	transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .home-cta:hover {
 	transform: translateY(-2px);
-	box-shadow: 0 10px 30px rgba(100, 108, 255, 0.35);
+	box-shadow: 0 10px 26px rgba(75, 123, 253, 0.35);
 }
 
 /* Feature Grid Styles. */
@@ -74,22 +78,17 @@
 /* Feature Card Styles. */
 .home-card {
 	padding: clamp(1.9rem, 3vw, 2.4rem);
-	border-radius: 20px;
+	border-radius: var(--radius-lg);
 	
-	background: rgba(255, 255, 255, 0.55);
-	backdrop-filter: blur(10px);
+	background: var(--color-surface-dark);
+	border: 1px solid var(--color-border-dark);
 	
-	transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-:root[data-theme="dark"] .home-card {
-	background: rgba(30, 30, 30, 0.6);
+	transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .home-card:hover {
-	transform: translateY(-4px);
-	box-shadow: 0 18px 40px rgba(0, 0, 0, 0.08);
-	
+	transform: translateY(-3px);
+	box-shadow: var(--shadow-md);
 }
 
 .card-title {
@@ -103,6 +102,13 @@
 @keyframes heroFade {
 	from { opacity: 0; transform: translateY(14px); }
 	to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-color-scheme: light) {
+  .home-card {
+	  background: var(--color-surface-light);
+	  border-color: var(--color-border-light);
+  }
 }
 
 /* Media Query Styles. */

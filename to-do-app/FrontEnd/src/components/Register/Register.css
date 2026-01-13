@@ -2,8 +2,9 @@
 
 /* Register Wrapper Styles. */
 .register {
-	background: transparent;
-    padding: 0;
+	padding: 32px;
+	border-radius: 14px;
+	background: var(--color-surface-dark);
 }
 
 /* Layout Styles. */
@@ -11,31 +12,24 @@
 {
 	display: flex;
 	flex-direction: column;
-	gap: 22px;
+	gap: 20px;
 }
 .register-header { text-align: center }
-.register-title { font-size: 1.15rem; font-weight: 600; letter-spacing: -0.02em; }
-
-.register-subtitle {
-	font-size: 0.9rem;
-	opacity: 0.7;
-	margin-top: 4px;
-}
 
 .register-fields
 {
 	display: flex;
 	flex-direction: column;
-	gap: 16px;
+	gap: 14px;
 }
 
 .register-error {
 	font-size: 0.85rem;
-	color: #e25b5b;
+	color: var(--color-error);
 	text-align: center;
 }
 
 /* Media Query Styles. */
 @media (max-width: 600px) {
-	.register-form { gap: 18px;  }
+	.register { padding: 24px;  }
 }

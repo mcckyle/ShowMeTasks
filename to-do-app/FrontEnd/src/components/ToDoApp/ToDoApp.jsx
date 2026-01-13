@@ -1,20 +1,24 @@
 //****************************************************************************************
 // Filename: ToDoApp.jsx
-// Date: 6 January 2026
+// Date: 10 January 2026
 // Author: Kyle McColgan
 // Description: This file contains the React parent component for ShowMeTasks.
 //****************************************************************************************
 
-import React, { useContext } from "react";
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 import Register from "../Register/Register.jsx";
 import Login from "../Login/Login.jsx";
 import Dashboard from "../Dashboard/Dashboard.jsx";
-import { AuthContext } from "../../context/AuthContext";
-import { Container, Typography, Card, Divider } from "@mui/material";
 import "./ToDoApp.css";
 
 const ToDoApp = () => {
     const { user } = useContext(AuthContext);
+	
+	if (user)
+	{
+		return <Dashboard user={user} />;
+	}
 	
 	const getGreeting = () => {
 		const hour = new Date().getHours();
@@ -27,29 +31,23 @@ const ToDoApp = () => {
 	};
 
     return (
-		<Container className="todo-shell" maxWidth="sm">
-		  {!user ? (
-			<Card className="auth-surface" elevation={0}>
+		<section className="todo-shell">
+			<div className="auth-surface">
 			  <header className="auth-hero">
-				<Typography variant="h4" component="h1">
-					ShowMeTasks
-				</Typography>
-				<Typography className="hero-subtitle">
+				<h1 className="auth-title">ShowMeTasks</h1>
+				<p className="auth-subtitle">
 					A focused space to organize what matters today.
-				</Typography>
+				</p>
 			  </header>
 			  
-			  <Divider />
+			  <div className="auth-divider" />
 
-			<section className="auth-forms">
+			<div className="auth-forms">
 				<Register />
 				<Login />
-			</section>
-		</Card>
-	    ) : (
-		  <Dashboard user={user} />
-	  )}
-	 </Container>
+			</div>
+		</div>
+	 </section>
     );
 };
 

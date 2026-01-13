@@ -1,19 +1,18 @@
 //****************************************************************************************
 // Filename: App.jsx
-// Date: 6 January 2026
+// Date: 10 January 2026
 // Author: Kyle McColgan
 // Description: This file contains the React entry point for ShowMeTasks.
 //****************************************************************************************
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import PageContainer from "./components/Layout/PageContainer.jsx";
 import PrivateRoute from "./components/auth/PrivateRoute";
 
-import ToDoApp from './components/ToDoApp/ToDoApp.jsx';
 import Header from "./components/Header/Header.jsx";
+import HomePage from './components/HomePage/HomePage.jsx';
+import ToDoApp from './components/ToDoApp/ToDoApp.jsx';
 import Login from "./components/Login/Login.jsx";
 import Register from "./components/Register/Register.jsx";
-import HomePage from './components/HomePage/HomePage.jsx';
 import Dashboard from "./components/Dashboard/Dashboard.jsx";
 import Profile from "./components/Profile/Profile.jsx";
 import Settings from "./components/Settings/Settings.jsx";

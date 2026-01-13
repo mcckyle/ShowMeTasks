@@ -34,21 +34,21 @@ const Login = () => {
 
     return (
 	  <Fade in timeout={400}>
-	    <Paper elevation={6} className="login">
+	    <Paper elevation={0} className="login">
 			<form className="login-form" onSubmit={handleSubmit(onSubmit)}>
 			 <header className="login-header">
 				<Typography className="login-title">
 					Welcome Back
 				</Typography>
 				<Typography className="login-subtitle">
-					Sign in to continue
+					Sign in to continue to ShowMeTasks
 				</Typography>
 			 </header>
 				
 			<Box className="login-fields">
 				<TextField
 					label="Email"
-					fullWidth
+					type="email"
 					autoComplete="email"
 					fullWidth
 					{...register("email", { required: true })}
@@ -68,11 +68,7 @@ const Login = () => {
 				</Typography>
 			  )}
 			
-			<Button
-			  type="submit"
-			  variant="contained"
-			  fullWidth
-			>
+			<Button type="submit" variant="contained" fullWidth>
 				Sign in
 			</Button>
 		  </form>

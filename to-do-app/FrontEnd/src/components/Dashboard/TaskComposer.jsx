@@ -1,6 +1,6 @@
 //****************************************************************************************
 // Filename: TaskComposer.jsx
-// Date: 7 January 2026
+// Date: 11 January 2026
 // Author: Kyle McColgan
 // Description: This file contains the TaskComposer React component for ShowMeTasks.
 //****************************************************************************************
@@ -18,12 +18,12 @@ const TaskComposer = ({ onAdd, disabled }) => {
 	{
 	  return;
 	}
-	onAdd(text);
+	onAdd(text.trim());
 	setText("");
   };
   
   return (
-    <div className="task-composer">
+    <section className="task-composer" role="region" aria-label="Add task">
 	  <TextField
 	    placeholder="Add a task..."
 		size="small"
@@ -34,12 +34,13 @@ const TaskComposer = ({ onAdd, disabled }) => {
 	  />
 	  <Button
 	    variant="contained"
+		size="small"
 		onClick={submit}
 		disabled={disabled || ! text.trim()}
 	  >
 	    Add
 	  </Button>
-	</div>
+	</section>
   );
 };
 

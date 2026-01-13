@@ -1,6 +1,6 @@
 //****************************************************************************************
 // Filename: TaskListView.jsx
-// Date: 4 January 2026
+// Date: 10 January 2026
 // Author: Kyle McColgan
 // Description: This file contains the TaskListView React component for ShowMeTasks.
 //****************************************************************************************
@@ -12,18 +12,18 @@ import { Card, Typography, Button, TextField } from "@mui/material";
 const TaskListView = ({ selectedList }) => {
 	const { accessToken } = useContext(AuthContext);
 	const [todos, setTodos] = useState([]);
-	const [newTask, setNewTask] = useState("");
 	const [editingId, setEditingId] = useState(null);
 	const [editingText, setEditingText] = useState("");
 	const [editingListName, setEditingListName] = useState(false);
 	const [listName, setListName] = useState(selectedList?.name || "");
 	
-	//Sync when selection changes.
+	/* Sync list name on selection changes. */
 	useEffect(() => {
 		setListName(selectedList?.name || "");
 		setEditingListName(false);
 	}, [selectedList]);
 	
+	/* Fetch Tasks. */
 	useEffect(() => {
 		if ( ! selectedList)
 		{
@@ -50,36 +50,6 @@ const TaskListView = ({ selectedList }) => {
 		};
 		fetchTodos();
 	}, [selectedList, accessToken]);
-	
-	const handleAddTask = async () => {
-		if ( ! newTask.trim())
-		{
-			return;
-		}
-		
-		try
-		{
-			const result = await fetch("http://localhost:8080/api/todos/create", {
-				method: "POST",
-				headers: {
-					Authorization: `Bearer ${accessToken}`,
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({ taskListId: selectedList.id, description: newTask }),
-			});
-			
-			if (result.ok)
-			{
-				const created = await result.json();
-				setTodos((prev) => [...prev, created]);
-				setNewTask("");
-			}
-		}
-		catch (error)
-		{
-			console.error("Error adding task: ", error);
-		}
-	};
 	
 	const handleUpdateListName = async () => {
 		if ( ! listName.trim())
@@ -166,15 +136,6 @@ const TaskListView = ({ selectedList }) => {
 		}
 	};
 	
-	if ( ! selectedList)
-	{
-		return (
-		  <Typography className="tasklist-placeholder">
-		    Select a list to view tasks.
-		  </Typography>
-		);
-	}
-	
 	const handleDelete = async (id) => {
 		try
 		{
@@ -201,7 +162,7 @@ const TaskListView = ({ selectedList }) => {
 	}
 	
 	return (
-	  <Card className="tasklist-view" elevation={0}>
+	  <Card className="tasklist-view" elevation={0} sx={{backgroundColor: "var(--color-surface-dark)"}}>
 	    {/* Header. */}
 		<header className="tasklist-header">
 		 <div className="tasklist-header-main">
@@ -249,7 +210,7 @@ const TaskListView = ({ selectedList }) => {
 		<section className="tasklist-content">
 		  {todos.length === 0 ? (
 		    <Typography className="tasklist-empty">
-			  Add your first task below.
+			  Add your first task to get started.
 			</Typography>
 		  ) : (
 		   todos.map((task) => (
@@ -280,11 +241,11 @@ const TaskListView = ({ selectedList }) => {
 		        )}
 				
 				<div className="task-actions">
-				{editingId === task.id ? (
-				<Button size="small" onClick={() => handleUpdateTask(task.id)}>
-			     Save
-			   </Button>
-			   ) : (
+				  {editingId === task.id ? (
+				    <Button size="small" onClick={() => handleUpdateTask(task.id)}>
+			          Save
+			        </Button>
+			      ) : (
 				   <Button
 					 size="small"
 					 color="error"
@@ -292,30 +253,12 @@ const TaskListView = ({ selectedList }) => {
 				   >
 					 Delete
 				   </Button>
-			   )}
-			 </div>
+			     )}
+			  </div>
 			</div>
 			))
 		  )}
 		</section>
-		
-		{/* Input. */}
-		<footer className="tasklist-input">
-		  <TextField
-			value={newTask}
-			onChange={(e) => setNewTask(e.target.value)}
-			placeholder="Add a new task..."
-			size="small"
-			fullWidth
-		  />
-		  <Button
-		    variant="contained"
-		    onClick={handleAddTask}
-		    disabled={ ! newTask.trim()}
-		  >
-		    Add
-		  </Button>
-		</footer>
 	</Card>
 	);
 };

@@ -1,18 +1,37 @@
 /* Filename: src/components/Dashboard/DashboardLayout.css */
 
-/* Dashboard Root Shell Styles. */
+/* Dashboard Root App Shell Styles. */
 .dashboard-root {
   min-height: calc(100vh - 72px);
   display: flex;
   flex-direction: column;
-  background: var(--color-bg-light);
+  background: var(--color-bg-dark);
+}
+
+.dashboard-shell {
+	flex: 1;
+	display: flex;
+	justify-content: center;
+	padding: clamp(1.25rem, 4vw, 3rem);
 }
 
 /* Central Workspace Container Styles. */
 .dashboard-workspace {
-	flex: 1;
-	max-width: 1100px;
 	width: 100%;
-	margin: 0 auto;
-	padding: clamp(2rem, 4vw, 3rem);
+	max-width: 1100px;
+	
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	
+	background: var(--color-surface-dark);
+	border-radius: 16px;
+	
+	box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+
+/* Media Query Styles. */
+@media (max-width: 900px) {
+	.dashboard-shell { padding: clamp(1rem, 5vw, 2rem); }
+	.dashboard-workspace { border-radius: 12px; }
 }

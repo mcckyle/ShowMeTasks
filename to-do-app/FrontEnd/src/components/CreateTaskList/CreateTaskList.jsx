@@ -1,79 +1,76 @@
 //****************************************************************************************
 // Filename: CreateTaskList.jsx
-// Date: 02 November 2025
+// Date: 11 January 2026
 // Author: Kyle McColgan
 // Description: This file contains the CreateTaskList React component for ShowMeTasks.
 //****************************************************************************************
 
-import React, { useState } from "react";
-import { TextField, Button, Paper, Typography, Box, Fade } from "@mui/material";
+import { useState, useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
+import { TextField, Button } from "@mui/material";
 import "./CreateTaskList.css"; // Import the CSS file
 
-const CreateTaskList = ({ user, onTaskListCreated }) => {
+const CreateTaskList = ({ onTaskListCreated }) => {
+	const { user, accessToken } = useContext(AuthContext);
     const [taskListName, setTaskListName] = useState("");
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 		
-		if (!user || !user.token)
+		if ( ( ! user) || ( ! accessToken) || ( ! taskListName.trim() ) )
 		{
-            console.error("User or token is missing...");
             return;
         }
 
         try {
             const response = await fetch("http://localhost:8080/api/todos/list/create", {
-                method: 'POST',
+                method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": `Bearer ${user.token}`,
+                    "Authorization": `Bearer ${accessToken}`,
                 },
-                body: JSON.stringify({ username: user.username, name: taskListName }),
+                body: JSON.stringify({ username: user.username, name: taskListName.trim() }),
             });
 
-            if (!response.ok)
+            if ( ! response.ok)
 			{
-                throw new Error('Network response was not okay...');
+                throw new Error("Failed to create the list!");
             }
 
             const newTaskList = await response.json();
-            console.log('Task list created:', newTaskList);
-            setTaskListName(""); // Clear the input field
-
-            // Pass the new task list to parent component to update the task lists
-            onTaskListCreated(newTaskList);
-
+            //console.log("Task list created: ", newTaskList);
+            setTaskListName(""); // Clear the input field.
+			onTaskListCreated?.(newTaskList);
         }
 		catch (error)
 		{
-            console.error('Error creating task list:', error);
+            console.error("Error creating task list:", error);
         }
     };
 
     return (
-	  <Fade in timeout={600}>
-	    <Paper elevation-{6} className="create-tasklist-container">
-			<form className="create-tasklist-form" onSubmit={handleSubmit}>
-			  <Typography variant="h6" className="create-tasklist-title">
-			    Create a New Task List
-			  </Typography>
-			  
-			  <Box className="create-tasklist-fields">
-				<TextField
-					label="Task List Name"
-					value={taskListName}
-					onChange={(e) => setTaskListName(e.target.value)}
-					variant="outlined"
-					fullWidth
-					required
-				/>
-			  </Box>
-				<Button type="submit" variant="contained" fullWidth className="create-tasklist-button">
-					Create Task List
-				</Button>
-			</form>
-		</Paper>
-	</Fade>
+		<form
+		  className="create-tasklist"
+		  aria-label="Create task list"
+		  onSubmit={handleSubmit}
+		>
+			<TextField
+			    placeholder="New list name..."
+				size="small"
+				fullWidth
+				value={taskListName}
+				onChange={(e) => setTaskListName(e.target.value)}
+				onKeyDown={(e) => e.key === "Escape" && setTaskListName("")}
+			/>
+			<Button
+			  type="submit"
+			  variant="contained"
+			  size="small"
+			  disabled={!taskListName.trim()}
+			>
+				Create
+			</Button>
+		</form>
     );
 };
 

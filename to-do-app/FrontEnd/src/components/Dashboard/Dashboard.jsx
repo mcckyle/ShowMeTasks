@@ -1,6 +1,6 @@
 //****************************************************************************************
 // Filename: Dashboard.jsx
-// Date: 6 January 2026
+// Date: 11 January 2026
 // Author: Kyle McColgan
 // Description: This file contains the Dashboard React component for ShowMeTasks.
 //****************************************************************************************
@@ -12,13 +12,12 @@ import WorkspaceHeader from "./WorkspaceHeader";
 import WorkspaceContent from "./WorkspaceContent";
 import TaskComposer from "./TaskComposer";
 import ListsPanel from "./ListsPanel";
-import TaskListSidebar from "../TaskListSideBar/TaskListSidebar.jsx";
 import TaskListView from "../TaskListView/TaskListView.jsx";
 
 import "./Dashboard.css";
 
 const Dashboard = () => {
-	const { accessToken, user } = useContext(AuthContext);
+	const { accessToken } = useContext(AuthContext);
 	const [taskLists, setTaskLists] = useState([]);
 	const [selectedList, setSelectedList] = useState(null);
 	const [loading, setLoading] = useState(true);
@@ -56,6 +55,42 @@ const Dashboard = () => {
 		fetchLists();
 	}, [accessToken]);
 	
+	const handleAddTask = async (text) => {
+		if ( ( ! selectedList) || ( ! accessToken))
+		{
+			return;
+		}
+		
+		try
+		{
+			const result = await fetch("http://localhost:8080/api/todos/create", {
+				method: "POST",
+				headers: {
+					Authorization: `Bearer ${accessToken}`,
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({ taskListId: selectedList.id, description: text }),
+			});
+			
+			if ( ! result.ok)
+			{
+				throw new Error("Failed to add task.");
+			}
+			
+			const newTask = await result.json();
+			
+			//Update selectedList locally...
+			setSelectedList((prev) => ({
+				...prev,
+				tasks: [...(prev.tasks || []), newTask],
+			}));
+		}
+		catch (error)
+		{
+			console.error("Error adding task: ", error);
+		}
+	};
+	
 	const handleListCreated = (newList) => {
 		setTaskLists((prev) => [...prev, newList]);
 		setSelectedList(newList);
@@ -85,7 +120,8 @@ const Dashboard = () => {
 		composer={
 			selectedList && (
 			  <TaskComposer
-			    onAdd={() => {}}
+			    onAdd={handleAddTask}
+				disabled={ ! selectedList}
 			  />
 			)
 		}

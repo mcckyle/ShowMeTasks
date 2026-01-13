@@ -1,10 +1,30 @@
 /* Filename: src/components/Dashboard/WorkspaceContent.css */
 
-.workspace-content { display: flex; flex-direction: column; }
+/* Main Workspace Content Area Styles. */
+.workspace-content {
+	flex: 1;
+	min-height: 0;
+	
+	display: flex;
+	flex-direction: column;
+	
+	background: transparent;
+	overflow: hidden;
+}
 
 /* Dashboard Empty / Loading States Styles. */
 .dashboard-state {
-	margin-top: 20vh;
+	flex: 1;
+	
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	
 	text-align: center;
+	font-size: 0.9rem;
+	line-height: 1.4;
 	opacity: 0.6;
+	pointer-events: none;
 }
