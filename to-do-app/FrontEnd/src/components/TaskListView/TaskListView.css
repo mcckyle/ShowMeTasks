@@ -6,8 +6,10 @@
 	display: flex;
 	flex-direction: column;
 	
-	padding: 26px 28px;
+	padding: 24px 26px;
 	border-radius: 20px;
+	
+	background: var(--color-surface-dark) !important;
 }
 
 /* Placeholder Styles. */
@@ -23,25 +25,41 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: flex-start;
-	margin-bottom: 18px;
+	margin-bottom: 16px;
 }
-.tasklist-header-main { display: flex; flex-direction: column; gap: 4px; }
-.tasklist-title { font-size: 1.15rem; font-weight: 600; line-height: 1.3; cursor: text; }
+.tasklist-header-main { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.tasklist-title {
+	font-size: 1.15rem;
+	font-weight: 600;
+	line-height: 1.3;
+	
+	cursor: text;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
 .tasklist-count { font-size: 0.7rem; letter-spacing: 0.04em; opacity: 0.5; }
-.delete-list-btn { opacity: 0.5; transition: opacity 120ms ease; }
+.delete-list-btn {
+	text-transform: none !important;
+	font-size: 0.75rem !important;
+	
+	opacity: 0.45;
+	transition: opacity 120ms ease;
+}
 .delete-list-btn:hover { opacity: 1; }
+.delete-list-btn.Mui-disabled { opacity: 0.25; cursor: not-allowed; }
 
 /* Content Styles. */
 .tasklist-content {
 	flex: 1;
 	display: flex;
 	flex-direction: column;
-	gap: 6px;
+	gap: 4px;
 }
 
 /* Empty State Styles. */
 .tasklist-empty {
-	margin-top: 56px;
+	margin-top: 48px;
 	text-align: center;
 	font-size: 0.85rem;
 	opacity: 0.5;
@@ -56,12 +74,15 @@
 	padding: 10px 12px;
 	border-radius: 10px;
 	
-	transition: background-color 120ms ease;
+	transition: background-color 120ms ease, transform 80ms ease;
 }
 .task-row:hover { background-color: rgba(0, 0, 0, 0.045); }
 .task-row:focus-within { background: rgba(90, 130, 255, 0.14); }
 .task-text { flex: 1; font-size: 0.9rem; line-height: 1.45; cursor: text; user-select: none; }
-.task-actions { display: flex; gap: 6px; opacity: 0.85; }
+.task-actions { display: flex; gap: 6px; opacity: 0; transition: opacity 120ms ease; }
+
+.task-row:hover .task-actions,
+.task-row:focus-within .task-actions { opacity: 0.85; }
 
 :root[data-theme="dark"] .task-row:hover {
 	background-color: rgba(255, 255, 255, 0.06);

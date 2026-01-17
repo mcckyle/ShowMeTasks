@@ -1,6 +1,6 @@
 //****************************************************************************************
 // Filename: Header.jsx
-// Date: 10 January 2026
+// Date: 14 January 2026
 // Author: Kyle McColgan
 // Description: This file contains the React Header component for ShowMeTasks.
 //****************************************************************************************
@@ -52,20 +52,12 @@ const Header = () => {
 		
 		  {/* Primary Navigation. */}
 		  <nav className="nav" aria-label="Primary navigation">
-		    <Link
-			  to="/"
-			  className={`nav-item ${isActive("/") ? "active" : ""}`}
-			  aria-current={isActive("/") ? "page" : undefined}
-			>
+		    <Link to="/" className={`nav-item ${isActive("/") ? "active" : ""}`}>
 			  Home
 			</Link>
-		    <Link
-			  to="/tasks"
-			  className={`nav-item ${isActive("/tasks") ? "active" : ""}`}
-			  aria-current={isActive("/tasks") ? "page" : undefined}
-			  >
-			    Dashboard
-			  </Link>
+		    <Link to="/tasks" className={`nav-item ${isActive("/tasks") ? "active" : ""}`}>
+			  Dashboard
+			</Link>
 		  </nav>
 		
 		  {/* Right Side: Auth / User Avatar. */}

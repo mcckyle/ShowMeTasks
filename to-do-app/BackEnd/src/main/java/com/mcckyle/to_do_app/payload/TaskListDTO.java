@@ -2,13 +2,14 @@
 //
 //     Filename: TaskListDTO.java
 //     Author: Kyle McColgan
-//     Date: 12 December 2024
+//     Date: 13 January 2026
 //     Description: This file controls the TaskList fields returned by server responses.
 //
 //***************************************************************************************
 
 package com.mcckyle.to_do_app.payload;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mcckyle.to_do_app.Models.TaskList;
 import com.mcckyle.to_do_app.Models.ToDoObj;
 import java.util.List;
@@ -21,6 +22,8 @@ public class TaskListDTO
     private Integer id;
     private String name;
     private boolean deleted;
+
+    @JsonProperty("isDefault")
     private boolean isDefault;
     private List<TaskDTO> tasks;
 
@@ -36,7 +39,6 @@ public class TaskListDTO
     }
 
     // Getters and setters
-
     public Integer getId() {
         return id;
     }

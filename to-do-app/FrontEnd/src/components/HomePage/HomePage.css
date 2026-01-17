@@ -5,46 +5,45 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: clamp(3.5rem, 7vw, 5rem);
-  padding: clamp(3.5rem, 7vw, 5.5rem) 0;
+  gap: clamp(4rem, 8vw, 6rem);
+  padding: clamp(4rem, 8vw, 6rem) 1rem;
 }
 
 /* Hero Section Styles. */
 .home-hero {
-	max-width: 760px;
+	max-width: 780px;
 	text-align: center;
-	
 	display: flex;
 	flex-direction: column;
-	gap: 1.25rem;
+	gap: 1.5rem;
 	
-	animation: heroFade 0.6s ease-out forwards;
+	animation: heroFade 0.7s ease-out forwards;
 }
 
 .home-eyebrow {
-	font-size: 0.7rem;
+	font-size: 0.75rem;
 	font-weight: 600;
 	letter-spacing: 0.18em;
 	text-transform: uppercase;
 	color: var(--color-primary);
-	opacity: 0.6;
+	opacity: 0.65;
 }
 
 .home-title {
-	font-size: clamp(2.4rem, 5vw, 3.1rem);
+	font-size: clamp(2.6rem, 5vw, 3.25rem);
 	font-weight: 700;
 	letter-spacing: -0.025em;
-	line-height: 1.05;
+	line-height: 1.1;
 }
 
 .home-subtitle {
-	max-width: 600px;
+	max-width: 640px;
 	margin-inline: auto;
-	font-size: 1.05rem;
-	line-height: 1.65;
+	font-size: 1.1rem;
+	line-height: 1.7;
 	opacity: 0.85;
 }
-.home-actions { margin-top: 0.75rem; }
+.home-actions { margin-top: 1rem; }
 
 .home-cta {
 	display: inline-flex;
@@ -58,12 +57,12 @@
 	color: #fff;
 	font-weight: 600;
 	
-	transition: transform 0.15s ease, box-shadow 0.15s ease;
+	transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .home-cta:hover {
 	transform: translateY(-2px);
-	box-shadow: 0 10px 26px rgba(75, 123, 253, 0.35);
+	box-shadow: 0 12px 28px rgba(75, 123, 253, 0.35);
 }
 
 /* Feature Grid Styles. */
@@ -72,35 +71,38 @@
 	max-width: 1100px;
 	
 	display: grid;
-	gap: 1.5rem;
+	gap: clamp(1.5rem, 2vw, 2rem);
+	grid-template-columns: 1fr;
 }
 
 /* Feature Card Styles. */
 .home-card {
-	padding: clamp(1.9rem, 3vw, 2.4rem);
+	padding: clamp(2rem, 3vw, 2.5rem);
 	border-radius: var(--radius-lg);
 	
 	background: var(--color-surface-dark);
 	border: 1px solid var(--color-border-dark);
+	cursor: default;
 	
-	transition: transform 0.2s ease, box-shadow 0.2s ease;
+	transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
 .home-card:hover {
-	transform: translateY(-3px);
-	box-shadow: var(--shadow-md);
+	transform: translateY(-4px);
+	box-shadow: 0 16px 32px rgba(0, 0, 0, 0.24);
+	background: rgba(22, 26, 34, 0.95);
 }
 
 .card-title {
-	font-size: 1.05rem;
+	font-size: 1.1rem;
 	font-weight: 600;
-	margin-bottom: 0.4rem;
+	margin-bottom: 0.5rem;
 }
-.card-text { font-size: 0.95rem; line-height: 1.6; opacity: 0.85; }
+.card-text { font-size: 0.95rem; line-height: 1.65; opacity: 0.85; }
 
 /* Animations Styles. */
 @keyframes heroFade {
-	from { opacity: 0; transform: translateY(14px); }
+	from { opacity: 0; transform: translateY(20px); }
 	to { opacity: 1; transform: translateY(0); }
 }
 

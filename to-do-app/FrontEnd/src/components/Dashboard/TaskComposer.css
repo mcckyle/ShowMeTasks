@@ -4,7 +4,7 @@
 .task-composer {
 	position: sticky;
 	bottom: 0;
-	z-index: 10;
+	z-index: 5;
 	
 	display: flex;
 	align-items: center;
@@ -18,13 +18,23 @@
 .task-composer::before {
 	content: "";
 	position: absolute;
-	top: -12px;
+	top: -10px;
 	left: 0;
 	right: 0;
-	height: 12px;
+	height: 10px;
 	
 	pointer-events: none;
 	background: linear-gradient(to top, rgba(0, 0, 0, 0.08), transparent);
+}
+.task-composer-input { flex: 1; }
+
+.task-composer button {
+	text-transform: none;
+	font-size: 0.8rem;
+	font-weight: 500;
+	
+	padding-inline: 14px;
+	white-space: nowrap;
 }
 
 /* Dark Mode Separation. */
@@ -34,5 +44,5 @@
 
 /* Dark Mode Separation. */
 :root[data-theme="dark"] .task-composer::before {
-	background: linear-gradient(to top, rgba(0, 0, 0, 0.4), transparent);
+	background: linear-gradient(to top, rgba(0, 0, 0, 0.35), transparent);
 }

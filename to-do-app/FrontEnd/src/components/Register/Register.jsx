@@ -1,6 +1,6 @@
 //****************************************************************************************
 // Filename: Register.jsx
-// Date: 11 January 2026
+// Date: 14 January 2026
 // Author: Kyle McColgan
 // Description: This file contains the React Registration component for ShowMeTasks.
 //****************************************************************************************
@@ -49,58 +49,62 @@ const Register = () => {
 
     return (
 	 <Fade in timeout={400}>
-	   <Paper elevation={1} className="register">
+	   <Paper elevation={3} className="register">
         <form className="register-form" onSubmit={handleSubmit(onSubmit)}>
 		  <header className="register-header">
-            <Typography variant="h6" fontWeight={600}>
+            <Typography variant="h5" fontWeight={700}>
                 Create an account
             </Typography>
-			<Typography variant="body2" color="text.secondary">
+			<Typography variant="body2" color="text.secondary" className="register-subtitle">
                 Get started with ShowMeTasks
             </Typography>
 		  </header>
 			
-			<Box className="register-fields">
-                    <TextField
-					    label="Username"
-                        fullWidth
-						size="small"
-                        {...register("username", { required: true })}  
-                    />
-                    <TextField
-					    label="Email"
-						type="email"
-                        fullWidth
-						size="small"
-                        {...register("email", { required: true })}      
-                    />
-                    <TextField
-					    label="Password"
-                        type="password"
-                        fullWidth
-						size="small"
-                        {...register("password", { required: true })}
-                    />
-					<TextField
-					    label="Confirm Password"
-                        type="password"
-                        fullWidth
-						size="small"
-                        {...register("confirmPassword", { required: true })}
-                    />
-				  </Box>
+		  <Box className="register-fields">
+			<TextField
+			  label="Username"
+			  fullWidth
+			  size="small"
+			  variant="outlined"
+			  {...register("username", { required: true })}  
+			/>
+			<TextField
+			  label="Email"
+			  type="email"
+			  fullWidth
+			  size="small"
+			  variant="outlined"
+			  {...register("email", { required: true })}      
+			/>
+			<TextField
+			  label="Password"
+			  type="password"
+			  fullWidth
+			  size="small"
+			  variant="outlined"
+			  {...register("password", { required: true })}
+			/>
+			<TextField
+			  label="Confirm Password"
+			  type="password"
+			  fullWidth
+			  size="small"
+			  variant="outlined"
+			  {...register("confirmPassword", { required: true })}
+			/>
+		  </Box>
 				  
-				  {errorMessage && (
-				    <Typography className="register-error">
-					  {errorMessage}
-					</Typography>
-				  )}
-				  
-				  <Button type="submit" variant="contained" size="large" fullWidth>
-				    Create account
-				  </Button>
-              </form>
-		  </Paper>
+		  {errorMessage && (
+			<Typography className="register-error">
+			  {errorMessage}
+			</Typography>
+		  )}
+		  
+		  <Button type="submit" variant="contained" size="large" fullWidth className="register-button">
+			Create account
+		  </Button>
+         </form>
+		</Paper>
 	  </Fade>
     );
 };

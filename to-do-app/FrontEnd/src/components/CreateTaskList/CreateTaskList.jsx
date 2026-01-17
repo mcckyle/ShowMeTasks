@@ -1,6 +1,6 @@
 //****************************************************************************************
 // Filename: CreateTaskList.jsx
-// Date: 11 January 2026
+// Date: 15 January 2026
 // Author: Kyle McColgan
 // Description: This file contains the CreateTaskList React component for ShowMeTasks.
 //****************************************************************************************
@@ -12,35 +12,33 @@ import "./CreateTaskList.css"; // Import the CSS file
 
 const CreateTaskList = ({ onTaskListCreated }) => {
 	const { user, accessToken } = useContext(AuthContext);
-    const [taskListName, setTaskListName] = useState("");
+    const [name, setName] = useState("");
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-		
-		if ( ( ! user) || ( ! accessToken) || ( ! taskListName.trim() ) )
+    const submit = async () => {
+		if ( ( ! user) || ( ! accessToken) || ( ! name.trim() ) )
 		{
             return;
         }
 
         try {
-            const response = await fetch("http://localhost:8080/api/todos/list/create", {
+            const response = await fetch("http://localhost:8080/api/todos/list", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${accessToken}`,
                 },
-                body: JSON.stringify({ username: user.username, name: taskListName.trim() }),
+                body: JSON.stringify({ username: user.username, name: name.trim() }),
             });
 
             if ( ! response.ok)
 			{
-                throw new Error("Failed to create the list!");
+                throw new Error();
             }
 
-            const newTaskList = await response.json();
-            //console.log("Task list created: ", newTaskList);
-            setTaskListName(""); // Clear the input field.
-			onTaskListCreated?.(newTaskList);
+            const newList = await response.json();
+            //console.log("Task list created: ", newList);
+            setName(""); // Clear the input field.
+			onTaskListCreated?.(newList);
         }
 		catch (error)
 		{
@@ -49,28 +47,28 @@ const CreateTaskList = ({ onTaskListCreated }) => {
     };
 
     return (
-		<form
-		  className="create-tasklist"
-		  aria-label="Create task list"
-		  onSubmit={handleSubmit}
-		>
+		<div className="create-tasklist" role="group" aria-label="Create task list">
 			<TextField
-			    placeholder="New list name..."
+			    placeholder="New list..."
 				size="small"
 				fullWidth
-				value={taskListName}
-				onChange={(e) => setTaskListName(e.target.value)}
-				onKeyDown={(e) => e.key === "Escape" && setTaskListName("")}
+				value={name}
+				onChange={(e) => setName(e.target.value)}
+				onKeyDown={(e) => {
+					if (e.key === "Enter") submit();
+					if (e.key === "Escape") setName("");
+				}}
 			/>
+			
 			<Button
-			  type="submit"
-			  variant="contained"
 			  size="small"
-			  disabled={!taskListName.trim()}
+			  variant="contained"
+			  disabled={ ! name.trim()}
+			  onClick={submit}
 			>
-				Create
+				Add
 			</Button>
-		</form>
+		</div>
     );
 };
 

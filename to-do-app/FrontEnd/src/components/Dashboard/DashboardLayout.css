@@ -1,37 +1,83 @@
 /* Filename: src/components/Dashboard/DashboardLayout.css */
 
-/* Dashboard Root App Shell Styles. */
+/* Dashboard Root Shell Styles. */
 .dashboard-root {
   min-height: calc(100vh - 72px);
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
   background: var(--color-bg-dark);
 }
 
-.dashboard-shell {
-	flex: 1;
-	display: flex;
-	justify-content: center;
-	padding: clamp(1.25rem, 4vw, 3rem);
+.dashboard-container {
+	width: 100%;
+	max-width: 1200px;
+	margin-inline: auto;
+}
+
+/* Dashboard / Workspace Header Styles. */
+.dashboard-header {
+	padding: 1rem 2rem;
+	border-bottom: 1px solid var(--color-border-dark);
+}
+
+/* Dashboard Main Layout Grid Styles. */
+.dashboard-main { padding: 1.5rem 2rem; }
+
+.dashboard-grid {
+	width: 100%;
+	max-width: none;
+	margin: 0 auto;
+	
+	display: grid;
+	grid-template-columns: 260px minmax(0, 1fr);
+	gap: 1.5rem;
+	min-height: 0;
+}
+
+/* Dashboard Side Panel Styles. */
+.dashboard-panel {
+	background: var(--color-surface-dark);
+	border-radius: var(--radius-lg);
+	overflow: hidden;
+	border: 1px solid var(--color-border-dark);
 }
 
 /* Central Workspace Container Styles. */
 .dashboard-workspace {
-	width: 100%;
-	max-width: 1100px;
+	align-self: stretch;
 	
 	display: flex;
 	flex-direction: column;
-	gap: 20px;
+	gap: 1rem;
 	
 	background: var(--color-surface-dark);
-	border-radius: 16px;
-	
-	box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04);
+	border-radius: var(--radius-lg);
+	border: 1px solid var(--color-border-dark);
+	padding: 1.5rem;
+	width: min(1100px, 100%);
+	max-width: 1100px;
+	margin-inline: auto;
+}
+
+/* Dashboard Composer Styles. */
+.dashboard-composer {
+	padding: 1rem 2rem;
+	border-top: 1px solid var(--color-border-dark);
+	background: linear-gradient(to top, rgba(0, 0, 0, 0.25), transparent);
 }
 
 /* Media Query Styles. */
 @media (max-width: 900px) {
-	.dashboard-shell { padding: clamp(1rem, 5vw, 2rem); }
-	.dashboard-workspace { border-radius: 12px; }
+	.dashboard-main { padding: 1rem; }
+	.dashboard-grid { grid-template-columns: 1fr; }
+	.dashboard-panel {
+		position: fixed;
+		inset: 0 auto 0 0;
+		width: 280px;
+		z-index: 1000;
+		transform: translateX(-100%);
+		
+		transition: transform 0.25s ease;
+	}
+	.dashboard-panel.open { transform: translateX(0); }
 }

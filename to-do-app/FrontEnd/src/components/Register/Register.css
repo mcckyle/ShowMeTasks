@@ -2,34 +2,71 @@
 
 /* Register Wrapper Styles. */
 .register {
-	padding: 32px;
-	border-radius: 14px;
+	padding: clamp(2.5rem, 4vw, 3rem);
+	border-radius: var(--radius-lg);
 	background: var(--color-surface-dark);
-}
-
-/* Layout Styles. */
-.register-form
-{
+	border: 1px solid var(--color-border-dark);
+	box-shadow: 0 16px 32px rgba(0, 0, 0, 0.12);
+	
 	display: flex;
 	flex-direction: column;
-	gap: 20px;
+	gap: 1.75rem;
+	
+	transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-.register-header { text-align: center }
 
+.register:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 20px 36px rgba(0, 0, 0, 0.16);
+}
+
+/* Register Header Styles. */
+.register-header {
+	text-align: center;
+	
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+}
+.register-subtitle { opacity: 0.75; }
+
+/* Registration Fields Styles. */
 .register-fields
 {
 	display: flex;
 	flex-direction: column;
-	gap: 14px;
+	gap: 1rem;
 }
 
+/* Registration Error Message Styles. */
 .register-error {
 	font-size: 0.85rem;
 	color: var(--color-error);
 	text-align: center;
+	margin-top: -0.25rem;
+}
+
+/* Registration Submit Button Styles. */
+.register-button {
+	background: var(--color-primary);
+	color: #fff;
+	font-weight: 600;
+	padding: 0.75rem 1.25rem;
+	border-radius: 999px;
+	
+	transition: background 0.2s ease, transform 0.15s ease;
+}
+.register-button:hover { background: var(--color-accent); transform: translateY(-1px); }
+
+@media (prefers-color-scheme: light) {
+  .register {
+	  background: var(--color-surface-light);
+	  border-color: var(--color-border-light);
+  }
+  .register-error { color: #e57373; }
 }
 
 /* Media Query Styles. */
 @media (max-width: 600px) {
-	.register { padding: 24px;  }
+	.register { padding: 1.5rem;  }
 }

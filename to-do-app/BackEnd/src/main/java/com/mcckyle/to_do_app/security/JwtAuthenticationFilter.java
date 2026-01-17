@@ -2,7 +2,7 @@
 //
 //     Filename: JwtAuthenticationFilter.java
 //     Author: Kyle McColgan
-//     Date: 2 January 2026
+//     Date: 14 January 2026
 //     Description: This file provides the auth token validation implementation.
 //
 //***************************************************************************************
@@ -42,7 +42,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter
         String path = request.getServletPath();
 
         //Skip only register / signin / refresh endpoints.
-        return path.equals("/api/auth/signin")
+        return "OPTIONS".equalsIgnoreCase(request.getMethod())
+                || path.equals("/api/auth/signin")
                 || path.equals("/api/auth/register")
                 || path.equals("/api/auth/refresh")
                 || path.equals("/api/auth/logout");

@@ -8,23 +8,32 @@
 	display: flex;
 	flex-direction: column;
 	
+	padding: 1.25rem 0.25rem 0;
+	overflow-y: auto;
 	background: transparent;
-	overflow: hidden;
 }
+.workspace-content { scroll-behavior: smooth; }
 
 /* Dashboard Empty / Loading States Styles. */
 .dashboard-state {
 	flex: 1;
 	
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	gap: 8px;
+	display: grid;
+	place-items: center;
 	
+	padding: 2rem;
 	text-align: center;
 	font-size: 0.9rem;
-	line-height: 1.4;
-	opacity: 0.6;
+	line-height: 1.5;
+	opacity: 0.55;
 	pointer-events: none;
+}
+
+@media (prefers-color-scheme: light) {
+	.dashboard-state { opacity: 0.6; }
+}
+
+/* Media Query Styles. */
+@media (max-width: 900px) {
+	.workspace-content { padding-top: 0.75rem; }
 }

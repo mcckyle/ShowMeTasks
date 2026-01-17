@@ -1,41 +1,52 @@
 /* Filename: src/components/Dashboard/WorkspaceHeader.css */
 
-/* Header Styles. */
+/* Workspace Header Container Styles. */
 .workspace-header {
 	display: flex;
-	align-items: center;
+	align-items: flex-start;
 	justify-content: space-between;
 	
-	gap: 16px;
-	padding-bottom: 18px;
-	margin-bottom: 4px;
-	border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+	gap: 1rem;
+	padding-bottom: 0.75rem;
 }
 
+/* Workspace Header Title Container Styles. */
 .workspace-header-main {
 	display: flex;
 	flex-direction: column;
-	gap: 4px;
+	gap: 0.35rem;
 	min-width: 0;
 }
+
+/* Workspace Header Title Styles. */
 .workspace-title {
-	font-size: 1.4rem;
+	font-size: 1.5rem;
 	font-weight: 600;
 	letter-spacing: -0.02em;
-	line-height: 1.25;
+	line-height: 1.2;
+	
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
 .workspace-meta { font-size: 0.75rem; opacity: 0.55; }
 
-/* Action Button styles. */
+/* Workspace Header Action Button styles. */
 .workspace-action {
 	text-transform: none !important;
 	font-size: 0.8rem !important;
-	font-weight: 500;
-	opacity: 0.7;
-	padding-inline: 8px;
+	font-weight: 500 !important;
+	
+	padding: 4px 8px;
 	min-width: auto;
+	
+	opacity: 0.6;
+	border-radius: 8px;
 }
-.workspace-action:hover { opacity: 1; }
+.workspace-action:hover { opacity: 1; background: rgba(255, 255, 255, 0.06); }
+
+@media (prefers-color-scheme: light) {
+	.workspace-action:hover {
+		background: rgba(0, 0, 0, 0.05);
+	}
+}

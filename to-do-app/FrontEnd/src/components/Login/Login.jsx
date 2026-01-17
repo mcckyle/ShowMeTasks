@@ -1,6 +1,6 @@
 //****************************************************************************************
 // Filename: Login.jsx
-// Date: 6 January 2026
+// Date: 14 January 2026
 // Author: Kyle McColgan
 // Description: This file contains the React Login component for ShowMeTasks.
 //****************************************************************************************
@@ -37,11 +37,11 @@ const Login = () => {
 	    <Paper elevation={0} className="login">
 			<form className="login-form" onSubmit={handleSubmit(onSubmit)}>
 			 <header className="login-header">
-				<Typography className="login-title">
-					Welcome Back
+				<Typography variant="h6" fontWeight={600}>
+					Welcome back
 				</Typography>
-				<Typography className="login-subtitle">
-					Sign in to continue to ShowMeTasks
+				<Typography variant="body2" color="text.secondary">
+					Sign in to continue
 				</Typography>
 			 </header>
 				
@@ -49,6 +49,7 @@ const Login = () => {
 				<TextField
 					label="Email"
 					type="email"
+					size="small"
 					autoComplete="email"
 					fullWidth
 					{...register("email", { required: true })}
@@ -56,6 +57,7 @@ const Login = () => {
 				<TextField
 					label="Password"
 					type="password"
+					size="small"
 					autoComplete="current-password"
 					fullWidth
 					{...register("password", { required: true })}
@@ -68,7 +70,7 @@ const Login = () => {
 				</Typography>
 			  )}
 			
-			<Button type="submit" variant="contained" fullWidth>
+			<Button type="submit" variant="outlined" size="large" fullWidth className="login-button">
 				Sign in
 			</Button>
 		  </form>

@@ -1,13 +1,13 @@
 //****************************************************************************************
 // Filename: TaskListView.jsx
-// Date: 10 January 2026
+// Date: 14 January 2026
 // Author: Kyle McColgan
 // Description: This file contains the TaskListView React component for ShowMeTasks.
 //****************************************************************************************
 
 import { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext";
-import { Card, Typography, Button, TextField } from "@mui/material";
+import { Card, Typography, Button, TextField, Tooltip } from "@mui/material";
 
 const TaskListView = ({ selectedList }) => {
 	const { accessToken } = useContext(AuthContext);
@@ -59,7 +59,7 @@ const TaskListView = ({ selectedList }) => {
 		
 		try
 		{
-			const result = await fetch(`http://localhost:8080/api/todos/list/update/${selectedList.id}`, {
+			const result = await fetch(`http://localhost:8080/api/todos/list/${selectedList.id}`, {
 				method: "PUT",
 				headers: {
 					Authorization: `Bearer ${accessToken}`,
@@ -155,14 +155,14 @@ const TaskListView = ({ selectedList }) => {
 	if ( ! selectedList)
 	{
 		return (
-		  <Typography className="tasklist-placeholder">
+		  <div className="tasklist-placeholder">
 		    Select a list to begin.
-		  </Typography>
+		  </div>
 		);
 	}
 	
 	return (
-	  <Card className="tasklist-view" elevation={0} sx={{backgroundColor: "var(--color-surface-dark)"}}>
+	  <Card className="tasklist-view" elevation={0}>
 	    {/* Header. */}
 		<header className="tasklist-header">
 		 <div className="tasklist-header-main">
@@ -188,6 +188,11 @@ const TaskListView = ({ selectedList }) => {
 			onDoubleClick={() => setEditingListName(true)}
 		  >
 		    {listName}
+			{selectedList.isDefault && (
+			  <span style={{opacity: 0.6, fontSize: "0.7rem", marginLeft: 8}}>
+			    (default)
+			  </span>
+			)}
 		  </Typography>
 		 )}
 		 
@@ -195,15 +200,26 @@ const TaskListView = ({ selectedList }) => {
 		    {todos.length} {todos.length === 1 ? "task" : "tasks"}
 		  </Typography>
 		</div>
-		  
+		
+		<Tooltip
+		  title={selectedList.isDefault
+		    ? "The default task list cannot be deleted."
+			: "Delete this task list"
+		  }
+		  arrow
+		>
+		 <span>
 		  <Button
 		    size="small"
 			color="error"
 			className="delete-list-btn"
 			onClick={handleDeleteList}
+			disabled={selectedList.isDefault}
 		  >
 		    Delete
 		  </Button>
+		 </span>
+		</Tooltip>
 		</header>
 		
 		{/* Tasks. */}

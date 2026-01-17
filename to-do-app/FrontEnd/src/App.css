@@ -1,10 +1,8 @@
 /* Filename: src/App.css */
 
 /* App Shell Styles. */
-.app-shell
-{
+.app-shell {
 	min-height: 100vh;
-	
 	display: flex;
 	flex-direction: column;
 }
@@ -12,15 +10,15 @@
 /* Main Content Area Styles. */
 .app-main {
 	flex: 1;
-	display: flex;
-	justify-content: center;
-	padding: clamp(1.25rem, 3vw, 3rem);
+	display: block;
+	width: 100%;
+	padding: 0; /* Let routes control their own spacing. */
 }
 
 /* Not Found Styles. */
 .not-found {
 	margin-top: 20vh;
 	text-align: center;
-	font-size: 1.5em;
+	font-size: 1.5rem;
 	opacity: 0.65;
 }

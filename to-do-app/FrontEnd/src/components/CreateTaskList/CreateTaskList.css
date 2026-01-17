@@ -1,18 +1,22 @@
 /* Filename: src/components/CreateTaskList/CreateTaskList.css */
 
+/* CreateTaskList Container Styles. */
 .create-tasklist
 {
 	display: flex;
-	gap: 8px;
 	align-items: center;
+	gap: 8px;
 }
+.create-tasklist .MuiInputBase-root { font-size: 0.85rem; }
 
-/* Button Styling */
+/* CreateTaskList Button Styles. */
 .create-tasklist button {
 	text-transform: none;
 	font-weight: 500;
+	
 	border-radius: 8px;
-    padding-inline: 14px;
+    padding-inline: 12px;
+	min-width: auto;
 }
 
 :root[data-theme="dark"] .create-tasklist input {

@@ -2,7 +2,7 @@
 //
 //     Filename: SecurityFilterChainConfig.java
 //     Author: Kyle McColgan
-//     Date: 2 January 2026
+//     Date: 14 January 2026
 //     Description: This file implements a custom Security FilterChain configuration.
 //
 //***************************************************************************************
@@ -39,6 +39,7 @@ public class SecurityFilterChainConfig
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/api/auth/signin",
                                          "/api/auth/register",
                                          "/api/auth/refresh",

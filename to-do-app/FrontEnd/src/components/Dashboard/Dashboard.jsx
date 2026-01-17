@@ -1,6 +1,6 @@
 //****************************************************************************************
 // Filename: Dashboard.jsx
-// Date: 11 January 2026
+// Date: 14 January 2026
 // Author: Kyle McColgan
 // Description: This file contains the Dashboard React component for ShowMeTasks.
 //****************************************************************************************
@@ -23,11 +23,14 @@ const Dashboard = () => {
 	const [loading, setLoading] = useState(true);
 	const [listsOpen, setListsOpen] = useState(false);
 	
+	/* Fetch Task Lists. */
 	useEffect(() => {
 		if ( ! accessToken)
 		{
 			return;
 		}
+		
+		let isMounted = true;
 		
 		const fetchLists = async () => {
 			try
@@ -36,11 +39,17 @@ const Dashboard = () => {
 					headers: { Authorization: `Bearer ${accessToken}` },
 				});
 				
-				if (result.ok)
+				if (!result.ok)
 				{
-					const data = await result.json();
+					throw new Error("Failed to fetch lists!");
+				}
+				
+				const data = await result.json();
+				
+				if (isMounted)
+				{
 					setTaskLists(data);
-					setSelectedList(data[0] || null);
+					setSelectedList((prev) => prev ?? data[0] ?? null);
 				}
 			}
 			catch (error)
@@ -49,12 +58,20 @@ const Dashboard = () => {
 			}
 			finally
 			{
-				setLoading(false);
+				if (isMounted)
+				{
+					setLoading(false);
+				}
 			}
 		};
 		fetchLists();
+		
+		return () => {
+			isMounted = false;
+		};
 	}, [accessToken]);
 	
+	/* Add Task to the Selected List. */
 	const handleAddTask = async (text) => {
 		if ( ( ! selectedList) || ( ! accessToken))
 		{
@@ -63,7 +80,7 @@ const Dashboard = () => {
 		
 		try
 		{
-			const result = await fetch("http://localhost:8080/api/todos/create", {
+			const result = await fetch("http://localhost:8080/api/todos", {
 				method: "POST",
 				headers: {
 					Authorization: `Bearer ${accessToken}`,
@@ -74,7 +91,7 @@ const Dashboard = () => {
 			
 			if ( ! result.ok)
 			{
-				throw new Error("Failed to add task.");
+				throw new Error("Failed to add task!");
 			}
 			
 			const newTask = await result.json();
@@ -82,7 +99,7 @@ const Dashboard = () => {
 			//Update selectedList locally...
 			setSelectedList((prev) => ({
 				...prev,
-				tasks: [...(prev.tasks || []), newTask],
+				tasks: [...(prev.tasks ?? []), newTask],
 			}));
 		}
 		catch (error)
@@ -91,6 +108,7 @@ const Dashboard = () => {
 		}
 	};
 	
+	/* Handle Newly Created Task List. */
 	const handleListCreated = (newList) => {
 		setTaskLists((prev) => [...prev, newList]);
 		setSelectedList(newList);
@@ -106,24 +124,34 @@ const Dashboard = () => {
 		}
 		content={
 			<WorkspaceContent>
-			  {loading && <div className="dashboard-state">Loading...</div>} 
+			  {loading && (
+			    <div className="dashboard-state">
+				  <span className="dashboard-state-title">Loading your workspace...</span>
+				  <span className="dashboard-state-subtitle">
+				    Just a moment...
+				  </span>
+				</div>
+			  )}
 			  { ! loading && selectedList && (
 			    <TaskListView selectedList={selectedList} />
 			  )}
+			  
 			  { ! loading && ! selectedList && (
 			    <div className="dashboard-state">
-				  Create your first task list to begin.
+				  <span className="dashboard-state-title">
+				    No task lists yet
+				  </span>
+				  <span className="dashboard-state-subtitle">
+				    Create your first list to get started.
+				  </span>
 			    </div>
 			  )}
 			</WorkspaceContent>
 		}
 		composer={
-			selectedList && (
-			  <TaskComposer
-			    onAdd={handleAddTask}
-				disabled={ ! selectedList}
-			  />
-			)
+			selectedList ? (
+			  <TaskComposer onAdd={handleAddTask} />
+			) : null
 		}
 		panel={
 			<ListsPanel
@@ -132,6 +160,7 @@ const Dashboard = () => {
 			  selected={selectedList}
 			  onSelect={setSelectedList}
 			  onClose={() => setListsOpen(false)}
+			  onCreated={handleListCreated}
 			/>
 		}
 	  />

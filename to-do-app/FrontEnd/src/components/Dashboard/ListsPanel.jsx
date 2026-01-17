@@ -1,50 +1,45 @@
 //****************************************************************************************
 // Filename: ListsPanel.jsx
-// Date: 11 January 2026
+// Date: 15 January 2026
 // Author: Kyle McColgan
 // Description: This file contains the ListsPanel React component for ShowMeTasks.
 //****************************************************************************************
 
-import { Card, Typography, Divider } from "@mui/material";
+import { Typography, Divider } from "@mui/material";
 import CreateTaskList from "../CreateTaskList/CreateTaskList";
 import "./ListsPanel.css";
 
 const ListsPanel = ({ open, lists, selected, onSelect, onClose }) => {
-	
-  if ( ! open)
-  {
-    return null;
-  }
-  
   return (
-    <div
-	  className="lists-panel-overlay"
-	  role="dialog"
-	  aria-modal="true"
+	<aside
+	  className={`lists-panel ${open ? "open" : ""}`}
 	  aria-label="Task lists"
-	  onClick={onClose}
 	>
-	  <aside className="lists-panel" onClick={(e) => e.stopPropagation()}>
-	    <Typography className="lists-title">Task Lists</Typography>
+	  <header className="lists-header">
+		<Typography className="lists-title">Task Lists</Typography>
+	  </header>
+	  
+	  <CreateTaskList />
+	  
+	  <Divider className="lists-divider" />
 		
-		<CreateTaskList />
-		
-		<Divider className="lists-divider" />
-		
-		<nav className="lists-items">
+	  <nav className="lists-items">
 		 {lists.map((list) => (
-		  <Card
-		    key={list.id}
+		  <button
+			key={list.id}
 			className={`lists-item ${selected?.id === list.id ? "active" : ""}`}
-			onClick={() => { onSelect(list); onClose(); }}
-			tabIndex={0}
+			onClick={() => onSelect(list)}
 		  >
-		    {list.name}
-		  </Card>
+			{list.name}
+		  </button>
 		))}
-	    </nav>
+	  </nav>
+		
+		{/* Mobile-only Close Button. */}
+		<button className="lists-close" onClick={onClose}>
+		  Close
+		</button>
 	  </aside>
-	</div>
 	);
 };
 

@@ -11,33 +11,43 @@
 .login-form {
     display: flex;
     flex-direction: column;
-	gap: 22px;
+	gap: 1.4rem;
 }
 
-.login-header { text-align: center; }
-
-/* Typography Styles. */
-.login-title {
-	font-size: 1.15rem;
-    font-weight: 600;
-    letter-spacing: -0.02em;
+/* Login Header Styles. */
+.login-header {
+	text-align: center;
+	display: flex;
+    flex-direction: column;
+	gap: 0.25rem;
 }
-.login-subtitle { font-size: 0.9rem; opacity: 0.7; margin-top: 4px; }
 
+/* Login Fields Styles. */
 .login-fields {
     display: flex;
     flex-direction: column;
-	gap: 16px;
+	gap: 1rem;
 }
 
-/* Error Message Styles. */
+/* Login Error Message Styles. */
 .login-error {
 	font-size: 0.85rem;
-	color: #e25b5b;
+	color: var(--color-error);
 	text-align: center;
+	margin-top: -0.25rem;
 }
+
+/* Login Button Styles. */
+.login-button {
+	border-radius: 999px;
+	font-weight: 600;
+	padding: 0.7rem 1.25rem;
+	
+	transition: background 0.2s ease, transform 0.15s ease;
+}
+.login-button:hover { transform: translateY(-1px); }
 
 /* Media Query Styles. */
 @media (max-width: 600px) {
-	.login-form { gap: 18px; }
+	.login-form { gap: 1.2rem; }
 }

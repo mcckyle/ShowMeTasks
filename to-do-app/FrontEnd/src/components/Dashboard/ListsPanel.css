@@ -1,38 +1,21 @@
 /* Filename: src/components/Dashboard/ListsPanel.css */
 
-/* Overlay Styles. */
-.lists-panel-overlay {
-	position: fixed;
-	inset: 0;
-	z-index: 20;
-	
-	display: flex;
-	justify-content: flex-end;
-	
-	background: rgba(0, 0, 0, 0.32);
-}
-
+/* Lists Panel Shell Styles. */
 .lists-panel {
-	width: 320px;
+	width: 280px;
 	height: 100%;
-	
-	background: var(--color-surface-light);
-	padding: 20px 18px;
 	
 	display: flex;
 	flex-direction: column;
-	gap: 16px;
+	gap: 14px;
 	
-	animation: slideIn 0.22s ease-out;
-}
-
-/* Dark Mode Panel. */
-:root[data-theme="dark"] .lists-panel {
+	padding: 18px 16px;
 	background: var(--color-surface-dark);
-	box-shadow: -12px 0 32px rgba(0, 0, 0, 0.45);
+	border-radius: 14px;
+	overflow: hidden;
 }
 
-/* Header Styles. */
+/* ListsPanel Header Styles. */
 .lists-header { padding-bottom: 4px; }
 
 .lists-title {
@@ -42,32 +25,47 @@
 	opacity: 0.6;
 }
 
-.lists-divider { margin: 6px 0; }
+/* ListsPanel Divider Styles. */
+.lists-divider { margin: 4px 0; }
 
-.lists-items { display: flex; flex-direction: column; gap: 6px; overflow-y: auto; }
+/* ListsPanel Lists Styles. */
+.lists-items { flex: 1; display: flex; flex-direction: column; gap: 6px; overflow-y: auto; }
 .lists-item {
-	padding: 10px 14px;
+	all: unset;
 	cursor: pointer;
-	box-shadow: none;
 	
+	padding: 10px 12px;
+	border-radius: 10px;
 	font-size: 0.85rem;
-	border-radius: 8px;
+	line-height: 1.4;
 	
-	transition: background 0.15s ease, transform 0.12s ease;
+	
+	transition: background-color 120ms ease, transform 120ms ease;
 }
-.lists-item:hover { background: rgba(75, 123, 253, 0.08); transform: translateX(2px); }
-.lists-item.active { background: rgba(25, 118, 210, 0.14); }
+.lists-item:hover { background: rgba(255, 255, 255, 0.06); }
+.lists-item.active { background: rgba(75, 123, 253, 0.28); }
 
-:root[data-theme="dark"] .lists-item:hover {
-	background: rgba(255, 255, 255, 0.06);
+/* ListsPanel Mobile Close Button Styles. */
+.lists-close {
+	display: none;
+	margin-top: auto;
+	
+	font-size: 0.75rem;
+	opacity: 0.6;
 }
 
-:root[data-theme="dark"] .lists-item.active {
-	background: rgba(75, 123, 253, 0.28);
-}
-
-/* Animation Styles. */
-@keyframes slideIn {
-	from { transform: translateX(16px); opacity: 0; }
-	to { transform: translateX(0); opacity: 1; }
+/* ListsPanel Media Query Styles. */
+@media (max-width: 900px) {
+	.lists-panel {
+		position: fixed;
+		inset: 0 auto 0 0;
+		
+		transform: translateX(-100%);
+		z-index: 1000;
+		border-radius: 0;
+		
+		transition: transform 0.25s ease;
+	}
+	.lists-panel.open { transform: translateX(0); }
+	.lists-close { display: block; }
 }
