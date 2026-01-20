@@ -1,70 +1,110 @@
 /* Filename: src/components/Dashboard/ListsPanel.css */
 
-/* Lists Panel Shell Styles. */
+/* ====================================
+    Lists Panel Shell Styles.
+======================================= */
 .lists-panel {
 	width: 280px;
 	height: 100%;
 	
 	display: flex;
 	flex-direction: column;
-	gap: 14px;
+	gap: 1rem;
 	
-	padding: 18px 16px;
-	background: var(--color-surface-dark);
-	border-radius: 14px;
-	overflow: hidden;
+	padding: 1.25rem 1rem;
+	background: var(--surface-dark);
+	border-radius: var(--radius-lg);
+	border: 1px solid var(--border-dark);
+	
+	transition: transform 220ms ease;
 }
 
-/* ListsPanel Header Styles. */
-.lists-header { padding-bottom: 4px; }
+/* ====================================
+    ListsPanel Header Styles.
+======================================= */
+.lists-header { padding-bottom: 0.25rem; }
 
 .lists-title {
 	font-size: 0.7rem;
-	letter-spacing: 0.12em;
+	font-weight: 600;
+	letter-spacing: 0.14em;
 	text-transform: uppercase;
 	opacity: 0.6;
 }
 
-/* ListsPanel Divider Styles. */
-.lists-divider { margin: 4px 0; }
+/* ====================================
+    ListsPanel Divider Styles.
+======================================= */
+.lists-divider { margin: 0.5rem 0; border-color: var(--border-dark); }
 
-/* ListsPanel Lists Styles. */
-.lists-items { flex: 1; display: flex; flex-direction: column; gap: 6px; overflow-y: auto; }
+/* ====================================
+    ListsPanel List Container Styles.
+======================================= */
+.lists-items {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+	overflow-y: auto;
+	scrollbar-width: thin;
+	scrollbar-color: rgba(75, 123, 253, 0.3) transparent;
+}
+
+/* ====================================
+    ListsPanel Items Styles.
+======================================= */
 .lists-item {
 	all: unset;
 	cursor: pointer;
 	
-	padding: 10px 12px;
-	border-radius: 10px;
-	font-size: 0.85rem;
+	padding: 0.55rem 0.75rem;
+	border-radius: var(--radius-md);
+	font-size: 0.875rem;
 	line-height: 1.4;
+	color: inherit;
 	
-	
-	transition: background-color 120ms ease, transform 120ms ease;
+	transition: background 120ms ease, color 120ms ease;
 }
-.lists-item:hover { background: rgba(255, 255, 255, 0.06); }
-.lists-item.active { background: rgba(75, 123, 253, 0.28); }
+.lists-item:hover { background: rgba(255, 255, 255, 0.05); }
+.lists-item:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.lists-item.active { background: rgba(75, 123, 253, 0.18); font-weight: 600; }
 
-/* ListsPanel Mobile Close Button Styles. */
+/* ====================================
+    ListsPanel Mobile Close Button Styles.
+======================================= */
 .lists-close {
 	display: none;
 	margin-top: auto;
 	
-	font-size: 0.75rem;
+	font-size: 0.8rem;
 	opacity: 0.6;
+	padding: 0.5rem;
+	border-radius: var(--radius-sm);
+	
+	background: transparent;
+	cursor: pointer;
+	
+	transition: opacity 120ms ease, background 120ms ease;
+}
+.lists-close:hover { opacity: 1; background: rgba(255, 255, 255, 0.08); }
+
+/* ====================================
+    ListsPanel Dark Mode Styles.
+======================================= */
+:root[data-theme="dark"] .lists-item:hover {
+	background: rgba(255, 255, 255, 0.06);
 }
 
-/* ListsPanel Media Query Styles. */
+/* ====================================
+    ListsPanel Media Query Styles.
+======================================= */
 @media (max-width: 900px) {
 	.lists-panel {
 		position: fixed;
 		inset: 0 auto 0 0;
-		
-		transform: translateX(-100%);
 		z-index: 1000;
 		border-radius: 0;
-		
-		transition: transform 0.25s ease;
+		transform: translateX(-100%);
 	}
 	.lists-panel.open { transform: translateX(0); }
 	.lists-close { display: block; }

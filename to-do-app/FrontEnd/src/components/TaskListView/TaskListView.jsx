@@ -1,6 +1,6 @@
 //****************************************************************************************
 // Filename: TaskListView.jsx
-// Date: 14 January 2026
+// Date: 19 January 2026
 // Author: Kyle McColgan
 // Description: This file contains the TaskListView React component for ShowMeTasks.
 //****************************************************************************************
@@ -8,6 +8,7 @@
 import { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { Card, Typography, Button, TextField, Tooltip } from "@mui/material";
+import "./TaskListView.css";
 
 const TaskListView = ({ selectedList }) => {
 	const { accessToken } = useContext(AuthContext);
@@ -136,7 +137,7 @@ const TaskListView = ({ selectedList }) => {
 		}
 	};
 	
-	const handleDelete = async (id) => {
+	const handleDeleteTask = async (id) => {
 		try
 		{
 			await fetch(`http://localhost:8080/api/todos/${id}`, {
@@ -186,12 +187,11 @@ const TaskListView = ({ selectedList }) => {
 		  <Typography
 		    className="tasklist-title"
 			onDoubleClick={() => setEditingListName(true)}
+			title="Double-click to rename"
 		  >
 		    {listName}
 			{selectedList.isDefault && (
-			  <span style={{opacity: 0.6, fontSize: "0.7rem", marginLeft: 8}}>
-			    (default)
-			  </span>
+			  <span className="tasklist-default">(default)</span>
 			)}
 		  </Typography>
 		 )}
@@ -265,7 +265,7 @@ const TaskListView = ({ selectedList }) => {
 				   <Button
 					 size="small"
 					 color="error"
-					 onClick={() => handleDelete(task.id)}
+					 onClick={() => handleDeleteTask(task.id)}
 				   >
 					 Delete
 				   </Button>

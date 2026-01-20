@@ -1,6 +1,6 @@
 //****************************************************************************************
 // Filename: Dashboard.jsx
-// Date: 14 January 2026
+// Date: 19 January 2026
 // Author: Kyle McColgan
 // Description: This file contains the Dashboard React component for ShowMeTasks.
 //****************************************************************************************
@@ -35,16 +35,16 @@ const Dashboard = () => {
 		const fetchLists = async () => {
 			try
 			{
-				const result = await fetch("http://localhost:8080/api/todos/list", {
+				const response = await fetch("http://localhost:8080/api/todos/list", {
 					headers: { Authorization: `Bearer ${accessToken}` },
 				});
 				
-				if (!result.ok)
+				if ( ! response.ok)
 				{
 					throw new Error("Failed to fetch lists!");
 				}
 				
-				const data = await result.json();
+				const data = await response.json();
 				
 				if (isMounted)
 				{
@@ -80,7 +80,7 @@ const Dashboard = () => {
 		
 		try
 		{
-			const result = await fetch("http://localhost:8080/api/todos", {
+			const response = await fetch("http://localhost:8080/api/todos", {
 				method: "POST",
 				headers: {
 					Authorization: `Bearer ${accessToken}`,
@@ -89,12 +89,12 @@ const Dashboard = () => {
 				body: JSON.stringify({ taskListId: selectedList.id, description: text }),
 			});
 			
-			if ( ! result.ok)
+			if ( ! response.ok)
 			{
 				throw new Error("Failed to add task!");
 			}
 			
-			const newTask = await result.json();
+			const newTask = await response.json();
 			
 			//Update selectedList locally...
 			setSelectedList((prev) => ({
@@ -114,6 +114,34 @@ const Dashboard = () => {
 		setSelectedList(newList);
 	};
 	
+	const renderContent = () => {
+		if (loading)
+		{
+			return (
+			  <div className="dashboard-state" role="status" aria-live="polite">
+				<span className="dashboard-state-title">Loading your workspace</span>
+				<span className="dashboard-state-subtitle">
+				  Just a moment…
+				</span>
+			  </div>
+			);
+		}
+		
+		if ( ! selectedList)
+		{
+			return (
+			  <div className="dashboard-state">
+				<span className="dashboard-state-title">Your workspace is empty</span>
+				<span className="dashboard-state-subtitle">
+				  Create a task list to start organizing your work.
+				</span>
+			  </div>
+			);
+		}
+		
+		return <TaskListView selectedList={selectedList} />;
+	};
+	
 	return (
 	  <DashboardLayout
 	    header={
@@ -122,32 +150,7 @@ const Dashboard = () => {
 			  onOpenLists={() => setListsOpen(true)}
 			/>
 		}
-		content={
-			<WorkspaceContent>
-			  {loading && (
-			    <div className="dashboard-state">
-				  <span className="dashboard-state-title">Loading your workspace...</span>
-				  <span className="dashboard-state-subtitle">
-				    Just a moment...
-				  </span>
-				</div>
-			  )}
-			  { ! loading && selectedList && (
-			    <TaskListView selectedList={selectedList} />
-			  )}
-			  
-			  { ! loading && ! selectedList && (
-			    <div className="dashboard-state">
-				  <span className="dashboard-state-title">
-				    No task lists yet
-				  </span>
-				  <span className="dashboard-state-subtitle">
-				    Create your first list to get started.
-				  </span>
-			    </div>
-			  )}
-			</WorkspaceContent>
-		}
+		content={<WorkspaceContent>{renderContent()}</WorkspaceContent>}
 		composer={
 			selectedList ? (
 			  <TaskComposer onAdd={handleAddTask} />

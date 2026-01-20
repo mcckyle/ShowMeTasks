@@ -1,6 +1,8 @@
 /* Filename: src/components/Dashboard/TaskComposer.css */
 
-/* Task Composer Shell Styles. */
+/* ====================================
+    TaskComposer Shell Styles.
+======================================= */
 .task-composer {
 	position: sticky;
 	bottom: 0;
@@ -8,41 +10,76 @@
 	
 	display: flex;
 	align-items: center;
-	gap: 12px;
+	gap: 0.75rem;
 	
-	padding: 14px 18px;
-	background: var(--color-surface-dark);
-	border-top: 1px solid rgba(0, 0, 0, 0.06);
+	padding: 0.9rem 1.25rem;
+	background: var(--surface-dark);
+	backdrop-filter: blur(10px);
+	
+	transition: background 0.2s ease;
 }
 
+/* ====================================
+    Simple Gradient Separation Styles.
+======================================= */
 .task-composer::before {
 	content: "";
 	position: absolute;
-	top: -10px;
+	top: -14px;
 	left: 0;
 	right: 0;
-	height: 10px;
+	height: 14px;
 	
 	pointer-events: none;
-	background: linear-gradient(to top, rgba(0, 0, 0, 0.08), transparent);
+	background: linear-gradient(to top, rgba(0, 0, 0, 0.1), transparent);
 }
-.task-composer-input { flex: 1; }
 
+/* ====================================
+    TaskComposer Input Styles.
+======================================= */
+.task-composer-input
+{
+	flex: 1;
+	background: rgba(255, 255, 255, 0.04);
+	border-radius: var(--radius-md);
+	
+	transition: box-shadow 120ms ease, background 120ms ease;
+}
+.task-composer-input:focus-within { box-shadow: 0 0 0 2px var(--primary); }
+
+/* ====================================
+    TaskComposer Add Button Styles.
+======================================= */
 .task-composer button {
 	text-transform: none;
-	font-size: 0.8rem;
-	font-weight: 500;
+	font-size: 0.85rem;
+	font-weight: 600;
 	
-	padding-inline: 14px;
-	white-space: nowrap;
+	padding: 0.45rem 1rem;
+	border-radius: 999px;
+	
+	transition: transform 120ms ease, opacity 120ms ease;
 }
+.task-composer button:disabled { opacity: 0.5; }
+.task-composer button:not(:disabled):hover { transform: translateY(-1px); }
 
-/* Dark Mode Separation. */
+/* ====================================
+    TaskComposer Dark Mode Styles.
+======================================= */
 :root[data-theme="dark"] .task-composer {
-	border-top-color: rgba(255, 255, 255, 0.08);
+	background: var(--surface-dark);
 }
-
-/* Dark Mode Separation. */
 :root[data-theme="dark"] .task-composer::before {
 	background: linear-gradient(to top, rgba(0, 0, 0, 0.35), transparent);
+}
+:root[data-theme="dark"] .task-composer-input {
+	background: rgba(255, 255, 255, 0.06);
+}
+
+/* ====================================
+    TaskComposer Media Query Styles.
+======================================= */
+@media (max-width: 600px) {
+	.task-composer { padding: 0.75rem 1rem; gap: 0.5rem; }
+	.task-composer button { font-size: 0.8rem; padding: 0.4rem 0.85rem; }
 }

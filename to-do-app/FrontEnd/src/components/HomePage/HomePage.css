@@ -1,115 +1,142 @@
 /* Filename: src/components/HomePage/HomePage.css */
 
+/* ====================================
+    HomePage Root Layout Styles.
+======================================= */
 .home {
   width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: clamp(4rem, 8vw, 6rem);
-  padding: clamp(4rem, 8vw, 6rem) 1rem;
+  gap: clamp(3rem, 6vw, 5rem);
+  padding-block: clamp(4rem, 8vw, 6rem);
 }
 
-/* Hero Section Styles. */
+/* ====================================
+    Hero Section Styles.
+======================================= */
 .home-hero {
-	max-width: 780px;
+	max-width: 720px;
+	margin-inline: auto;
+	padding-inline: var(--space-lg);
 	text-align: center;
+	
 	display: flex;
 	flex-direction: column;
-	gap: 1.5rem;
+	gap: 1.25rem;
 	
-	animation: heroFade 0.7s ease-out forwards;
+	animation: heroFade 0.45s ease-out forwards;
 }
 
 .home-eyebrow {
-	font-size: 0.75rem;
+	font-size: 0.7rem;
 	font-weight: 600;
-	letter-spacing: 0.18em;
+	letter-spacing: 0.2em;
 	text-transform: uppercase;
-	color: var(--color-primary);
-	opacity: 0.65;
+	color: var(--primary);
+	opacity: 0.6;
 }
 
 .home-title {
-	font-size: clamp(2.6rem, 5vw, 3.25rem);
+	font-size: clamp(2.4rem, 5vw, 3.1rem);
 	font-weight: 700;
-	letter-spacing: -0.025em;
+	letter-spacing: -0.035em;
 	line-height: 1.1;
 }
 
 .home-subtitle {
-	max-width: 640px;
+	max-width: 600px;
 	margin-inline: auto;
-	font-size: 1.1rem;
+	font-size: 1.05rem;
 	line-height: 1.7;
 	opacity: 0.85;
 }
-.home-actions { margin-top: 1rem; }
+.home-actions { margin-top: 1.25rem; }
 
+/* HomePage Button Styles. */
 .home-cta {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
 	
-	padding: 0.85rem 2.25rem;
+	padding: 0.85rem 2.3rem;
 	border-radius: 999px;
 	
-	background: var(--color-primary);
+	background: var(--primary);
 	color: #fff;
 	font-weight: 600;
 	
-	transition: transform 0.2s ease, box-shadow 0.2s ease;
+	transition: transform var(--transition-fast),
+	            box-shadow var(--transition-fast),
+				background var(--transition-fast);
 }
 
 .home-cta:hover {
-	transform: translateY(-2px);
-	box-shadow: 0 12px 28px rgba(75, 123, 253, 0.35);
+	transform: translateY(-1px);
+	box-shadow: 0 10px 22px rgba(75, 123, 253, 0.22);
+	background: color-mix(in srgb, var(--primary) 92%, #fff);
 }
 
-/* Feature Grid Styles. */
+/* ====================================
+    Feature Grid Styles.
+======================================= */
 .home-grid {
 	width: 100%;
 	max-width: 1100px;
+	margin-inline: auto;
+	padding-inline: var(--space-lg);
 	
 	display: grid;
-	gap: clamp(1.5rem, 2vw, 2rem);
 	grid-template-columns: 1fr;
+	gap: clamp(1.25rem, 2.5vw, 2rem);
 }
 
-/* Feature Card Styles. */
+/* ====================================
+    Feature Card Styles.
+======================================= */
 .home-card {
-	padding: clamp(2rem, 3vw, 2.5rem);
+	padding: clamp(1.75rem, 3vw, 2.25rem);
 	border-radius: var(--radius-lg);
 	
-	background: var(--color-surface-dark);
-	border: 1px solid var(--color-border-dark);
-	cursor: default;
+	background: var(--surface-dark);
+	border: 1px solid var(--border-dark);
 	
-	transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+	transition: background var(--transition-fast),
+	            box-shadow var(--transition-fast),
+				transform var(--transition-fast);
 }
 
 .home-card:hover {
-	transform: translateY(-4px);
-	box-shadow: 0 16px 32px rgba(0, 0, 0, 0.24);
-	background: rgba(22, 26, 34, 0.95);
+	background: color-mix(in srgb, var(--surface-dark) 96%, #fff);
+	box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+	transform: translateY(-2px);
 }
 
 .card-title {
-	font-size: 1.1rem;
+	font-size: 1.05rem;
 	font-weight: 600;
-	margin-bottom: 0.5rem;
+	margin-bottom: 0.35rem;
 }
-.card-text { font-size: 0.95rem; line-height: 1.65; opacity: 0.85; }
+.card-text {
+	font-size: 0.95rem;
+	line-height: 1.65;
+	opacity: 0.85;
+}
 
-/* Animations Styles. */
+/* ====================================
+    Animations Styles.
+======================================= */
 @keyframes heroFade {
-	from { opacity: 0; transform: translateY(20px); }
+	from { opacity: 0; transform: translateY(10px); }
 	to { opacity: 1; transform: translateY(0); }
 }
 
+/* ====================================
+    HomePage Light Mode Styles.
+======================================= */
 @media (prefers-color-scheme: light) {
   .home-card {
-	  background: var(--color-surface-light);
-	  border-color: var(--color-border-light);
+	  background: var(--surface-light);
+	  border-color: var(--border-light);
   }
 }
 

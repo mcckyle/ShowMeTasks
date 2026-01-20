@@ -1,6 +1,6 @@
 //****************************************************************************************
 // Filename: App.jsx
-// Date: 14 January 2026
+// Date: 17 January 2026
 // Author: Kyle McColgan
 // Description: This file contains the React entry point for ShowMeTasks.
 //****************************************************************************************
@@ -25,13 +25,14 @@ const App = () => {
 		    <div className="app-shell">
 			<Header />
 			<main className="app-main" role="main">
+			  <>
 				<Routes>
 				  {/* Public Routes. */}
 				  <Route path="/" element={<HomePage />} />
-				  <Route path="/tasks" element={<ToDoApp />} />
 				  <Route path="/login" element={<Login />} />
 				  <Route path="/register" element={<Register />} />
-
+				  <Route path="/tasks" element={<ToDoApp />} />
+				  
 				  {/* Protected Routes. */}
 				  <Route path="/dashboard" element={<PrivateRoute element={<Dashboard />} />} />
 				  <Route path="/profile" element={<PrivateRoute element={<Profile />} />} />
@@ -43,6 +44,7 @@ const App = () => {
 					element={<h2 className="not-found">Page not found</h2>}
 				  />
 				</Routes>
+			   </>
 			  </main>
 			</div>
 		  </Router>

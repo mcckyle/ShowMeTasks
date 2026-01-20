@@ -1,126 +1,137 @@
 /* Filename: src/components/Header/Header.css */
 
-/* Header Shell Styles. */
+/* ====================================
+    Header Shell Styles.
+======================================= */
 .header {
   position: sticky;
   top: 0;
-  width: 100%;
   z-index: 1000;
   
-  backdrop-filter: blur(16px);
-  background: rgba(15, 17, 21, 0.75);
-  border-bottom: 1px solid var(--color-border-dark);
+  backdrop-filter: blur(18px);
+  background: color-mix(in srgb, var(--bg-dark) 85%, transparent);
+  border-bottom: 1px solid var(--border-dark);
   
-  transition: background 0.25s ease;
+  transition: background var(--transition-base);
 }
 
-/* Inner Layout Styles. */
+/* ====================================
+    Layout Styles.
+======================================= */
 .header-inner {
-	max-width: 1280px;
-	margin: 0 auto;
-	padding: 0.75rem 1.5rem;
-	
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	gap: 1.5rem;
+	gap: var(--space-lg);
+	padding-block: 0.75rem;
 }
 
-/* Logo Text Styles. */
+/* ====================================
+    Logo Text Styles.
+======================================= */
 .logo {
-	font-size: 1.35rem;
+	font-size: 1.25rem;
 	font-weight: 700;
-	letter-spacing: -0.02em;
-	color: var(--color-primary);
+	letter-spacing: -0.015em;
+	color: var(--primary);
 	
-	transition: color 0.15s ease;
+	transition: color var(--transition-fast);
 }
-.logo:hover { color: var(--color-accent); }
+.logo:hover { color: var(--accent); }
 
-/* Navigation Styles. */
-.nav {
-  display: flex;
-  gap: 2rem;
-}
-
+/* ====================================
+    Navigation Styles.
+======================================= */
+.nav { display: flex; gap: 1.75rem; }
 .nav-item {
-  font-weight: 500;
-  opacity: 0.7;
   position: relative;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: inherit;
+  opacity: 0.7;
+  padding: 0.25rem 0;
   
-  transition: opacity 0.15s ease, color 0.15s ease;
+  transition: opacity var(--transition-fast);
 }
 .nav-item:hover,
 .nav-item.active { opacity: 1; }
-.nav-item.active::after {
+.nav-item::after {
 	content: "";
 	position: absolute;
-	left: 0;
-	right: 0;
+	inset-inline: 0;
 	bottom: -6px;
 	height: 2px;
+	background: var(--primary);
 	border-radius: 2px;
-	background: var(--color-primary);
+	transform: scaleX(0);
+	transform-origin: center;
+	
+	transition: transform var(--transition-fast);
 }
+.nav-item.active::after { transform: scaleX(1); }
 
-/* Right Side Actions Styles. */
+/* ====================================
+    Right Side Actions Styles.
+======================================= */
 .header-actions {
 	display: flex;
 	align-items: center;
-	gap: 0.75rem;
+	gap: var(--space-sm);
 }
 
-/* Auth Links Styles. */
-.auth-links {
-	display: flex;
-	gap: 0.5rem;
-}
-
+/* ====================================
+    Auth Links Styles.
+======================================= */
+.auth-links { display: flex; gap: 0.5rem; }
 .auth-link {
-	padding: 0.4rem 0.8rem;
-	border-radius: 999px;
+	padding: 0.4rem 0.9rem;
 	font-size: 0.9rem;
+	border-radius: 999px;
 	opacity: 0.8;
 	
-	transition: opacity 0.15s ease, background 0.15s ease;
+	transition: opacity var(--transition-fast), background var(--transition-fast);
 }
 .auth-link:hover { opacity: 1; }
+.auth-link.primary { background: var(--primary); color: #fff; }
+.auth-link.primary:hover { background: var(--accent); }
 
-.auth-link.primary {
-	background: var(--color-primary);
-	color: #fff;
-}
-.auth-link.primary:hover { background: var(--color-accent); }
-
-/* Avatar Wrapper Styles. */
+/* ====================================
+    Avatar Styles.
+======================================= */
 .avatar-wrapper { position: relative; cursor: pointer; }
 
 /* Avatar Circle Styles. */
 .avatar {
-	width: 36px;
-	height: 36px;
-	border-radius: 50%;
-	background: var(--color-primary);
-	color: #fff;
-	font-weight: 600;
-	
+	width: 34px;
+	height: 34px;
 	display: grid;
 	place-items: center;
+	font-size: 0.9rem;
+	font-weight: 600;
+	border-radius: 50%;
+	background: var(--primary);
+	color: #fff;
 	
-	transition: background 0.2s ease;
+	transition: background var(--transition-fast);
 }
-.avatar-wrapper:hover .avatar { background: var(--color-accent); }
+.avatar-wrapper:hover .avatar { background: var(--accent); }
+.avatar-wrapper:focus-visible .avatar {
+	outline: 2px solid var(--primary);
+	outline-offset: 2px;
+}
 
-/* Avatar Dropdown Menu Styles. */
+/* ====================================
+    Avatar Dropdown Menu Styles.
+======================================= */
 .menu {
 	position: absolute;
-	top: calc(100% + 8px);
+	top: calc(100% + 10px);
 	right: 0;
-	min-width: 190px;
+	min-width: 200px;
 	
-	background: var(--color-surface-dark);
+	background: var(--surface-dark);
+	border: 1px solid var(--border-dark);
 	border-radius: var(--radius-md);
-	border: 1px solid var(--color-border-dark);
 	box-shadow: var(--shadow-md);
 	padding: 6px;
 	
@@ -128,7 +139,8 @@
 	transform: translateY(-6px);
 	pointer-events: none;
 	
-	transition: opacity 0.2s ease, transform 0.2s ease;
+	transition: opacity var(--transition-fast),
+	            transform var(--transition-fast);
 }
 
 .menu.open {
@@ -139,39 +151,42 @@
 
 /* Menu Items Styles. */
 .menu-item {
-	display: block;
 	width: 100%;
 	padding: 0.5rem 0.75rem;
 	border-radius: 10px;
 	font-size: 0.9rem;
-	color: inherit;
-	text-align: left;
 	background: transparent;
+	text-align: left;
 	
-	transition: background 0.15s ease;
+	transition: background var(--transition-fast);
 }
 .menu-item:hover { background: rgba(255, 255, 255, 0.06); }
-.menu-item.danger { color: #e25b5b; }
+.menu-item.danger { color: var(--error); }
 
 /* Menu Divider Styles. */
 .menu-divider {
 	height: 1px;
 	margin: 6px 0;
-	background: var(--color-border-dark);
+	background: var(--border-dark);
 }
 
+/* ====================================
+    Avatar Dropdown Menu Styles.
+======================================= */
 @media (prefers-color-scheme: light) {
   .header {
-	  background: rgba(255, 255, 255, 0.85);
-	  border-bottom-color: var(--color-border-light);
+	  background: color-mix(in srgb, var(--bg-light) 88%, transparent);
+	  border-bottom-color: var(--border-light);
   }
   .menu {
-	  background: var(--color-surface-light);
-	  border-color: var(--color-border-light);
+	  background: var(--surface-light);
+	  border-color: var(--border-light);
   }
 }
 
-/* Media Query Styles. */
+/* ====================================
+    Header Media Query Styles.
+======================================= */
 @media (max-width: 768px)
 {
 	.nav { display: none; }

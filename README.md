@@ -1,7 +1,7 @@
 [![show-me-tasks-ci](https://github.com/kmccol1/ShowMeTasks/actions/workflows/show-me-tasks-ci.yml/badge.svg)](https://github.com/kmccol1/ShowMeTasks/actions/workflows/show-me-tasks-ci.yml)
 # ShowMeTasks
 
-ShowMeTasks is a full-stack to-do list management application built with Java Spring Boot and React. Designed for both individual and collaborative productivity, this secure and scalable platform enables users to manage tasks efficiently with advanced role-based access control and real-time features. The project emphasizes best practices in web security, architecture, and modern UI/UX design.
+ShowMeTasks is a simple, modern task management application built with Java Spring Boot and React. Designed for both individual and collaborative productivity, this secure and scalable platform enables users to manage tasks efficiently with advanced role-based access control and real-time features.
 
 ## Key Features
 
@@ -55,7 +55,7 @@ Ensure you have the following installed on your system:
 Start by cloning the repository and navigating to the project directory:
 
 ```bash
-git clone https://github.com/yourusername/ShowMeTasks.git
+git clone https://github.com/mcckyle/ShowMeTasks.git
 cd ShowMeTasks
 ```
 
@@ -104,14 +104,14 @@ cd ShowMeTasks
 3. **Start the Development Server**:
    - Start the React app:
      ```bash
-     npm start
+     npm run dev
      ```
-   - The frontend application will be accessible at `http://localhost:3000`.
+   - The frontend application will be accessible at `http://localhost:5173`.
 
 ---
 
 ### 5. Verify the Application
-1. Open your browser and visit the React frontend: `http://localhost:3000`.
+1. Open your browser and visit the React frontend: `http://localhost:5173`.
 2. Test the backend by interacting with the app or directly accessing API endpoints at `http://localhost:8080`.
 
 ---
@@ -139,14 +139,14 @@ If you want to build the app for production deployment:
 - **MariaDB connection issues**:
   Ensure MariaDB is running, and the `application.properties` file has the correct credentials.
 - **Port conflicts**:
-  If the default ports (`8080` for the backend or `3000` for the frontend) are in use, update the configuration files:
+  If the default ports (`8080` for the backend or `5173` for the frontend) are in use, update the configuration files:
   - Backend: `application.properties` file (`server.port`).
   - Frontend: Use the `PORT` environment variable when starting the React app:
     ```bash
-    PORT=3001 npm start
-    
+    PORT=3001 npm start```
 
-
+---
+	
 ## Usage Guide
 
 1. **Register or Log In**: Access your personalized dashboard.

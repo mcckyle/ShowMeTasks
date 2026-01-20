@@ -1,6 +1,6 @@
 //****************************************************************************************
 // Filename: CreateTaskList.jsx
-// Date: 15 January 2026
+// Date: 19 January 2026
 // Author: Kyle McColgan
 // Description: This file contains the CreateTaskList React component for ShowMeTasks.
 //****************************************************************************************
@@ -13,9 +13,10 @@ import "./CreateTaskList.css"; // Import the CSS file
 const CreateTaskList = ({ onTaskListCreated }) => {
 	const { user, accessToken } = useContext(AuthContext);
     const [name, setName] = useState("");
+	const canSubmit = user && accessToken && name.trim();
 
     const submit = async () => {
-		if ( ( ! user) || ( ! accessToken) || ( ! name.trim() ) )
+		if ( ! canSubmit )
 		{
             return;
         }
@@ -47,9 +48,13 @@ const CreateTaskList = ({ onTaskListCreated }) => {
     };
 
     return (
-		<div className="create-tasklist" role="group" aria-label="Create task list">
+		<div
+		  className="create-tasklist"
+		  role="group"
+		  aria-label="Create new task list"
+		>
 			<TextField
-			    placeholder="New list..."
+			    placeholder="Create new list…"
 				size="small"
 				fullWidth
 				value={name}
@@ -63,7 +68,7 @@ const CreateTaskList = ({ onTaskListCreated }) => {
 			<Button
 			  size="small"
 			  variant="contained"
-			  disabled={ ! name.trim()}
+			  disabled={ ! canSubmit}
 			  onClick={submit}
 			>
 				Add

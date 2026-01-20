@@ -1,6 +1,6 @@
 //****************************************************************************************
 // Filename: WorkspaceHeader.jsx
-// Date: 14 January 2026
+// Date: 19 January 2026
 // Author: Kyle McColgan
 // Description: This file contains the WorkspaceHeader React component for ShowMeTasks.
 //****************************************************************************************
@@ -12,7 +12,7 @@ const WorkspaceHeader = ({ list, onOpenLists }) => {
   return (
     <header className="workspace-header">
 	  <div className="workspace-header-main">
-	    <Typography className="workspace-title" component="h1">
+	    <Typography className="workspace-title" component="h1" title={list?.name}>
 		  {list ? list.name : "Your Workspace"}
 		</Typography>
 		{list && (
@@ -22,7 +22,13 @@ const WorkspaceHeader = ({ list, onOpenLists }) => {
 		)}
 	  </div>
 	  
-	  <Button size="small" variant="text" className="workspace-action" onClick={onOpenLists}>
+	  <Button
+	    size="small"
+		variant="text"
+		className="workspace-action"
+		onClick={onOpenLists}
+		aria-label="Open task lists"
+	  >
 	    Lists
 	  </Button>
 	</header>

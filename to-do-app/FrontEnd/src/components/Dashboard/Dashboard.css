@@ -1,31 +1,40 @@
 /* Filename: src/components/Dashboard/Dashboard.css */
 
-/* Dashboard State (Loading / Empty) Styles. */
+/* ====================================
+    Dashboard State (Loading / Empty) Styles.
+======================================= */
 .dashboard-state {
 	flex: 1;
 	display: flex;
+	flex-direction: column;
 	align-items: center;
 	justify-content: center;
 	
-	gap: 0.35rem;
-	padding: 3rem 2rem;
+	gap: 0.6rem;
+	padding: clamp(2.5rem, 6vh, 4rem) 2rem;
 	text-align: center;
+	color: var(--text-light);
+	opacity: 0.9;
 	
-	animation: dashboardFade 0.3s ease;
+	animation: dashboardFade 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .dashboard-state-title {
-	font-size: 1rem;
+	font-size: 1.05rem;
 	font-weight: 600;
-	letter-spacing: -0.01em;
+	letter-spacing: -0.015em;
 }
 
 .dashboard-state-subtitle {
 	font-size: 0.9rem;
-	opacity: 0.65;
+	opacity: 0.6;
+	max-width: 420px;
+	line-height: 1.6;
 }
 
-/* Dashboard Animations Styles. */
+/* ====================================
+    Dashboard Animations Styles.
+======================================= */
 @keyframes dashboardFade {
     from { opacity: 0; transform: translateY(6px); }
     to { opacity: 1; transform: translateY(0); }

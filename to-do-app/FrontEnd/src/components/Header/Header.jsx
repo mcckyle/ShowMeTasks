@@ -1,6 +1,6 @@
 //****************************************************************************************
 // Filename: Header.jsx
-// Date: 14 January 2026
+// Date: 18 January 2026
 // Author: Kyle McColgan
 // Description: This file contains the React Header component for ShowMeTasks.
 //****************************************************************************************
@@ -25,6 +25,11 @@ const Header = () => {
   
   //Close dropdown menu on outside click listener.
   useEffect(() => {
+	  if ( ! menuOpen)
+	  {
+		  return;
+	  }
+	  
 	  function handleClickOutside(e){
 		  if ( (avatarRef.current) && ( ! avatarRef.current.contains(e.target)) )
 		  {
@@ -32,10 +37,7 @@ const Header = () => {
 		  }
 	  }
 	  
-	  if (menuOpen)
-	  {
-		  document.addEventListener("mousedown", handleClickOutside);
-	  }
+	  document.addEventListener("mousedown", handleClickOutside);
 	  return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [menuOpen]);
   
@@ -43,7 +45,7 @@ const Header = () => {
   
   return (
 	  <header className="header">
-		<div className="header-inner">
+		<div className="header-inner container">
 		
 		  {/* Left Logo. */}
 		  <Link to="/" className="logo">
@@ -51,7 +53,7 @@ const Header = () => {
 		  </Link>
 		
 		  {/* Primary Navigation. */}
-		  <nav className="nav" aria-label="Primary navigation">
+		  <nav className="nav" aria-label="Primary">
 		    <Link to="/" className={`nav-item ${isActive("/") ? "active" : ""}`}>
 			  Home
 			</Link>
@@ -62,10 +64,11 @@ const Header = () => {
 		
 		  {/* Right Side: Auth / User Avatar. */}
 		  <div className="header-actions">
-		  {user ? (
+		   {user ? (
 		    <div
 			  className="avatar-wrapper"
 			  ref={avatarRef}
+			  role="button"
 			  tabIndex={0}
 			  aria-haspopup="menu"
 			  aria-expanded={menuOpen}
@@ -77,14 +80,14 @@ const Header = () => {
 			  </div>
 			  
 			  <div className={`menu ${menuOpen ? "open" : ""}`} role="menu">
-			    <Link to="/profile" className="menu-item" onClick={() => setMenuOpen(false)}>
+			    <Link to="/profile" className="menu-item" role="menuitem" onClick={() => setMenuOpen(false)}>
 				  Profile
 				</Link>
-				<Link to="/settings" className="menu-item" onClick={() => setMenuOpen(false)}>
+				<Link to="/settings" className="menu-item" role="menuitem" onClick={() => setMenuOpen(false)}>
 				  Settings
 				</Link>
 				<div className="menu-divider" />
-				<button className="menu-item danger" onClick={handleLogout}>
+				<button className="menu-item danger" role="menuitem" onClick={handleLogout}>
 				  Log out
 				</button>
 			  </div>

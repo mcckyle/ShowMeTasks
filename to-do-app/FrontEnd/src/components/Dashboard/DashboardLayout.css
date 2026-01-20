@@ -1,75 +1,97 @@
 /* Filename: src/components/Dashboard/DashboardLayout.css */
 
-/* Dashboard Root Shell Styles. */
+/* ====================================
+    Dashboard Root Shell Styles.
+======================================= */
 .dashboard-root {
   min-height: calc(100vh - 72px);
   display: grid;
   grid-template-rows: auto 1fr auto;
-  background: var(--color-bg-dark);
+  background: var(--bg-dark);
 }
 
+/* ====================================
+    Dashboard Shared Container Styles.
+======================================= */
 .dashboard-container {
 	width: 100%;
-	max-width: 1200px;
+	max-width: 1280px;
 	margin-inline: auto;
+	padding-inline: 1rem;
 }
 
-/* Dashboard / Workspace Header Styles. */
+/* ====================================
+    Dashboard Header Styles.
+======================================= */
 .dashboard-header {
-	padding: 1rem 2rem;
-	border-bottom: 1px solid var(--color-border-dark);
+	padding-block: 1rem;
+	border-bottom: 1px solid var(--border-dark);
+	background: var(--bg-dark);
 }
 
-/* Dashboard Main Layout Grid Styles. */
-.dashboard-main { padding: 1.5rem 2rem; }
+/* ====================================
+    Dashboard Main Area Styles.
+======================================= */
+.dashboard-main {
+	padding: 1.5rem 0;
+	display: flex;
+	justify-content: center;
+}
 
+/* ====================================
+    Dashboard Grid Layout Styles.
+======================================= */
 .dashboard-grid {
 	width: 100%;
-	max-width: none;
-	margin: 0 auto;
+	max-width: 1400px;
 	
 	display: grid;
 	grid-template-columns: 260px minmax(0, 1fr);
 	gap: 1.5rem;
-	min-height: 0;
 }
 
-/* Dashboard Side Panel Styles. */
+/* ====================================
+    Dashboard Side Panel Styles.
+======================================= */
 .dashboard-panel {
-	background: var(--color-surface-dark);
+	background: var(--surface-dark);
 	border-radius: var(--radius-lg);
+	border: 1px solid var(--border-dark);
 	overflow: hidden;
-	border: 1px solid var(--color-border-dark);
 }
 
-/* Central Workspace Container Styles. */
+/* ====================================
+    Dashboard Workspace Container Styles.
+======================================= */
 .dashboard-workspace {
-	align-self: stretch;
-	
 	display: flex;
 	flex-direction: column;
 	gap: 1rem;
 	
-	background: var(--color-surface-dark);
+	background: var(--surface-dark);
 	border-radius: var(--radius-lg);
-	border: 1px solid var(--color-border-dark);
+	border: 1px solid var(--border-dark);
+	
 	padding: 1.5rem;
-	width: min(1100px, 100%);
-	max-width: 1100px;
-	margin-inline: auto;
+	width: 100%;
+	min-width: 0; /* allow proper shrinking in flex/grids. */
 }
 
-/* Dashboard Composer Styles. */
+/* ====================================
+    Dashboard Composer Styles.
+======================================= */
 .dashboard-composer {
-	padding: 1rem 2rem;
-	border-top: 1px solid var(--color-border-dark);
-	background: linear-gradient(to top, rgba(0, 0, 0, 0.25), transparent);
+	padding-block: 1rem;
+	border-top: 1px solid var(--border-dark);
+	background: linear-gradient(to top, rgba(0, 0, 0, 0.28), transparent);
 }
 
-/* Media Query Styles. */
+/* ====================================
+    Dashboard Media Query Styles.
+======================================= */
 @media (max-width: 900px) {
 	.dashboard-main { padding: 1rem; }
-	.dashboard-grid { grid-template-columns: 1fr; }
+	.dashboard-grid { grid-template-columns: 1fr; gap: 1rem; }
 	.dashboard-panel {
 		position: fixed;
 		inset: 0 auto 0 0;
@@ -77,7 +99,7 @@
 		z-index: 1000;
 		transform: translateX(-100%);
 		
-		transition: transform 0.25s ease;
+		transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 	}
 	.dashboard-panel.open { transform: translateX(0); }
 }

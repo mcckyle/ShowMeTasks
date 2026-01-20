@@ -1,6 +1,6 @@
 //****************************************************************************************
 // Filename: Register.jsx
-// Date: 14 January 2026
+// Date: 19 January 2026
 // Author: Kyle McColgan
 // Description: This file contains the React Registration component for ShowMeTasks.
 //****************************************************************************************
@@ -48,9 +48,9 @@ const Register = () => {
     };
 
     return (
-	 <Fade in timeout={400}>
-	   <Paper elevation={3} className="register">
-        <form className="register-form" onSubmit={handleSubmit(onSubmit)}>
+	 <Fade in timeout={350}>
+	   <Paper elevation={0} className="register">
+        <form className="register-form" onSubmit={handleSubmit(onSubmit)} noValidate>
 		  <header className="register-header">
             <Typography variant="h5" fontWeight={700}>
                 Create an account
@@ -63,44 +63,46 @@ const Register = () => {
 		  <Box className="register-fields">
 			<TextField
 			  label="Username"
-			  fullWidth
 			  size="small"
-			  variant="outlined"
+			  fullWidth
 			  {...register("username", { required: true })}  
 			/>
 			<TextField
 			  label="Email"
 			  type="email"
-			  fullWidth
 			  size="small"
-			  variant="outlined"
+			  fullWidth
 			  {...register("email", { required: true })}      
 			/>
 			<TextField
 			  label="Password"
 			  type="password"
-			  fullWidth
 			  size="small"
-			  variant="outlined"
+			  fullWidth
 			  {...register("password", { required: true })}
 			/>
 			<TextField
 			  label="Confirm Password"
 			  type="password"
-			  fullWidth
 			  size="small"
-			  variant="outlined"
+			  fullWidth
 			  {...register("confirmPassword", { required: true })}
 			/>
 		  </Box>
 				  
 		  {errorMessage && (
-			<Typography className="register-error">
+			<Typography className="register-error" role="alert">
 			  {errorMessage}
 			</Typography>
 		  )}
 		  
-		  <Button type="submit" variant="contained" size="large" fullWidth className="register-button">
+		  <Button
+		    type="submit"
+			variant="contained"
+			size="large"
+			fullWidth
+			className="register-button"
+		  >
 			Create account
 		  </Button>
          </form>

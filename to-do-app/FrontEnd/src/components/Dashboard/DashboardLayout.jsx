@@ -1,6 +1,6 @@
 //****************************************************************************************
 // Filename: DashboardLayout.jsx
-// Date: 16 January 2026
+// Date: 19 January 2026
 // Author: Kyle McColgan
 // Description: This file contains the DashboardLayout React component for ShowMeTasks.
 //****************************************************************************************
@@ -17,8 +17,12 @@ const DashboardLayout = ({ header, content, composer, panel }) => {
 	 </header>
 	 
 	 <main className="dashboard-main">
-	  <div className="dashboard-grid">
-	   {panel && <aside className="dashboard-panel">{panel}</aside>}
+	   <div className="dashboard-grid">
+	     {panel && (
+		   <aside className="dashboard-panel" aria-label="Task lists">
+		     {panel}
+		   </aside>
+		 )}
 	   <section className="dashboard-workspace">{content}</section>
 	  </div>
 	 </main>

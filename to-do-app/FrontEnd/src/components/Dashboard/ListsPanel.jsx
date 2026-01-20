@@ -1,6 +1,6 @@
 //****************************************************************************************
 // Filename: ListsPanel.jsx
-// Date: 15 January 2026
+// Date: 19 January 2026
 // Author: Kyle McColgan
 // Description: This file contains the ListsPanel React component for ShowMeTasks.
 //****************************************************************************************
@@ -13,6 +13,7 @@ const ListsPanel = ({ open, lists, selected, onSelect, onClose }) => {
   return (
 	<aside
 	  className={`lists-panel ${open ? "open" : ""}`}
+	  role="navigation"
 	  aria-label="Task lists"
 	>
 	  <header className="lists-header">
@@ -29,6 +30,7 @@ const ListsPanel = ({ open, lists, selected, onSelect, onClose }) => {
 			key={list.id}
 			className={`lists-item ${selected?.id === list.id ? "active" : ""}`}
 			onClick={() => onSelect(list)}
+			aria-current={selected?.id === list.id ? "true" : undefined}
 		  >
 			{list.name}
 		  </button>
@@ -37,7 +39,7 @@ const ListsPanel = ({ open, lists, selected, onSelect, onClose }) => {
 		
 		{/* Mobile-only Close Button. */}
 		<button className="lists-close" onClick={onClose}>
-		  Close
+		  Close lists
 		</button>
 	  </aside>
 	);

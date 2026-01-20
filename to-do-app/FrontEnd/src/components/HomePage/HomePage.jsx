@@ -1,6 +1,6 @@
 //****************************************************************************************
 // Filename: HomePage.jsx
-// Date: 10 January 2026
+// Date: 18 January 2026
 // Author: Kyle McColgan
 // Description: This file contains the React HomePage component for ShowMeTasks.
 //****************************************************************************************
@@ -10,7 +10,7 @@ import "./HomePage.css";
 
 const HomePage = () => {
 	return (
-	  <div className="home">
+	  <main className="home">
 	    {/* Hero Section. */}
 	    <section className="home-hero">
 		  <span className="home-eyebrow">Simple task management</span>
@@ -54,7 +54,7 @@ const HomePage = () => {
 			</p>
 		  </article>
 		</section>
-	  </div>
+	  </main>
 	);
 };
 

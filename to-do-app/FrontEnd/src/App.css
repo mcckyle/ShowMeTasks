@@ -15,6 +15,11 @@
 	padding: 0; /* Let routes control their own spacing. */
 }
 
+/* Every route fills available width. */
+.app-main > * {
+	width: 100%;
+}
+
 /* Not Found Styles. */
 .not-found {
 	margin-top: 20vh;

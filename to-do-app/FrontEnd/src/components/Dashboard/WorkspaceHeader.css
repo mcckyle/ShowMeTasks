@@ -1,52 +1,81 @@
 /* Filename: src/components/Dashboard/WorkspaceHeader.css */
 
-/* Workspace Header Container Styles. */
+/* ====================================
+    Workspace Header Container Styles.
+======================================= */
 .workspace-header {
 	display: flex;
-	align-items: flex-start;
+	align-items: center;
 	justify-content: space-between;
 	
 	gap: 1rem;
 	padding-bottom: 0.75rem;
+	border-bottom: 1px solid var(--border-dark);
 }
 
-/* Workspace Header Title Container Styles. */
+/* ====================================
+    Workspace Header Main Title Container Styles.
+======================================= */
 .workspace-header-main {
 	display: flex;
 	flex-direction: column;
-	gap: 0.35rem;
+	gap: 0.25rem;
+	
 	min-width: 0;
+	overflow: hidden;
 }
 
-/* Workspace Header Title Styles. */
+/* ====================================
+    Workspace Header Title Styles.
+======================================= */
 .workspace-title {
-	font-size: 1.5rem;
+	font-size: clamp(1.45rem, 2vw, 1.7rem);
 	font-weight: 600;
 	letter-spacing: -0.02em;
-	line-height: 1.2;
+	line-height: 1.15;
 	
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	color: var(--text-light);
 }
-.workspace-meta { font-size: 0.75rem; opacity: 0.55; }
+.workspace-meta { font-size: 0.75rem; opacity: 0.55; color: var(--text-light); }
 
-/* Workspace Header Action Button styles. */
+/* ====================================
+    Workspace Header Action Button Styles.
+======================================= */
 .workspace-action {
 	text-transform: none !important;
 	font-size: 0.8rem !important;
 	font-weight: 500 !important;
 	
-	padding: 4px 8px;
+	padding: 6px 12px;
+	border-radius: 999px;
 	min-width: auto;
+	opacity: 0.65;
 	
-	opacity: 0.6;
-	border-radius: 8px;
+	transition: opacity 0.15s ease, background 0.15s ease, transform 0.15s ease;
 }
-.workspace-action:hover { opacity: 1; background: rgba(255, 255, 255, 0.06); }
+.workspace-action:hover {
+	opacity: 1;
+	background: rgba(255, 255, 255, 0.08);
+	transform: translateY(-1px);
+}
 
+/* ====================================
+    Workspace Header Light Mode Styles.
+======================================= */
 @media (prefers-color-scheme: light) {
-	.workspace-action:hover {
-		background: rgba(0, 0, 0, 0.05);
+	.workspace-action:hover { background: rgba(0, 0, 0, 0.05); }
+}
+
+/* ====================================
+    Workspace Header Media Query Styles.
+======================================= */
+@media (max-width: 500px) {
+	.workspace-header {
+		flex-direction: row;
+		align-items: center;
 	}
+	.workspace-action { padding-inline: 10px; }
 }
