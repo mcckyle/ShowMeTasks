@@ -1,4 +1,10 @@
-//Filename: src/components/Profile/Profile.jsx
+//****************************************************************************************
+// Filename: Profile.jsx
+// Date: 20 January 2026
+// Author: Kyle McColgan
+// Description: This file contains the React Profile component for ShowMeTasks.
+//****************************************************************************************
+
 
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";

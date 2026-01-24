@@ -1,22 +1,26 @@
 //****************************************************************************************
 // Filename: TaskListView.jsx
-// Date: 19 January 2026
+// Date: 23 January 2026
 // Author: Kyle McColgan
 // Description: This file contains the TaskListView React component for ShowMeTasks.
 //****************************************************************************************
 
 import { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext";
-import { Card, Typography, Button, TextField, Tooltip } from "@mui/material";
+import { updateList, deleteList } from "../../services/ListService";
+import { getTasks, createTask, updateTask, deleteTask } from "../../services/TaskService";
+import { Card, Typography, Button, TextField, Tooltip, Checkbox } from "@mui/material";
+
 import "./TaskListView.css";
 
 const TaskListView = ({ selectedList }) => {
 	const { accessToken } = useContext(AuthContext);
-	const [todos, setTodos] = useState([]);
+	const [tasks, setTasks] = useState([]);
 	const [editingId, setEditingId] = useState(null);
 	const [editingText, setEditingText] = useState("");
 	const [editingListName, setEditingListName] = useState(false);
 	const [listName, setListName] = useState(selectedList?.name || "");
+	const [loading, setLoading] = useState(true);
 	
 	/* Sync list name on selection changes. */
 	useEffect(() => {
@@ -24,32 +28,43 @@ const TaskListView = ({ selectedList }) => {
 		setEditingListName(false);
 	}, [selectedList]);
 	
-	/* Fetch Tasks. */
+	/* Fetch tasks here, not lists. */
 	useEffect(() => {
-		if ( ! selectedList)
+		if ( ( ! selectedList) || ( ! accessToken) )
 		{
 			return;
 		}
+		let isMounted = true;
 		
-		const fetchTodos = async () => {
+		const loadTasks = async () => {
 			try
 			{
-				const result = await fetch(`http://localhost:8080/api/todos/${selectedList.id}`, {
-					headers: { Authorization: `Bearer ${accessToken}` },
-				});
+				setLoading(true);
+				const data = await getTasks(selectedList.id, accessToken);
 				
-				if (result.ok)
+				if (isMounted)
 				{
-					const data = await result.json();
-					setTodos(data);
+					setTasks(data ?? []);
 				}
 			}
 			catch (error)
 			{
-				console.error("Error fetching tasks:", error);
+				console.error("Failed to load tasks:", error);
 			}
+			finally
+			{
+				if (isMounted)
+				{
+					setLoading(false);
+				}
+			}
+		}
+		
+		loadTasks();
+		
+		return () => {
+			isMounted = false;
 		};
-		fetchTodos();
 	}, [selectedList, accessToken]);
 	
 	const handleUpdateListName = async () => {
@@ -60,19 +75,13 @@ const TaskListView = ({ selectedList }) => {
 		
 		try
 		{
-			const result = await fetch(`http://localhost:8080/api/todos/list/${selectedList.id}`, {
-				method: "PUT",
-				headers: {
-					Authorization: `Bearer ${accessToken}`,
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({ name: listName }),
-			});
+			await updateList(
+			    selectedList.id,
+				{ name: listName.trim() },
+				accessToken
+			);
 			
-			if (result.ok)
-			{
-				setEditingListName(false);
-			}
+			setEditingListName(false);
 		}
 		catch (error)
 		{
@@ -81,30 +90,25 @@ const TaskListView = ({ selectedList }) => {
 	};
 	
 	const handleUpdateTask = async (taskId) => {
-		if ( ! editingText.trim())
+		const newText = editingText.trim();
+		if ( ! newText)
 		{
 			return;
 		}
 		
 		try
 		{
-			const result = await fetch(`http://localhost:8080/api/todos/${taskId}`, {
-				method: "PUT",
-				headers: {
-					Authorization: `Bearer ${accessToken}`,
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({ description: editingText }),
-			});
+			await updateTask(
+			    taskId,
+				{ description: newText },
+				accessToken
+			);
 			
-			if (result.ok)
-			{
-				const updated = await result.json();
-				setTodos((prev) =>
-				  prev.map((t) => (t.id === taskId ? updated : t))
-				);
-				setEditingId(null);
-			}
+			setTasks((prev) =>
+				  prev.map((t) => (t.id === taskId ? { ...t, description: newText } : t))
+			);
+			
+			setEditingId(null);
 		}
 		catch (error)
 		{
@@ -124,12 +128,8 @@ const TaskListView = ({ selectedList }) => {
 		
 		try
 		{
-			await fetch(`http://localhost:8080/api/todos/list/${selectedList.id}`, {
-				method: "DELETE",
-				headers: { Authorization: `Bearer ${accessToken}` },
-			});
-			
-			window.location.reload(); //Or lift state here...
+			await deleteList(selectedList.id, accessToken);
+			window.location.reload();
 		}
 		catch (error)
 		{
@@ -140,16 +140,41 @@ const TaskListView = ({ selectedList }) => {
 	const handleDeleteTask = async (id) => {
 		try
 		{
-			await fetch(`http://localhost:8080/api/todos/${id}`, {
-				method: "DELETE",
-				headers: { Authorization: `Bearer ${accessToken}` },
-			});
-
-			setTodos((prev) => prev.filter((t) => t.id !== id));
+			await deleteTask(id, accessToken);
+			setTasks((prev) => prev.filter((t) => t.id !== id));
 		}
 		catch (error)
 		{
 			console.error("Error deleting task: ", error);
+		}
+	};
+	
+	const handleToggleCompleted = async (task) => {
+		const nextCompleted = ! task.completed;
+		
+		//Optimistic UI.
+		setTasks((prev) =>
+		    prev.map((t) => (t.id === task.id ? { ...t, completed: nextCompleted } : t))
+		);
+		
+		try
+		{
+			await updateTask(
+			    task.id,
+				{
+				  completed: nextCompleted,
+				  description: task.description, //Preserve task description...
+				},
+				accessToken
+			);
+		}
+		catch (error)
+		{
+			//Roll back if needed...
+			setTasks((prev) =>
+		        prev.map((t) => (t.id === task.id ? { ...t, completed: task.completed } : t))
+			);
+			console.error("Failed to toggle task: ", error);
 		}
 	};
 	
@@ -197,7 +222,7 @@ const TaskListView = ({ selectedList }) => {
 		 )}
 		 
 		 <Typography className="tasklist-count">
-		    {todos.length} {todos.length === 1 ? "task" : "tasks"}
+		    {tasks.length} {tasks.length === 1 ? "task" : "tasks"}
 		  </Typography>
 		</div>
 		
@@ -224,18 +249,22 @@ const TaskListView = ({ selectedList }) => {
 		
 		{/* Tasks. */}
 		<section className="tasklist-content">
-		  {todos.length === 0 ? (
+		  {loading ? (
+		    <Typography className="tasklist-empty">
+			  Loading tasks…
+			</Typography>
+		  ) : tasks.length === 0 ? (
 		    <Typography className="tasklist-empty">
 			  Add your first task to get started.
 			</Typography>
 		  ) : (
-		   todos.map((task) => (
-			 <div key={task.id} className="task-row">
+		   tasks.map((task) => (
+		  <div key={task.id} className={`task-row ${task.completed ? "completed" : ""}`}>
+		    <Checkbox size="small" checked={Boolean(task.completed)} onChange={() => handleToggleCompleted(task)} />
 				{editingId === task.id ? (
 				   <TextField
 				     value={editingText}
 					 onChange={(e) => setEditingText(e.target.value)}
-					 onBlur={() => setEditingId(null)}
 					 onKeyDown={(e) => {
 						 if (e.key === "Enter") handleUpdateTask(task.id);
 						 if (e.key === "Escape") setEditingId(null);

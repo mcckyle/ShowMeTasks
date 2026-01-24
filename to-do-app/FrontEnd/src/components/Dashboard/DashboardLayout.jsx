@@ -1,13 +1,13 @@
 //****************************************************************************************
 // Filename: DashboardLayout.jsx
-// Date: 19 January 2026
+// Date: 23 January 2026
 // Author: Kyle McColgan
 // Description: This file contains the DashboardLayout React component for ShowMeTasks.
 //****************************************************************************************
 
 import "./DashboardLayout.css";
 
-const DashboardLayout = ({ header, content, composer, panel }) => {
+const DashboardLayout = ({ header, content, composer, panel, panelOpen }) => {
   return (
    <div className="dashboard-root">
      <header className="dashboard-header">
@@ -19,11 +19,20 @@ const DashboardLayout = ({ header, content, composer, panel }) => {
 	 <main className="dashboard-main">
 	   <div className="dashboard-grid">
 	     {panel && (
-		   <aside className="dashboard-panel" aria-label="Task lists">
+		   <aside
+		     className={`dashboard-panel ${panelOpen ? "open" : ""}`}
+			 aria-label="Task lists"
+		   >
 		     {panel}
 		   </aside>
 		 )}
-	   <section className="dashboard-workspace">{content}</section>
+	   <section
+	     className="dashboard-workspace"
+		 role="region"
+		 aria-label="Workspace"
+		>
+		  {content}
+		</section>
 	  </div>
 	 </main>
 	 

@@ -2,7 +2,7 @@
 //
 //     Filename: ToDoApplicationService.java
 //     Author: Kyle McColgan
-//     Date: 14 January 2026
+//     Date: 22 January 2026
 //     Description: This class acts as a bridge for two other classes,
 //                  the ToDoService.java and TaskListService.java classes.
 //
@@ -14,6 +14,7 @@ import com.mcckyle.to_do_app.Exceptions.TaskListNotFoundException;
 import com.mcckyle.to_do_app.Models.TaskList;
 import com.mcckyle.to_do_app.Models.ToDoObj;
 import com.mcckyle.to_do_app.Models.User;
+import com.mcckyle.to_do_app.payload.TaskUpdateRequest;
 import com.mcckyle.to_do_app.payload.ToDoRequest;
 import com.mcckyle.to_do_app.payload.UserRegistrationDTO;
 import jakarta.persistence.EntityNotFoundException;
@@ -31,7 +32,10 @@ public class ToDoApplicationService
     private final ToDoService toDoService;
     private final TaskListService taskListService;
 
-    public ToDoApplicationService(UserService userService, @Lazy ToDoService toDoService, TaskListService taskListService)
+    public ToDoApplicationService(
+            UserService userService,
+            @Lazy ToDoService toDoService,
+            TaskListService taskListService)
     {
         this.userService = userService;
         this.toDoService = toDoService;
@@ -41,18 +45,29 @@ public class ToDoApplicationService
     /**
      * Registers a new user and provisions a default task list and task.
      */
-    public User registerUserWithDefaultTask(ToDoRequest request, String username, String email, String password)
+    public User registerUserWithDefaultTask(
+            ToDoRequest request,
+            String username,
+            String email,
+            String password)
     {
-        User user = userService.registerUser(new UserRegistrationDTO(username, email, password));
+        User user = userService.registerUser(
+                new UserRegistrationDTO(username, email, password)
+        );
 
         //Create a default TaskList for the user.
         TaskList defaultList = getOrCreateDefaultTaskList(user);
 
         //Create a default task and assign it to the TaskList.
-        ToDoObj welcomeTask = new ToDoObj(request.getDescription(), false, LocalDateTime.now(), defaultList);
+        ToDoObj welcomeTask = new ToDoObj(
+                request.getDescription(),
+                false,
+                LocalDateTime.now(),
+                defaultList
+        );
         welcomeTask.setUser(user);
-        toDoService.save(welcomeTask);
 
+        toDoService.save(welcomeTask);
         return user;
     }
 
@@ -101,6 +116,17 @@ public class ToDoApplicationService
         return taskListService.findByUser(user);
     }
 
+    /**
+     * Get all tasks for a specific task list owned by a user.
+     */
+    public List<ToDoObj> getTasksForList(Integer taskListId, User user)
+    {
+        requireValidUser(user);
+
+        TaskList taskList = getOwnedTaskList(taskListId, user);
+        return taskList.getTasks();
+    }
+
     public ToDoObj createTask(String description, Integer taskListId, User user)
     {
         requireValidUser(user);
@@ -120,14 +146,19 @@ public class ToDoApplicationService
     }
 
     //Update a task...
-    public ToDoObj updateTaskDescription(Integer taskId, String description, User user)
+    public ToDoObj updateTask(Integer taskId, TaskUpdateRequest request, User user)
     {
-        requireValidUser(user);
-        ToDoObj task = toDoService.findById(taskId)
-                .orElseThrow(() -> new EntityNotFoundException("Task not found."));
+        ToDoObj task = findTaskForUser(taskId, user);
 
-        assertOwnership(task.getUser(), user);
-        task.setDescription(description);
+        if (request.getDescription() != null)
+        {
+            task.setDescription(request.getDescription());
+        }
+
+        if (request.getCompleted() != null)
+        {
+            task.setCompleted(request.getCompleted());
+        }
 
         return toDoService.save(task);
     }
@@ -157,18 +188,30 @@ public class ToDoApplicationService
     {
         TaskList taskList = taskListService.findById(taskListId)
                 .orElseThrow(() ->
-                        new TaskListNotFoundException("Task list not found.")
+                        new TaskListNotFoundException("Task list not found!")
                 );
 
         assertOwnership(taskList.getUser(), user);
         return taskList;
     }
 
+    private ToDoObj findTaskForUser(Integer taskId, User user)
+    {
+        requireValidUser(user);
+
+        ToDoObj task = toDoService.findById(taskId)
+                .orElseThrow(() -> new EntityNotFoundException("Task not found!"));
+
+        assertOwnership(task.getUser(), user);
+
+        return task;
+    }
+
     private void assertOwnership(User owner, User actor)
     {
         if ( ! owner.getId().equals(actor.getId()))
         {
-            throw new RuntimeException("Unauthorized access.");
+            throw new RuntimeException("Unauthorized access!");
         }
     }
 
@@ -176,7 +219,7 @@ public class ToDoApplicationService
     {
         if ( (user == null) || (user.getId() == null) )
         {
-            throw new IllegalArgumentException("Invalid user.");
+            throw new IllegalArgumentException("Invalid user!");
         }
     }
 
@@ -184,12 +227,12 @@ public class ToDoApplicationService
     {
         if ( (name == null) || (name.isBlank()) )
         {
-            throw new IllegalArgumentException("Name cannot be empty.");
+            throw new IllegalArgumentException("Name cannot be empty!");
         }
 
         if (name.length() > 255)
         {
-            throw new IllegalArgumentException("Name is too long.");
+            throw new IllegalArgumentException("Name is too long!");
         }
     }
 }

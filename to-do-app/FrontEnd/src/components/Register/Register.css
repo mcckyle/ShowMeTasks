@@ -4,15 +4,27 @@
     Register Container Styles.
 ======================================= */
 .register {
-	background: transparent;
-	box-shadow: none;
-	border: none;
+	max-width: 420px;
+	width: 90%;
+	margin-inline: auto;
+	margin-block: clamp(4rem, 8vw, 6rem);
 	
 	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	
+	background: var(--surface-dark);
+	border-radius: var(--radius-lg);
+	border: 1px solid var(--border-dark);
+	box-shadow: 0 12px 32px rgba(0, 0, 0, 0.16);
+	padding: clamp(2rem, 4vw, 3rem);
+	
+	transition: background var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 /* ====================================
-    Register Form Styles.
+    Register Form Layout Styles.
 ======================================= */
 .register-form {
 	width: 100%;
@@ -30,25 +42,26 @@
 	
 	display: flex;
 	flex-direction: column;
-	gap: 0.35rem;
+	gap: 0.5rem;
 }
-.register-subtitle { font-size: 0.9rem; opacity: 0.75; }
+.register-subtitle { font-size: 0.95rem; opacity: 0.75; color: var(--text-muted-light); }
 
 /* ====================================
-    Registration Fields Styles.
+    Registration Form Fields Styles.
 ======================================= */
 .register-fields
 {
 	display: flex;
 	flex-direction: column;
-	gap: 0.9rem;
+	gap: 1rem;
 }
+.MuiInputBase-root { background: var(--bg-dark); border-radius: var(--radius-sm); }
 
 /* ====================================
     Registration Error Message Styles.
 ======================================= */
 .register-error {
-	font-size: 0.85rem;
+	font-size: 0.875rem;
 	color: var(--error);
 	text-align: center;
 	margin-top: -0.25rem;
@@ -60,21 +73,34 @@
 .register-button {
 	border-radius: 999px;
 	font-weight: 600;
-	padding: 0.75rem 1.25rem;
+	padding: 0.85rem 1.5rem;
 	background: var(--primary);
 	color: #fff;
+	box-shadow: 0 6px 18px rgba(75, 123, 253, 0.22);
 	
-	transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.2s ease;
+	transition: all var(--transition-fast);
 }
 .register-button:hover {
 	background: var(--accent);
-	transform: translateY(-1px);
-	box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+	transform: translateY(-2px);
+	box-shadow: 0 10px 28px rgba(75, 123, 253, 0.28);
+}
+
+/* ====================================
+    Register Light Mode Styles.
+======================================= */
+@media (prefers-color-scheme: light) {
+  .register {
+	  background: var(--surface-light);
+	  border-color: var(--border-light);
+  }
+  .MuiInputBase-root { background: var(--bg-light); }
 }
 
 /* ====================================
     Registration Media Query Styles.
 ======================================= */
 @media (max-width: 600px) {
+	.register { padding: 1.75rem 1.5rem; }
 	.register-form { gap: 1.5rem;  }
 }

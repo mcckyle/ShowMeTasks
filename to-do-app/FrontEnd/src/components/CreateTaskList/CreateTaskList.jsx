@@ -1,19 +1,20 @@
 //****************************************************************************************
 // Filename: CreateTaskList.jsx
-// Date: 19 January 2026
+// Date: 23 January 2026
 // Author: Kyle McColgan
 // Description: This file contains the CreateTaskList React component for ShowMeTasks.
 //****************************************************************************************
 
 import { useState, useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
+import { createList } from "../../services/ListService";
 import { TextField, Button } from "@mui/material";
 import "./CreateTaskList.css"; // Import the CSS file
 
 const CreateTaskList = ({ onTaskListCreated }) => {
 	const { user, accessToken } = useContext(AuthContext);
     const [name, setName] = useState("");
-	const canSubmit = user && accessToken && name.trim();
+	const canSubmit = Boolean(user && accessToken && name.trim());
 
     const submit = async () => {
 		if ( ! canSubmit )
@@ -21,23 +22,14 @@ const CreateTaskList = ({ onTaskListCreated }) => {
             return;
         }
 
-        try {
-            const response = await fetch("http://localhost:8080/api/todos/list", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${accessToken}`,
-                },
-                body: JSON.stringify({ username: user.username, name: name.trim() }),
-            });
-
-            if ( ! response.ok)
-			{
-                throw new Error();
-            }
-
-            const newList = await response.json();
-            //console.log("Task list created: ", newList);
+        try
+		{
+            const newList = await createList(
+			    { name: name.trim() },
+				accessToken
+            );
+			
+			//console.log("Task list created: ", newList);
             setName(""); // Clear the input field.
 			onTaskListCreated?.(newList);
         }
@@ -48,15 +40,17 @@ const CreateTaskList = ({ onTaskListCreated }) => {
     };
 
     return (
-		<div
+		<section
 		  className="create-tasklist"
 		  role="group"
 		  aria-label="Create new task list"
 		>
 			<TextField
-			    placeholder="Create new list…"
+			    className="create-tasklist-input"
+			    placeholder="New list…"
 				size="small"
 				fullWidth
+				autoFocus
 				value={name}
 				onChange={(e) => setName(e.target.value)}
 				onKeyDown={(e) => {
@@ -66,14 +60,14 @@ const CreateTaskList = ({ onTaskListCreated }) => {
 			/>
 			
 			<Button
-			  size="small"
 			  variant="contained"
+			  size="small"
 			  disabled={ ! canSubmit}
 			  onClick={submit}
 			>
 				Add
 			</Button>
-		</div>
+		</section>
     );
 };
 

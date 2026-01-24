@@ -1,7 +1,7 @@
 /* Filename: src/components/Dashboard/WorkspaceContent.css */
 
 /* ====================================
-    Main WorkspaceContent Area Styles.
+    WorkspaceContent Area Styles.
 ======================================= */
 .workspace-content {
 	flex: 1;
@@ -11,16 +11,22 @@
 	flex-direction: column;
 	gap: 1rem;
 	
-	padding: 1.25rem 0 0;
+	padding-top: 1rem;
 	overflow-y: auto;
+	
 	scroll-behavior: smooth;
+	overscroll-behavior: contain;
 }
-.workspace-content::-webkit-scrollbar { width: 8px; }
-.workspace-content::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.12); border-radius: 999px; }
+
+/* ====================================
+    WorkspaceContent Scrollbar Styles.
+======================================= */
+.workspace-content::-webkit-scrollbar { width: 6px; }
+.workspace-content::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.14); border-radius: 999px; }
 .workspace-content::-webkit-scrollbar-track { background: transparent; }
 
 /* ====================================
-    WorkspaceContent Light Mode Styles.
+    WorkspaceContent Light Mode Scrollbar Styles.
 ======================================= */
 @media (prefers-color-scheme: light) {
 	.workspace-content::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, 0.12); }
@@ -30,5 +36,5 @@
     WorkspaceContent Media Query Styles.
 ======================================= */
 @media (max-width: 900px) {
-	.workspace-content { padding-top: 1rem; }
+	.workspace-content { padding-top: 0.75rem; }
 }

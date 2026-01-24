@@ -1,29 +1,46 @@
 /* Filename: src/App.css */
 
-/* App Shell Styles. */
+/* ====================================
+    App Shell Styles.
+======================================= */
 .app-shell {
 	min-height: 100vh;
 	display: flex;
 	flex-direction: column;
+	background: var(--bg-dark);
+	color: var(--text-light);
+	font-family: var(--font-sans);
+	
+	transition: background var(--transition-fast), color var(--transition-fast);
 }
 
 /* Main Content Area Styles. */
 .app-main {
 	flex: 1;
-	display: block;
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+	padding: var(--space-2xl) var(--space-lg);
 	width: 100%;
-	padding: 0; /* Let routes control their own spacing. */
 }
 
-/* Every route fills available width. */
+/* Every route fills its container. */
 .app-main > * {
 	width: 100%;
+	max-width: 1200px;
+	border-radius: var(--radius-lg);
+	background: var(--surface-dark);
+	padding: var(--space-xl);
+	box-shadow: var(--shadow-md);
+	
+	transition: box-shadow var(--transition-fast);
 }
+.app-main > *:hover { box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3); }
 
-/* Not Found Styles. */
+/* Not Found Route Styles. */
 .not-found {
 	margin-top: 20vh;
 	text-align: center;
-	font-size: 1.5rem;
+	font-size: var(--text-2xl);
 	opacity: 0.65;
 }

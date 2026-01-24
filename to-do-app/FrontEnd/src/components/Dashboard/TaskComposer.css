@@ -10,28 +10,26 @@
 	
 	display: flex;
 	align-items: center;
-	gap: 0.75rem;
+	gap: 0.6rem;
 	
-	padding: 0.9rem 1.25rem;
+	padding: 0.85rem 1.25rem;
 	background: var(--surface-dark);
 	backdrop-filter: blur(10px);
-	
-	transition: background 0.2s ease;
 }
 
 /* ====================================
-    Simple Gradient Separation Styles.
+    Simple Top Gradient Separator Styles.
 ======================================= */
 .task-composer::before {
 	content: "";
 	position: absolute;
-	top: -14px;
+	top: -12px;
 	left: 0;
 	right: 0;
-	height: 14px;
+	height: 12px;
 	
 	pointer-events: none;
-	background: linear-gradient(to top, rgba(0, 0, 0, 0.1), transparent);
+	background: linear-gradient(to top, rgba(0, 0, 0, 0.18), transparent);
 }
 
 /* ====================================
@@ -40,12 +38,12 @@
 .task-composer-input
 {
 	flex: 1;
-	background: rgba(255, 255, 255, 0.04);
 	border-radius: var(--radius-md);
+	background: rgba(255, 255, 255, 0.04);
 	
-	transition: box-shadow 120ms ease, background 120ms ease;
+	transition: background 120ms ease, box-shadow 120ms ease;
 }
-.task-composer-input:focus-within { box-shadow: 0 0 0 2px var(--primary); }
+.task-composer-input:focus-within { background: rgba(255, 255, 255, 0.08); box-shadow: 0 0 0 2px var(--primary); }
 
 /* ====================================
     TaskComposer Add Button Styles.
@@ -60,7 +58,7 @@
 	
 	transition: transform 120ms ease, opacity 120ms ease;
 }
-.task-composer button:disabled { opacity: 0.5; }
+.task-composer button:disabled { opacity: 0.45; }
 .task-composer button:not(:disabled):hover { transform: translateY(-1px); }
 
 /* ====================================
@@ -71,9 +69,6 @@
 }
 :root[data-theme="dark"] .task-composer::before {
 	background: linear-gradient(to top, rgba(0, 0, 0, 0.35), transparent);
-}
-:root[data-theme="dark"] .task-composer-input {
-	background: rgba(255, 255, 255, 0.06);
 }
 
 /* ====================================

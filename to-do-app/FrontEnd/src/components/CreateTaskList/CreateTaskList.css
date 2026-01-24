@@ -7,23 +7,22 @@
 {
 	display: flex;
 	align-items: center;
-	gap: 0.5rem;
-	
-	padding: 0.25rem 0;
+	gap: 0.6rem;
+	padding: 0.35rem 0;
 }
 
 /* ====================================
     CreateTaskList Input Styles.
 ======================================= */
-.create-tasklist .MuiInputBase-root {
+.create-tasklist-input .MuiInputBase-root {
 	font-size: 0.85rem;
-	border-radius: 10px;
+	border-radius: var(--radius-sm);
 	background: rgba(255, 255, 255, 0.035);
 	
 	transition: background 120ms ease, box-shadow 120ms ease;
 }
-.create-tasklist .MuiInputBase-root:hover { background: rgba(255, 255, 255, 0.055); }
-.create-tasklist .MuiInputBase-root.Mui-focused { box-shadow: 0 0 0 2px rgba(75, 123, 253, 0.4); }
+.create-tasklist-input .MuiInputBase-root:hover { background: rgba(255, 255, 255, 0.055); }
+.create-tasklist-input .MuiInputBase-root.Mui-focused { box-shadow: 0 0 0 2px rgba(75, 123, 253, 0.4); }
 
 /* ====================================
     CreateTaskList Button Styles.
@@ -33,18 +32,18 @@
 	font-weight: 500;
 	font-size: 0.8rem;
 	
-	border-radius: 10px;
-    padding-inline: 0.4rem 0.75rem;
+	padding: 0.35rem 0.75rem;
 	min-width: auto;
+	border-radius: 999px;
 	
-	transition: opacity 120ms ease, transform 120ms ease;
+	transition: transform 120ms ease, opacity 120ms ease;
 }
 .create-tasklist button:not(:disabled):hover { transform: translateY(-1px); }
-.create-tasklist button:disabled { opacity: 0.4; transform: none; }
+.create-tasklist button:disabled { opacity: 0.45; transform: none; }
 
 /* ====================================
     CreateTaskList Dark Mode Styles.
 ======================================= */
-:root[data-theme="dark"] .create-tasklist input {
+:root[data-theme="dark"] .create-tasklist-input input {
 	color: inherit;
 }

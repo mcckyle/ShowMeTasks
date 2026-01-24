@@ -1,12 +1,14 @@
 //****************************************************************************************
 // Filename: Dashboard.jsx
-// Date: 19 January 2026
+// Date: 23 January 2026
 // Author: Kyle McColgan
 // Description: This file contains the Dashboard React component for ShowMeTasks.
 //****************************************************************************************
 
 import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext";
+import { getLists, deleteList } from "../../services/ListService";
+import { createTask } from "../../services/TaskService";
 import DashboardLayout from "./DashboardLayout";
 import WorkspaceHeader from "./WorkspaceHeader";
 import WorkspaceContent from "./WorkspaceContent";
@@ -22,6 +24,8 @@ const Dashboard = () => {
 	const [selectedList, setSelectedList] = useState(null);
 	const [loading, setLoading] = useState(true);
 	const [listsOpen, setListsOpen] = useState(false);
+	const [selectionMode, setSelectionMode] = useState(false);
+	const [selectedIds, setSelectedIds] = useState(new Set());
 	
 	/* Fetch Task Lists. */
 	useEffect(() => {
@@ -29,32 +33,25 @@ const Dashboard = () => {
 		{
 			return;
 		}
-		
 		let isMounted = true;
 		
-		const fetchLists = async () => {
+		const loadLists = async () => {
 			try
 			{
-				const response = await fetch("http://localhost:8080/api/todos/list", {
-					headers: { Authorization: `Bearer ${accessToken}` },
-				});
+				setLoading(true);
+				const lists = await getLists(accessToken);
 				
-				if ( ! response.ok)
+				if ( ! isMounted)
 				{
-					throw new Error("Failed to fetch lists!");
+					return;
 				}
 				
-				const data = await response.json();
-				
-				if (isMounted)
-				{
-					setTaskLists(data);
-					setSelectedList((prev) => prev ?? data[0] ?? null);
-				}
+				setTaskLists(lists);
+				setSelectedList((prev) => prev ?? lists?.[0] ?? null);
 			}
 			catch (error)
 			{
-				console.error("Error fetching lists: ", error);
+				console.error("Failed to load task lists:", error);
 			}
 			finally
 			{
@@ -63,8 +60,9 @@ const Dashboard = () => {
 					setLoading(false);
 				}
 			}
-		};
-		fetchLists();
+		}
+		
+		loadLists();
 		
 		return () => {
 			isMounted = false;
@@ -80,31 +78,33 @@ const Dashboard = () => {
 		
 		try
 		{
-			const response = await fetch("http://localhost:8080/api/todos", {
-				method: "POST",
-				headers: {
-					Authorization: `Bearer ${accessToken}`,
-					"Content-Type": "application/json",
+			const newTask = await createTask(
+			    {
+					taskListId: selectedList.id,
+					description: text,
 				},
-				body: JSON.stringify({ taskListId: selectedList.id, description: text }),
-			});
-			
-			if ( ! response.ok)
-			{
-				throw new Error("Failed to add task!");
-			}
-			
-			const newTask = await response.json();
+				accessToken
+			);
 			
 			//Update selectedList locally...
 			setSelectedList((prev) => ({
 				...prev,
 				tasks: [...(prev.tasks ?? []), newTask],
 			}));
+			
+			//Keep lists in sync.
+			setTaskLists((prev) =>
+			    prev.map((list) =>
+				    list.id === selectedList.id
+					    ? { ...list, tasks: [...(list.tasks ?? []), newTask] }
+						: list
+				
+				)
+			);
 		}
 		catch (error)
 		{
-			console.error("Error adding task: ", error);
+			console.error("Failed to add task: ", error);
 		}
 	};
 	
@@ -112,6 +112,64 @@ const Dashboard = () => {
 	const handleListCreated = (newList) => {
 		setTaskLists((prev) => [...prev, newList]);
 		setSelectedList(newList);
+	};
+	
+	/* Bulk delete lists helpers. */
+	const toggleSelection = (id) => {
+		setSelectedIds(prev => {
+			const next = new Set(prev);
+			next.has(id) ? next.delete(id) : next.add(id);
+			return next;
+		});
+	};
+	
+	const clearSelection = () => {
+		setSelectedIds(new Set());
+		setSelectionMode(false);
+	};
+	
+	const onDeleteSelected = async () => {
+		if ( ( ! accessToken) || (selectedIds.size === 0))
+		{
+			return;
+		}
+		
+		const idsToDelete = Array.from(selectedIds);
+		
+		//Optimistic UI updates...
+		setTaskLists(prev =>
+		  prev.filter(list => ! selectedIds.has(list.id))
+		);
+		
+		//Clear the currently selected list if it was deleted...
+		setSelectedList(prev =>
+		  prev && selectedIds.has(prev.id) ? null : prev
+		);
+		
+		clearSelection();
+		
+		try
+		{
+			await Promise.all(
+			  idsToDelete.map(id => deleteList(id, accessToken))
+			);
+		}
+		catch (error)
+		{
+			console.error("Failed to delete one or more lists:", error);
+			
+			//Refetch lists to resync state...
+			try
+			{
+				const lists = await getLists(accessToken);
+				setTaskLists(lists);
+				setSelectedList(lists?.[0] ?? null);
+			}
+			catch (reloadError)
+			{
+				console.error("Failed to reload lists after delete list failure:", reloadError);
+			}
+		}
 	};
 	
 	const renderContent = () => {
@@ -130,7 +188,7 @@ const Dashboard = () => {
 		if ( ! selectedList)
 		{
 			return (
-			  <div className="dashboard-state">
+			  <div className="dashboard-state" role="region" aria-label="Workspace state">
 				<span className="dashboard-state-title">Your workspace is empty</span>
 				<span className="dashboard-state-subtitle">
 				  Create a task list to start organizing your work.
@@ -164,8 +222,15 @@ const Dashboard = () => {
 			  onSelect={setSelectedList}
 			  onClose={() => setListsOpen(false)}
 			  onCreated={handleListCreated}
+			  selectionMode={selectionMode}
+			  setSelectionMode={setSelectionMode}
+			  selectedIds={selectedIds}
+			  toggleSelection={toggleSelection}
+			  onDeleteSelected={onDeleteSelected}
+			  clearSelection={clearSelection}
 			/>
 		}
+		panelOpen={listsOpen}
 	  />
 	);
 };

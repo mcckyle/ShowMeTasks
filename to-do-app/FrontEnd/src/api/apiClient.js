@@ -1,46 +1,31 @@
-//Filename: src/api/apiClient.js
+//****************************************************************************************
+// Filename: apiClient.js
+// Date: 21 January 2026
+// Author: Kyle McColgan
+// Description: This file contains the API client for ShowMeTasks.
+//****************************************************************************************
 
-const BASE_URL = "http://localhost:8080/api";
+const API_BASE = import.meta.env.VITE_API_URL ?? "http://localhost:8080/api/todos";
 
-async function request(endpoint, method = "GET", body = null)
+async function request(path, { method = "GET", token, body } = {})
 {
-	const options = {
+	const response = await fetch(`${API_BASE}${path}`, {
 		method,
-		credentials: "include", //Send cookies, if needed.
-		headers: { "Content-Type": "application/json" },
-	};
-	
-	if (body)
-	{
-		options.body = JSON.stringify(body);
-	}
-	
-	const response = await fetch(`${BASE_URL}${endpoint}`, options);
+		headers: {
+			...(token && { Authorization: `Bearer ${token}` }),
+			...(body && { "Content-Type": "application/json" }),
+		},
+		body: body ? JSON.stringify(body) : undefined,
+	});
 	
 	if ( ! response.ok)
 	{
 		const message = await response.text();
-		throw new Error(message || "Request failed!");
+		throw new Error(message || "API request failed!");
 	}
 	
-	return response.json();
+	//204 No Content Safety...
+	return response.status === 204 ? null : response.json();
 }
 
-export const PersonAPI = {
-	getMyPeople: () => request("/person/my"),
-	addPerson: (data) => request("/person/add", "POST", data),
-};
-
-export const UserAPI = {
-	me: () => request("/users/me"),
-};
-
-export async function loginUser(email, password)
-{
-	return request("/auth/signin", "POST", { email, password });
-}
-
-export async function registerUser(email, password)
-{
-	return request("/auth/register", "POST", { email, password });
-}
+export default request;
