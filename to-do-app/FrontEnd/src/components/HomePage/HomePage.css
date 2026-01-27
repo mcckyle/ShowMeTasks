@@ -7,8 +7,8 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: clamp(4rem, 8vw, 6rem);
-  padding-block: clamp(5rem, 10vw, 8rem);
+  gap: clamp(3rem, 7vw, 5rem);
+  padding-block: clamp(4rem, 9vw, 7rem);
   scroll-behavior: smooth;
 }
 
@@ -25,7 +25,7 @@
 	flex-direction: column;
 	gap: 1.5rem;
 	
-	animation: heroFade 0.55s ease-out forwards;
+	animation: heroFade 0.45s var(--ease-standard) forwards;
 }
 
 .home-eyebrow {
@@ -34,13 +34,13 @@
 	letter-spacing: 0.22em;
 	text-transform: uppercase;
 	color: var(--primary);
-	opacity: 0.7;
+	opacity: 0.6;
 }
 
 .home-title {
 	font-size: clamp(2.8rem, 6vw, 3.5rem);
 	font-weight: 800;
-	letter-spacing: -0.035em;
+	letter-spacing: -0.03em;
 	line-height: 1.1;
 	color: var(--text-light);
 }
@@ -48,10 +48,10 @@
 .home-subtitle {
 	max-width: 600px;
 	margin-inline: auto;
-	font-size: 1.1rem;
+	font-size: 1.05rem;
 	line-height: 1.8;
-	opacity: 0.85;
-	color: var(--text-muted-light);
+	opacity: 0.8;
+	color: var(--text-muted-dark);
 }
 .home-actions { margin-top: 1.5rem; }
 
@@ -68,14 +68,14 @@
 	font-size: 1rem;
 	color: #fff;
 	background: var(--primary);
-	box-shadow: 0 6px 18px rgba(75, 123, 253, 0.22);
+	box-shadow: 0 4px 14px rgba(75, 123, 253, 0.22);
 	
 	transition: all var(--transition-fast);
 }
 
 .home-cta:hover {
-	transform: translateY(-2px);
-	box-shadow: 0 10px 28px rgba(75, 123, 253, 0.32);
+	transform: translateY(-1px);
+	box-shadow: 0 8px 22px rgba(75, 123, 253, 0.28);
 	background: linear-gradient(120deg, var(--primary) 90%, var(--accent) 100%);
 }
 
@@ -108,17 +108,15 @@
 	gap: 0.6rem;
 	
 	transition: transform var(--transition-fast),
-	            box-shadow var(--transition-fast),
-				background var(--transition-fast);
+	            box-shadow var(--transition-fast);
 }
 
 .home-card:hover {
-	background: color-mix(in srgb, var(--surface-dark) 96%, #fff);
-	box-shadow: 0 14px 36px rgba(0, 0, 0, 0.18);
-	transform: translateY(-3px);
+	transform: translateY(-2px);
+	box-shadow: 0 10px 28px rgba(0, 0, 0, 0.16);
 }
 .card-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.35rem; color: var(--text-light); }
-.card-text { font-size: 0.95rem; line-height: 1.7; opacity: 0.85; color: var(--text-muted-light); }
+.card-text { font-size: 0.95rem; line-height: 1.7; opacity: 0.85; color: var(--text-muted-dark); }
 
 /* ====================================
     Animations Styles.
@@ -139,7 +137,9 @@
   .home-subtitle, .card-text { color: var(--text-muted-dark); }
 }
 
-/* HomePage Media Query Styles. */
+/* ====================================
+    HomePage Media Query Styles.
+======================================= */
 @media (min-width: 780px)
 {
 	.home-grid { grid-template-columns: repeat(3, 1fr); }

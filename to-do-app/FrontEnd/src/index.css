@@ -51,7 +51,7 @@
 	
 	/* Shadows. */
 	--shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.15);
-	--shadow-md: 0 12px 132x rgba(0, 0, 0, 0.28);
+	--shadow-md: 0 12px 32px rgba(0, 0, 0, 0.28);
 	
 	/* Motion. */
 	--ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
@@ -59,33 +59,16 @@
 	--transition-fast: 220ms var(--ease-standard);
 }
 
-/*
-:root[data-theme="dark"] {
-  --color-bg: #0f0f10;
-  --color-surface: #18181a;
-  --color-text: #f4f4f5;
-  --color-primary: #6c8eff;
-  --color-primary-dark: #4c6cf0;
-  
-  --shadow-sm: 0 1px 3px rgba(255, 255, 255, 0.05);
-  --shadow-md: 0 4px 12px rgba(255, 255, 255, 0.08);
-}
-
-:root[data-theme="light"] {
-  --color-bg: #f7f7f8;
-  --color-surface: #ffffff;
-  --color-text: #1b1b1b;
-}
-
-:root[data-font-size="small"] { --font-base: var(--font-small); }
-:root[data-font-size="medium"] { --font-base: 1rem; }
-:root[data-font-size="large"] { --font-base: var(--font-large); }
-*/
-
 /* ====================================
     Global Reset Styles..
 ======================================= */
-* { transition: background var(--transition-fast), color var(--transition-fast), box-shadow var(--transition-fast); }
+* {
+	transition:
+	  background-color var(--transition-fast),
+	  color var(--transition-fast),
+	  box-shadow var(--transition-fast),
+	  border-color var(--transition-fast);
+}
 *, *::before, *::after { box-sizing: border-box; }
 
 /* ====================================
@@ -112,6 +95,7 @@ h1 { font-size: var(--text-2xl); }
 h2 { font-size: var(--text-xl); }
 h3 { font-size: var(--text-lg); }
 h4 { font-size: var(--text-base); }
+h1, h2, h3 { color: var(--text-light); }
 p {
 	margin-top: 0.5rem;
 	margin-bottom: 1rem;
@@ -119,6 +103,7 @@ p {
 	color: var(--text-muted-dark);
 	line-height: 1.7;
 }
+.section-title { font-size: var(--text-lg); font-weight: 600; margin-bottom: var(--space-md); }
 
 /* ====================================
     Layout Utilities Styles.
@@ -142,7 +127,7 @@ a {
 a:hover { color: var(--accent); }
 
 /* Button Reset Styles. */
-button {
+button:not(.MuiButton-root) {
 	all: unset;
 	cursor: pointer;
 	display: inline-flex;
@@ -154,7 +139,7 @@ button {
 	font-size: var(--text-base);
 	background: var(--primary);
 	color: #fff;
-	box-shadow: var(--shadow-md);
+	box-shadow: var(--shadow-sm);
 }
 button:hover { background: var(--accent); }
 button:active { transform: scale(0.97); }

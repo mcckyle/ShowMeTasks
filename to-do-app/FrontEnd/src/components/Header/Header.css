@@ -8,8 +8,8 @@
   top: 0;
   z-index: 1000;
   
-  backdrop-filter: blur(18px);
-  background: color-mix(in srgb, var(--bg-dark) 85%, transparent);
+  backdrop-filter: blur(14px);
+  background: color-mix(in srgb, var(--bg-dark) 92%, transparent);
   border-bottom: 1px solid var(--border-dark);
   
   transition: background var(--transition-base), border-color var(--transition-fast);
@@ -33,7 +33,7 @@
 	font-size: 1.5rem;
 	font-weight: 700;
 	letter-spacing: -0.015em;
-	color: var(--primary);
+	color: color-mix(in srgb, var(--primary) 85%, #fff);
 	
 	transition: color var(--transition-fast);
 }
@@ -48,13 +48,13 @@
   font-size: 1rem;
   font-weight: 500;
   color: inherit;
-  opacity: 0.7;
+  opacity: 0.65;
   padding: 0.25rem 0;
   
   transition: opacity var(--transition-fast);
 }
 .nav-item:hover,
-.nav-item.active { opacity: 1; }
+.nav-item.active { opacity: 1; font-weight: 600; }
 
 /* Header Active Underline Effect Styles. */
 .nav-item::after {
@@ -63,7 +63,7 @@
 	inset-inline: 0;
 	bottom: -6px;
 	height: 2px;
-	background: var(--primary);
+	background: linear-gradient(90deg, transparent, var(--primary), transparent);
 	border-radius: 2px;
 	transform: scaleX(0);
 	transform-origin: center;
@@ -122,7 +122,7 @@
 	
 	transition: background var(--transition-fast), transform 120ms ease;
 }
-.avatar-wrapper:hover .avatar { background: var(--accent); transform: scale(1.05); }
+.avatar-wrapper:hover .avatar { background: var(--accent); transform: translateY(-1px); }
 .avatar-wrapper:focus-visible .avatar {
 	outline: 2px solid var(--primary);
 	outline-offset: 2px;
@@ -141,7 +141,7 @@
 	border: 1px solid var(--border-dark);
 	border-radius: var(--radius-md);
 	box-shadow: var(--shadow-md);
-	padding: 8px;
+	padding: 6px;
 	
 	opacity: 0;
 	transform: translateY(-8px);
@@ -162,7 +162,7 @@
 	
 	transition: background var(--transition-fast);
 }
-.menu-item:hover { background: rgba(255, 255, 255, 0.06); }
+.menu-item:hover { background: color-mix(in srgb, var(--primary) 12%, transparent); }
 .menu-item.danger { color: var(--error); font-weight: 500; }
 
 /* Menu Divider Styles. */

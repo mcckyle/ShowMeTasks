@@ -1,6 +1,6 @@
 //****************************************************************************************
 // Filename: Header.jsx
-// Date: 18 January 2026
+// Date: 26 January 2026
 // Author: Kyle McColgan
 // Description: This file contains the React Header component for ShowMeTasks.
 //****************************************************************************************
@@ -73,7 +73,14 @@ const Header = () => {
 			  aria-haspopup="menu"
 			  aria-expanded={menuOpen}
 		      onClick={() => setMenuOpen((prev) => ! prev)}
-			  onKeyDown={(e) => e.key === "Escape" && setMenuOpen(false)}
+			  onKeyDown={(e) => {
+				  if ( (e.key === "Enter") || (e.key === " "))
+				  {
+					  e.preventDefault();
+					  setMenuOpen(prev => !prev);
+				  }
+				  if (e.key === "Escape") setMenuOpen(false);
+			  }}
 			>
 			  <div className="avatar" aria-hidden>
 			    {user.username?.charAt(0).toUpperCase() || "?"}

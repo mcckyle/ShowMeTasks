@@ -1,15 +1,68 @@
 //****************************************************************************************
 // Filename: ListsPanel.jsx
-// Date: 23 January 2026
+// Date: 26 January 2026
 // Author: Kyle McColgan
 // Description: This file contains the ListsPanel React component for ShowMeTasks.
 //****************************************************************************************
 
+import { useState, useMemo, useContext } from "react";
 import { Typography, Divider } from "@mui/material";
+import { createList } from "../../services/ListService";
+import { AuthContext } from "../../context/AuthContext";
 import CreateTaskList from "../CreateTaskList/CreateTaskList";
 import "./ListsPanel.css";
 
-const ListsPanel = ({ open, lists, selected, onSelect, onClose, selectionMode, setSelectionMode, selectedIds, toggleSelection, onDeleteSelected, clearSelection }) => {
+const formatTodayName = () => {
+	const now = new Date();
+	return now.toLocaleDateString(undefined, {
+		weekday: "short",
+		month: "short",
+		day: "numeric",
+		year: "numeric",
+	});
+};
+
+const ListsPanel = ({
+	open,
+	lists,
+	selected,
+	onSelect,
+	onClose,
+	selectionMode,
+	setSelectionMode,
+	selectedIds,
+	toggleSelection,
+	onDeleteSelected,
+	clearSelection,
+}) => {
+  const { accessToken } = useContext(AuthContext);
+  const [search, setSearch] = useState("");
+  
+  //Search lists feature...
+  const filteredLists = useMemo(() => {
+	  if ( ! search.trim())
+	  {
+		  return lists;
+	  }
+	  
+	  const q = search.toLowerCase();
+	  return lists.filter(list =>
+	    list.name.toLowerCase().includes(q)
+	  );
+  }, [lists, search]);
+  
+  const handleCreateNamed = async (name) => {
+	  const newList = await createList({ name }, accessToken);
+	  onSelect(newList);
+  };
+  
+  //Handle list of the day feature...
+  const handleCreateToday = async () => {
+	  const name = `${formatTodayName()}`;
+	  const newList = await createList({ name }, accessToken);
+	  onSelect(newList);
+  };
+  
   return (
 	<aside
 	  className={`lists-panel ${open ? "open" : ""}`}
@@ -38,12 +91,26 @@ const ListsPanel = ({ open, lists, selected, onSelect, onClose, selectionMode, s
 		)}
 	  </header>
 	  
-	  <CreateTaskList />
+	  <CreateTaskList
+	    onCreateName={handleCreateNamed}
+		onCreateToday={handleCreateToday}
+      />
+	  
+	  <div className="lists-search">
+	    <input
+		  type="search"
+		  placeholder="Search lists…"
+		  value={search}
+		  onChange={(e) => setSearch(e.target.value)}
+		  onKeyDown={(e) => { if (e.key === "Escape") setSearch(""); }}
+		  aria-label="Search task lists"
+		/>
+	  </div>
 	  
 	  <Divider className="lists-divider" />
 		
 	  <nav className="lists-items">
-		 {lists.map(list => {
+		 {filteredLists.map(list => {
 		  const checked = selectedIds.has(list.id);
 		  const isActive = selected?.id === list.id;
 		  
@@ -62,7 +129,10 @@ const ListsPanel = ({ open, lists, selected, onSelect, onClose, selectionMode, s
 			  )}
 		  <button
 			className={`lists-item ${isActive ? "active" : ""}`}
-			onClick={() => selectionMode ? toggleSelection(list.id) : onSelect(list)}
+			onClick={() => {
+				setSearch("");
+				selectionMode ? toggleSelection(list.id) : onSelect(list)
+			}}
 			aria-current={isActive ? "true" : undefined}
 		  >
 			{list.name}

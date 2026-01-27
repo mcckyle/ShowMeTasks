@@ -24,18 +24,16 @@
 	width: 100%;
 }
 
-/* Every route fills its container. */
-.app-main > * {
+.route-surface {
 	width: 100%;
 	max-width: 1200px;
-	border-radius: var(--radius-lg);
-	background: var(--surface-dark);
-	padding: var(--space-xl);
-	box-shadow: var(--shadow-md);
+	margin-inline: auto;
 	
-	transition: box-shadow var(--transition-fast);
+	background: var(--surface-dark);
+	border-radius: var(--radius-lg);
+	padding: var(--space-xl);
+	box-shadow: var(--shadow-sm);
 }
-.app-main > *:hover { box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3); }
 
 /* Not Found Route Styles. */
 .not-found {

@@ -48,11 +48,7 @@
 /* ====================================
     Login Form Fields Styles.
 ======================================= */
-.login-fields {
-    display: flex;
-    flex-direction: column;
-	gap: 1rem;
-}
+.login-fields { display: flex; flex-direction: column; gap: 1rem; }
 .MuiInputBase-root { background: var(--bg-dark); border-radius: var(--radius-sm); }
 
 /* ====================================

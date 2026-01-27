@@ -1,43 +1,42 @@
 //****************************************************************************************
 // Filename: CreateTaskList.jsx
-// Date: 23 January 2026
+// Date: 26 January 2026
 // Author: Kyle McColgan
 // Description: This file contains the CreateTaskList React component for ShowMeTasks.
 //****************************************************************************************
 
 import { useState, useContext } from "react";
+import { TextField, Button, IconButton } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 import { AuthContext } from "../../context/AuthContext";
-import { createList } from "../../services/ListService";
-import { TextField, Button } from "@mui/material";
 import "./CreateTaskList.css"; // Import the CSS file
 
-const CreateTaskList = ({ onTaskListCreated }) => {
+const CreateTaskList = ({ onCreateNamed, onCreateToday }) => {
 	const { user, accessToken } = useContext(AuthContext);
     const [name, setName] = useState("");
-	const canSubmit = Boolean(user && accessToken && name.trim());
+	const canQuickAdd = Boolean( (user) && (accessToken) );
+	const canNamedAdd = Boolean( (canQuickAdd) && (name.trim()) );
 
-    const submit = async () => {
-		if ( ! canSubmit )
+    const submitNamed = () => {
+		if ( ! canNamedAdd )
 		{
             return;
         }
-
-        try
-		{
-            const newList = await createList(
-			    { name: name.trim() },
-				accessToken
-            );
-			
-			//console.log("Task list created: ", newList);
-            setName(""); // Clear the input field.
-			onTaskListCreated?.(newList);
-        }
-		catch (error)
-		{
-            console.error("Error creating task list:", error);
-        }
+		
+		onCreateNamed(name.trim());
+		setName("");
     };
+	
+	const submitToday = () => {
+		if ( ! canQuickAdd )
+		{
+            return;
+        }
+		
+		onCreateToday();
+    };
+	
+	const hasText = Boolean(name.trim());
 
     return (
 		<section
@@ -50,23 +49,33 @@ const CreateTaskList = ({ onTaskListCreated }) => {
 			    placeholder="New list…"
 				size="small"
 				fullWidth
-				autoFocus
 				value={name}
 				onChange={(e) => setName(e.target.value)}
 				onKeyDown={(e) => {
-					if (e.key === "Enter") submit();
+					if ( (e.key === "Enter") && (hasText) ) submitNamed();
 					if (e.key === "Escape") setName("");
 				}}
 			/>
 			
-			<Button
-			  variant="contained"
-			  size="small"
-			  disabled={ ! canSubmit}
-			  onClick={submit}
-			>
-				Add
-			</Button>
+			{hasText ? (
+				<Button
+				  variant="contained"
+				  size="small"
+				  onClick={submitNamed}
+				  disabled={ ! canNamedAdd}
+				>
+					Add
+				</Button>
+			) : (
+			  <IconButton
+			    size="small"
+				onClick={submitToday}
+				disabled={ ! canQuickAdd}
+				aria-label="Create List of the Day"
+			  >
+			    <AddIcon />
+			  </IconButton>
+			)}
 		</section>
     );
 };
