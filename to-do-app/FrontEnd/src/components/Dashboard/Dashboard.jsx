@@ -1,19 +1,19 @@
 //****************************************************************************************
 // Filename: Dashboard.jsx
-// Date: 23 January 2026
+// Date: 30 January 2026
 // Author: Kyle McColgan
 // Description: This file contains the Dashboard React component for ShowMeTasks.
 //****************************************************************************************
 
 import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext";
-import { getLists, deleteList } from "../../services/ListService";
+import { getLists, updateListDeleted, deleteList, createList } from "../../services/ListService";
 import { createTask } from "../../services/TaskService";
-import DashboardLayout from "./DashboardLayout";
-import WorkspaceHeader from "./WorkspaceHeader";
-import WorkspaceContent from "./WorkspaceContent";
-import TaskComposer from "./TaskComposer";
-import ListsPanel from "./ListsPanel";
+import DashboardLayout from "./DashboardLayout/DashboardLayout.jsx";
+import WorkspaceHeader from "./WorkspaceHeader/WorkspaceHeader.jsx";
+import WorkspaceContent from "./WorkspaceContent/WorkspaceContent.jsx";
+import TaskComposer from "./TaskComposer/TaskComposer.jsx";
+import ListsPanel from "./ListsPanel/ListsPanel.jsx";
 import TaskListView from "../TaskListView/TaskListView.jsx";
 
 import "./Dashboard.css";
@@ -69,6 +69,9 @@ const Dashboard = () => {
 		};
 	}, [accessToken]);
 	
+	const activeLists = taskLists.filter((l) => ! l.deleted);
+	const trashedLists = taskLists.filter((l) => l.deleted);
+	
 	/* Add Task to the Selected List. */
 	const handleAddTask = async (text) => {
 		if ( ( ! selectedList) || ( ! accessToken))
@@ -108,6 +111,25 @@ const Dashboard = () => {
 		}
 	};
 	
+	/* Create first list CTA (used in empty state). */
+	const handleCreateFirstList = async () => {
+		if ( ! accessToken)
+		{
+			return;
+		}
+		
+		try
+		{
+			const newList = await createList({ name: "My First List" }, accessToken);
+			setTaskLists((prev) => [...prev, newList]);
+			setSelectedList(newList);
+		}
+		catch (error)
+		{
+			console.error("Failed to create list: ", error);
+		}
+	};
+	
 	/* Handle Newly Created Task List. */
 	const handleListCreated = (newList) => {
 		setTaskLists((prev) => [...prev, newList]);
@@ -128,59 +150,106 @@ const Dashboard = () => {
 		setSelectionMode(false);
 	};
 	
-	const onDeleteSelected = async () => {
-		if ( ( ! accessToken) || (selectedIds.size === 0))
+	//Dedicated single-list soft delete handler for the TaskListView.
+	const handleSoftDeleteList = async (id) => {
+		
+		if ( ! accessToken)
 		{
 			return;
 		}
 		
-		const idsToDelete = Array.from(selectedIds);
+		//Optimistic UI updates...
+		setTaskLists(prev =>
+		  prev.map(list =>
+			  list.id === id ? { ...list, deleted: true } : list
+		  )
+		);
+		
+		if ( (selectedList?.id) === (id) )
+		{
+			setSelectedList(null);
+		}
+		
+		try
+		{
+			await updateListDeleted(id, true, accessToken);
+		}
+		catch (error)
+		{
+			console.error("Soft delete failed:", error);
+			
+			//Refetch to recover...
+			const lists = await getLists(accessToken);
+			setTaskLists(lists);
+		}
+	};
+	
+	const onSoftDeleteSelected = async () => {
+		
+		if ( ( ! accessToken) || (selectedIds.size === 0) )
+		{
+			return;
+		}
+		
+		const ids = Array.from(selectedIds);
 		
 		//Optimistic UI updates...
 		setTaskLists(prev =>
-		  prev.filter(list => ! selectedIds.has(list.id))
+		  prev.map(list =>
+		    ids.includes(list.id)
+			  ? { ...list, deleted: true }
+			  : list
+		  )
 		);
 		
-		//Clear the currently selected list if it was deleted...
-		setSelectedList(prev =>
-		  prev && selectedIds.has(prev.id) ? null : prev
-		);
+		if ( (selectedList) && (ids.includes(selectedList.id)) )
+		{
+			setSelectedList(null);
+		}
 		
 		clearSelection();
 		
 		try
 		{
-			await Promise.all(
-			  idsToDelete.map(id => deleteList(id, accessToken))
-			);
+			await Promise.all(ids.map(id => updateListDeleted(id, true, accessToken)));
 		}
 		catch (error)
 		{
-			console.error("Failed to delete one or more lists:", error);
+			console.error("Soft delete failed:", error);
 			
-			//Refetch lists to resync state...
-			try
-			{
-				const lists = await getLists(accessToken);
-				setTaskLists(lists);
-				setSelectedList(lists?.[0] ?? null);
-			}
-			catch (reloadError)
-			{
-				console.error("Failed to reload lists after delete list failure:", reloadError);
-			}
+			//Refetch to recover...
+			const lists = await getLists(accessToken);
+			setTaskLists(lists);
 		}
+	};
+	
+	const permanentlyDeleteList = async (id) => {
+		setTaskLists((prev) => prev.filter(l => l.id !== id));
+		await deleteList(id, accessToken);
+	};
+	
+	const restoreList = async (id) => {
+		setTaskLists((prev) =>
+		  prev.map((list) =>
+		    list.id === id ? { ...list, deleted: false } : list
+		  )
+		);
+		
+		await updateListDeleted(id, false, accessToken);
 	};
 	
 	const renderContent = () => {
 		if (loading)
 		{
+			//Lightweight skeleton placeholders...
 			return (
 			  <div className="dashboard-state" role="status" aria-live="polite">
-				<span className="dashboard-state-title">Loading your workspace</span>
-				<span className="dashboard-state-subtitle">
-				  Just a moment…
-				</span>
+				<div className="skeleton-row skeleton-title" />
+				<div className="skeleton-gird">
+				  <div className="skeleton-card" />
+				  <div className="skeleton-card" />
+				  <div className="skeleton-card" />
+				</div>
 			  </div>
 			);
 		}
@@ -188,36 +257,41 @@ const Dashboard = () => {
 		if ( ! selectedList)
 		{
 			return (
-			  <div className="dashboard-state" role="region" aria-label="Workspace state">
+			  <div className="dashboard-state" role="region" aria-label="Workspace empty state">
 				<span className="dashboard-state-title">Your workspace is empty</span>
 				<span className="dashboard-state-subtitle">
-				  Create a task list to start organizing your work.
+				  Create your first list to start organizing what matters.
 				</span>
+				<div className="dashboard-cta-row">
+				  <button className="dashboard-cta" onClick={handleCreateFirstList}>
+				    Create your first list
+				  </button>
+				  <button
+				    className="dashboard-cta subtle"
+					onClick={() => {
+						setListsOpen(true);
+					}}
+				  >
+				    Browse lists
+				  </button>
 			  </div>
+			</div>
 			);
 		}
 		
-		return <TaskListView selectedList={selectedList} />;
+		return <TaskListView selectedList={selectedList} onListDeleted={handleSoftDeleteList} />;
 	};
 	
 	return (
 	  <DashboardLayout
-	    header={
-			<WorkspaceHeader
-			  list={selectedList}
-			  onOpenLists={() => setListsOpen(true)}
-			/>
-		}
+	    header={<WorkspaceHeader list={selectedList} onOpenLists={() => setListsOpen(true)} />}
 		content={<WorkspaceContent>{renderContent()}</WorkspaceContent>}
-		composer={
-			selectedList ? (
-			  <TaskComposer onAdd={handleAddTask} />
-			) : null
-		}
+		composer={selectedList ? (<TaskComposer onAdd={handleAddTask} />) : null}
 		panel={
 			<ListsPanel
 			  open={listsOpen}
-			  lists={taskLists}
+			  lists={activeLists}
+			  trashedLists={trashedLists}
 			  selected={selectedList}
 			  onSelect={setSelectedList}
 			  onClose={() => setListsOpen(false)}
@@ -226,7 +300,9 @@ const Dashboard = () => {
 			  setSelectionMode={setSelectionMode}
 			  selectedIds={selectedIds}
 			  toggleSelection={toggleSelection}
-			  onDeleteSelected={onDeleteSelected}
+			  onDeleteSelected={onSoftDeleteSelected}
+			  onRestore={restoreList}
+			  onPermanentDelete={permanentlyDeleteList}
 			  clearSelection={clearSelection}
 			/>
 		}

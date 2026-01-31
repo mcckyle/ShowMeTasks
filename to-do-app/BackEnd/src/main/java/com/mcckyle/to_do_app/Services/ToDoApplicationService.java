@@ -2,7 +2,7 @@
 //
 //     Filename: ToDoApplicationService.java
 //     Author: Kyle McColgan
-//     Date: 22 January 2026
+//     Date: 29 January 2026
 //     Description: This class acts as a bridge for two other classes,
 //                  the ToDoService.java and TaskListService.java classes.
 //
@@ -92,6 +92,22 @@ public class ToDoApplicationService
         taskList.setName(newName);
 
         return taskListService.save(taskList);  // Returns TaskList, not TaskListResponse
+    }
+
+    //Soft delete a task list.
+    public void setTaskListDeleted(Integer taskListId, boolean deleted, User user)
+    {
+        requireValidUser(user);
+
+        TaskList taskList = getOwnedTaskList(taskListId, user);
+
+        if ( (taskList.isDefault()) && (deleted))
+        {
+            throw new IllegalArgumentException("Default list cannot be deleted.");
+        }
+
+        taskList.setDeleted(deleted);
+        taskListService.save(taskList);  // Returns TaskList, not TaskListResponse
     }
 
     public void deleteTaskList(Integer taskListId, User user)
@@ -188,7 +204,7 @@ public class ToDoApplicationService
     {
         TaskList taskList = taskListService.findById(taskListId)
                 .orElseThrow(() ->
-                        new TaskListNotFoundException("Task list not found!")
+                        new TaskListNotFoundException("Task list with ID " + taskListId + " not found.")
                 );
 
         assertOwnership(taskList.getUser(), user);
@@ -232,7 +248,7 @@ public class ToDoApplicationService
 
         if (name.length() > 255)
         {
-            throw new IllegalArgumentException("Name is too long!");
+            throw new IllegalArgumentException("Task list name is too long!");
         }
     }
 }

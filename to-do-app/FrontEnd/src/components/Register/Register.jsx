@@ -1,6 +1,6 @@
 //****************************************************************************************
 // Filename: Register.jsx
-// Date: 26 January 2026
+// Date: 29 January 2026
 // Author: Kyle McColgan
 // Description: This file contains the React Registration component for ShowMeTasks.
 //****************************************************************************************
@@ -10,7 +10,6 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { registerUser } from "../../services/AuthService";
 import { AuthContext } from "../../context/AuthContext";
-import { TextField, Button, Typography, Paper, Box, Fade } from "@mui/material";
 import "./Register.css"; // Import the custom CSS file
 
 const Register = () => {
@@ -48,66 +47,53 @@ const Register = () => {
     };
 
     return (
-	 <Fade in timeout={280}>
-	   <Paper elevation={0} className="register">
+	 <section className="register">
         <form className="register-form" onSubmit={handleSubmit(onSubmit)} noValidate>
 		  <header className="register-header">
-            <Typography variant="h5" fontWeight={700}>
-                Create your account
-            </Typography>
-			<Typography variant="body2" color="text.secondary" className="register-subtitle">
-                Get started in seconds
-            </Typography>
+            <h1>Create your account</h1>
+			<p className="register-subtitle">
+                Create an account to start organizing what matters.
+            </p>
 		  </header>
 			
-		  <Box className="register-fields">
-			<TextField
-			  label="Username"
-			  size="small"
-			  fullWidth
+		  <div className="register-fields">
+			<input
+			  type="text"
+			  placeholder="Username"
+			  aria-label="Username"
 			  {...register("username", { required: true })}  
 			/>
-			<TextField
-			  label="Email"
+			<input
 			  type="email"
-			  size="small"
-			  fullWidth
+			  placeholder="Email"
+			  aria-label="Email"
 			  {...register("email", { required: true })}      
 			/>
-			<TextField
-			  label="Password"
+			<input
 			  type="password"
-			  size="small"
-			  fullWidth
+			  placeholder="Password"
+			  aria-label="Password"
 			  {...register("password", { required: true })}
 			/>
-			<TextField
-			  label="Confirm Password"
+			<input
 			  type="password"
-			  size="small"
-			  fullWidth
+			  placeholder="Confirm Password"
+			  aria-label="Confirm password"
 			  {...register("confirmPassword", { required: true })}
 			/>
-		  </Box>
+		  </div>
 				  
 		  {errorMessage && (
-			<Typography className="register-error" role="alert">
+			<div className="register-error" role="alert">
 			  {errorMessage}
-			</Typography>
+			</div>
 		  )}
 		  
-		  <Button
-		    type="submit"
-			variant="contained"
-			size="large"
-			fullWidth
-			className="register-button"
-		  >
+		  <button type="submit" className="register-button">
 			Create account
-		  </Button>
+		  </button>
          </form>
-		</Paper>
-	  </Fade>
+	  </section>
     );
 };
 

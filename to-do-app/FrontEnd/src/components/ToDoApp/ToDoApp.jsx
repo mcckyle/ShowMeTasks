@@ -1,6 +1,6 @@
 //****************************************************************************************
 // Filename: ToDoApp.jsx
-// Date: 19 January 2026
+// Date: 29 January 2026
 // Author: Kyle McColgan
 // Description: This file contains the React parent component for ShowMeTasks.
 //****************************************************************************************
@@ -28,10 +28,10 @@ const ToDoApp = () => {
 		// Add a motivational message based on the time of day
 		const message =
 		  hour < 12
-		  ? "Let's make today productive."
+		  ? "Plan your day with clarity."
 		  : hour < 18
-		  ? "Keep going - you're doing great."
-		  : "Wrap up your day with intention.";
+		  ? "Focus on what matters most."
+		  : "Capture what's important before you sign off.";
 		
 		return `${greeting}! ${message}`;
 	};
@@ -41,11 +41,11 @@ const ToDoApp = () => {
 			<section className="auth-surface" aria-label="Authentication">
 			  <header className="auth-hero">
 				<h1 className="auth-title">ShowMeTasks</h1>
-				<p className="auth-subtitle">{getGreeting()}</p>
+				<p className="auth-subtitle" aria-live="polite">
+				  {getGreeting()}
+				</p>
 			  </header>
 			  
-			  <div className="auth-divider" />
-
 			  <div className="auth-forms">
 				<Register />
 				<Login />

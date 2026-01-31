@@ -1,6 +1,6 @@
 //****************************************************************************************
 // Filename: Login.jsx
-// Date: 19 January 2026
+// Date: 29 January 2026
 // Author: Kyle McColgan
 // Description: This file contains the React Login component for ShowMeTasks.
 //****************************************************************************************
@@ -8,7 +8,6 @@
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { TextField, Button, Typography, Paper, Box, Fade  } from "@mui/material";
 import { AuthContext } from "../../context/AuthContext";
 import "./Login.css"; // Import the custom CSS file.
 
@@ -33,55 +32,45 @@ const Login = () => {
 	};
 
     return (
-	  <Fade in timeout={400}>
-	    <Paper elevation={0} className="login">
-			<form className="login-form" onSubmit={handleSubmit(onSubmit)} noValidate>
-			 <header className="login-header">
-				<Typography variant="h6" fontWeight={600}>
-					Welcome back
-				</Typography>
-				<Typography variant="body2" color="text.secondary" className="login-subtitle" >
-					Sign in to continue
-				</Typography>
-			 </header>
-				
-			<Box className="login-fields">
-				<TextField
-					label="Email"
-					type="email"
-					size="small"
-					autoComplete="email"
-					fullWidth
-					{...register("email", { required: true })}
-				/>
-				<TextField
-					label="Password"
-					type="password"
-					size="small"
-					autoComplete="current-password"
-					fullWidth
-					{...register("password", { required: true })}
-				/>
-			</Box>
+	  <div className="login">
+		<form className="login-form" onSubmit={handleSubmit(onSubmit)} noValidate>
+		 <header className="login-header">
+			<h1>Welcome back</h1>
+			<p className="login-subtitle">
+			  Sign in to access your tasks
+			</p>
+		 </header>
 			
-			{errorMessage && (
-				<Typography className="login-error">
-				  {errorMessage}
-				</Typography>
-			  )}
-			
-			<Button
-			  type="submit"
-			  variant="outlined"
-			  size="large"
-			  fullWidth
-			  className="login-button"
-			>
-				Sign in
-			</Button>
-		  </form>
-	    </Paper>
-	</Fade>
+		<div className="login-fields">
+			<label className="login-field">
+			  <span>Email</span>
+			  <input
+				type="email"
+				autoComplete="email"
+				{...register("email", { required: true })}
+			  />
+			</label>
+			<label className="login-field">
+			  <span>Password</span>
+			  <input
+				type="password"
+				autoComplete="current-password"
+				{...register("password", { required: true })}
+			  />
+			</label>
+		</div>
+		
+		{errorMessage && (
+			<p className="login-error" role="alert">
+			  {errorMessage}
+			</p>
+		  )}
+		
+		<button type="submit" className="login-button">
+			Sign in
+		</button>
+	  </form>
+	</div>
     );
 };
 

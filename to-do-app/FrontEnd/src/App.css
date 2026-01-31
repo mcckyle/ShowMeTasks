@@ -7,23 +7,28 @@
 	min-height: 100vh;
 	display: flex;
 	flex-direction: column;
+	
 	background: var(--bg-dark);
 	color: var(--text-light);
 	font-family: var(--font-sans);
-	
-	transition: background var(--transition-fast), color var(--transition-fast);
 }
 
-/* Main Content Area Styles. */
+/* Main Content Styles. */
 .app-main {
 	flex: 1;
-	display: flex;
-	justify-content: center;
-	align-items: flex-start;
-	padding: var(--space-2xl) var(--space-lg);
 	width: 100%;
+	padding: var(--space-xl) var(--space-lg);
 }
 
+/* Not Found Route Styles. */
+.not-found {
+	margin-top: 20vh;
+	text-align: center;
+	font-size: var(--text-2xl);
+	opacity: 0.6;
+}
+
+/* Route Surface Styles.
 .route-surface {
 	width: 100%;
 	max-width: 1200px;
@@ -32,13 +37,7 @@
 	background: var(--surface-dark);
 	border-radius: var(--radius-lg);
 	padding: var(--space-xl);
+	
 	box-shadow: var(--shadow-sm);
-}
-
-/* Not Found Route Styles. */
-.not-found {
-	margin-top: 20vh;
-	text-align: center;
-	font-size: var(--text-2xl);
-	opacity: 0.65;
-}
+	border: 1px solid var(--border-dark);
+} */

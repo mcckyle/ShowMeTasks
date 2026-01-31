@@ -1,6 +1,6 @@
 //****************************************************************************************
 // Filename: TaskListView.jsx
-// Date: 23 January 2026
+// Date: 30 January 2026
 // Author: Kyle McColgan
 // Description: This file contains the TaskListView React component for ShowMeTasks.
 //****************************************************************************************
@@ -9,11 +9,10 @@ import { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { updateList, deleteList } from "../../services/ListService";
 import { getTasks, createTask, updateTask, deleteTask } from "../../services/TaskService";
-import { Card, Typography, Button, TextField, Tooltip, Checkbox } from "@mui/material";
 
 import "./TaskListView.css";
 
-const TaskListView = ({ selectedList }) => {
+const TaskListView = ({ selectedList, onListDeleted }) => {
 	const { accessToken } = useContext(AuthContext);
 	const [tasks, setTasks] = useState([]);
 	const [editingId, setEditingId] = useState(null);
@@ -126,15 +125,7 @@ const TaskListView = ({ selectedList }) => {
 			return;
 		}
 		
-		try
-		{
-			await deleteList(selectedList.id, accessToken);
-			window.location.reload();
-		}
-		catch (error)
-		{
-			console.error("Failed to delete the list: ", error);
-		}
+		onListDeleted(selectedList.id);
 	};
 	
 	const handleDeleteTask = async (id) => {
@@ -188,28 +179,27 @@ const TaskListView = ({ selectedList }) => {
 	}
 	
 	return (
-	  <Card className="tasklist-view" elevation={0}>
+	  <div className="tasklist-view">
 	    {/* Header. */}
 		<header className="tasklist-header">
 		 <div className="tasklist-header-main">
 		 {editingListName ? (
-		   <TextField
+		   <input
+		     className="tasklist-input"
 		     value={listName}
 			 onChange={(e) => setListName(e.target.value)}
 			 onBlur={handleUpdateListName}
-			 onKeyDown={(e) => {
+			 onKeyDown={e => {
 				 if (e.key === "Enter") handleUpdateListName();
 				 if (e.key === "Escape") {
 					 setListName(selectedList.name);
 					 setEditingListName(false);
 				 }
 			 }}
-			 size="small"
 			 autoFocus
-			 fullWidth
 			/>
 		  ) : (
-		  <Typography
+		  <h2
 		    className="tasklist-title"
 			onDoubleClick={() => setEditingListName(true)}
 			title="Double-click to rename"
@@ -218,60 +208,53 @@ const TaskListView = ({ selectedList }) => {
 			{selectedList.isDefault && (
 			  <span className="tasklist-default">(default)</span>
 			)}
-		  </Typography>
+		  </h2>
 		 )}
 		 
-		 <Typography className="tasklist-count">
+		 <div className="tasklist-count">
 		    {tasks.length} {tasks.length === 1 ? "task" : "tasks"}
-		  </Typography>
+		  </div>
 		</div>
 		
-		<Tooltip
-		  title={selectedList.isDefault
-		    ? "The default task list cannot be deleted."
-			: "Delete this task list"
-		  }
-		  arrow
+		<button
+		  className="delete-list-btn"
+		  onClick={handleDeleteList}
+		  disabled={selectedList.isDefault}
+		  title={selectedList.isDefault ? "Cannot delete default list" : "Delete this list"}
 		>
-		 <span>
-		  <Button
-		    size="small"
-			color="error"
-			className="delete-list-btn"
-			onClick={handleDeleteList}
-			disabled={selectedList.isDefault}
-		  >
 		    Delete
-		  </Button>
-		 </span>
-		</Tooltip>
-		</header>
+		  </button>
+	  </header>
 		
 		{/* Tasks. */}
 		<section className="tasklist-content">
 		  {loading ? (
-		    <Typography className="tasklist-empty">
+		    <div className="tasklist-empty">
 			  Loading tasks…
-			</Typography>
+			</div>
 		  ) : tasks.length === 0 ? (
-		    <Typography className="tasklist-empty">
+		    <div className="tasklist-empty">
 			  Add your first task to get started.
-			</Typography>
+			</div>
 		  ) : (
 		   tasks.map((task) => (
 		  <div key={task.id} className={`task-row ${task.completed ? "completed" : ""}`}>
-		    <Checkbox size="small" checked={Boolean(task.completed)} onChange={() => handleToggleCompleted(task)} />
+		    <input
+			  type="checkbox"
+			  className="task-checkbox"
+			  checked={Boolean(task.completed)}
+			  onChange={() => handleToggleCompleted(task)}
+			/>
 				{editingId === task.id ? (
-				   <TextField
+				   <input
+				     className="task-edit-input"
 				     value={editingText}
-					 onChange={(e) => setEditingText(e.target.value)}
-					 onKeyDown={(e) => {
+					 onChange={e => setEditingText(e.target.value)}
+					 onKeyDown={e => {
 						 if (e.key === "Enter") handleUpdateTask(task.id);
 						 if (e.key === "Escape") setEditingId(null);
 					 }}
-					 size="small"
 					 autoFocus
-					 fullWidth
 				   />
 				) : (
 			        <span
@@ -287,24 +270,23 @@ const TaskListView = ({ selectedList }) => {
 				
 				<div className="task-actions">
 				  {editingId === task.id ? (
-				    <Button size="small" onClick={() => handleUpdateTask(task.id)}>
+				    <button className="task-save-btn" onClick={() => handleUpdateTask(task.id)}>
 			          Save
-			        </Button>
+			        </button>
 			      ) : (
-				   <Button
-					 size="small"
-					 color="error"
+				   <button
+					 className="task-delete-btn"
 					 onClick={() => handleDeleteTask(task.id)}
 				   >
 					 Delete
-				   </Button>
+				   </button>
 			     )}
 			  </div>
 			</div>
 			))
 		  )}
 		</section>
-	</Card>
+	</div>
 	);
 };
 

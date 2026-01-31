@@ -1,15 +1,14 @@
 //****************************************************************************************
 // Filename: ListsPanel.jsx
-// Date: 26 January 2026
+// Date: 30 January 2026
 // Author: Kyle McColgan
 // Description: This file contains the ListsPanel React component for ShowMeTasks.
 //****************************************************************************************
 
-import { useState, useMemo, useContext } from "react";
-import { Typography, Divider } from "@mui/material";
-import { createList } from "../../services/ListService";
-import { AuthContext } from "../../context/AuthContext";
-import CreateTaskList from "../CreateTaskList/CreateTaskList";
+import { useState, useEffect, useMemo, useContext } from "react";
+import { createList } from "../../../services/ListService";
+import { AuthContext } from "../../../context/AuthContext";
+import CreateTaskList from "../../CreateTaskList/CreateTaskList";
 import "./ListsPanel.css";
 
 const formatTodayName = () => {
@@ -25,6 +24,7 @@ const formatTodayName = () => {
 const ListsPanel = ({
 	open,
 	lists,
+	trashedLists = [],
 	selected,
 	onSelect,
 	onClose,
@@ -32,36 +32,76 @@ const ListsPanel = ({
 	setSelectionMode,
 	selectedIds,
 	toggleSelection,
+	onCreated,
 	onDeleteSelected,
+	onRestore,
+	onPermanentDelete,
 	clearSelection,
 }) => {
   const { accessToken } = useContext(AuthContext);
   const [search, setSearch] = useState("");
+  const [panelView, setPanelView] = useState("active"); //"active" || "trash".
   
   //Search lists feature...
-  const filteredLists = useMemo(() => {
+  const visibleLists = useMemo(() => {
+	  const source = panelView === "trash" ? trashedLists : lists;
+	  
 	  if ( ! search.trim())
 	  {
-		  return lists;
+		  return source;
 	  }
 	  
 	  const q = search.toLowerCase();
-	  return lists.filter(list =>
+	  return source.filter(list =>
 	    list.name.toLowerCase().includes(q)
 	  );
-  }, [lists, search]);
+  }, [lists, trashedLists, panelView, search]);
   
   const handleCreateNamed = async (name) => {
 	  const newList = await createList({ name }, accessToken);
-	  onSelect(newList);
+	  
+	  if (onCreated)
+	  {
+		  //Notify the parent (Dashboard) so it updates lists automatically.
+		  onCreated(newList);
+	  }
+	  
+	  //Also, select the new list...
+	  if (onSelect)
+	  {
+		  onSelect(newList);
+	  }
+	  
+	  setSearch(""); //Clear the search input after creating a new list.
   };
   
   //Handle list of the day feature...
   const handleCreateToday = async () => {
 	  const name = `${formatTodayName()}`;
 	  const newList = await createList({ name }, accessToken);
-	  onSelect(newList);
+	  
+	  if (onCreated)
+	  {
+		  //Notify the parent (Dashboard) so it updates lists automatically.
+		  onCreated(newList);
+	  }
+	  
+	  //Also, select the new list...
+	  if (onSelect)
+	  {
+		  onSelect(newList);
+	  }
+	  
+	  setSearch(""); //Clear the search input after creating a new list.
   };
+  
+  useEffect(() => {
+	  if (panelView === "trash")
+	  {
+		  clearSelection();
+		  setSelectionMode(false);
+	  }
+  }, [panelView]);
   
   return (
 	<aside
@@ -70,13 +110,13 @@ const ListsPanel = ({
 	  aria-label="Task lists"
 	>
 	  <header className="lists-header">
-		<Typography className="lists-title">Task Lists</Typography>
+		<h2 className="lists-title">Task Lists</h2>
 		
 		{! selectionMode ? (
 		  <button
 		    className="lists-edit"
 			onClick={() => setSelectionMode(true)}
-			aria-label="Cancel list selection"
+			aria-label="Edit lists"
 		  >
 		    Edit
 		  </button>
@@ -92,7 +132,7 @@ const ListsPanel = ({
 	  </header>
 	  
 	  <CreateTaskList
-	    onCreateName={handleCreateNamed}
+	    onCreateNamed={handleCreateNamed}
 		onCreateToday={handleCreateToday}
       />
 	  
@@ -107,19 +147,16 @@ const ListsPanel = ({
 		/>
 	  </div>
 	  
-	  <Divider className="lists-divider" />
+	  <hr className="lists-divider" />
 		
-	  <nav className="lists-items">
-		 {filteredLists.map(list => {
+	  <nav className="lists-items" aria-label="Task lists">
+		 {visibleLists.map(list => {
 		  const checked = selectedIds.has(list.id);
 		  const isActive = selected?.id === list.id;
 		  
 		  return (
-		    <div
-			  key={list.id}
-			  className={`lists-row ${checked ? "checked" : ""}`}
-			>
-			  {selectionMode && (
+		    <li key={list.id} className={`lists-row ${checked ? "checked" : ""}`}>
+			  { (panelView === "active") && (selectionMode) && (
 			    <input
 				  type="checkbox"
 				  checked={checked}
@@ -127,18 +164,33 @@ const ListsPanel = ({
 				  aria-label={`Select ${list.name}`}
 				/>
 			  )}
-		  <button
-			className={`lists-item ${isActive ? "active" : ""}`}
-			onClick={() => {
-				setSearch("");
-				selectionMode ? toggleSelection(list.id) : onSelect(list)
-			}}
-			aria-current={isActive ? "true" : undefined}
-		  >
-			{list.name}
-		  </button>
-		</div>
-		);
+			  
+			  <button
+			    className={`lists-item ${isActive ? "active" : ""}`}
+			    onClick={() => {
+				  setSearch("");
+				  if (panelView === "active") {
+				    selectionMode ? toggleSelection(list.id) : onSelect(list);
+				  }
+			    }}
+			    aria-current={isActive ? "true" : undefined}
+		      >
+			    {list.name}
+		      </button>
+			  
+			  {panelView === "trash" && (
+			    <div className="lists-trash-actions">
+				  <button onClick={() => onRestore(list.id)}>Restore</button>
+				  <button
+				    className="danger"
+					onClick={() => onPermanentDelete(list.id)}
+				  >
+				    Delete
+				  </button>
+				</div>
+			  )}
+			</li>
+		  );
 		})}
 	  </nav>
 	  
@@ -155,9 +207,19 @@ const ListsPanel = ({
 		  </button>
 		</div>
 	  )}
+	  
+	    <button
+		  className={`lists-trash-toggle ${panelView === "trash" ? "active" : ""}`}
+		  onClick={() => {
+			  setPanelView(v => v === "trash" ? "active" : "trash");
+			  clearSelection();
+		  }}
+		>
+		  {panelView === "trash" ? "← Back to Lists" : `Trash (${trashedLists.length})`}
+	  </button>
 		
 		{/* Mobile-only Close Button. */}
-		<button className="lists-close" onClick={onClose}>
+		<button data-unstyled className="lists-close" onClick={onClose}>
 		  Close lists
 		</button>
 	  </aside>

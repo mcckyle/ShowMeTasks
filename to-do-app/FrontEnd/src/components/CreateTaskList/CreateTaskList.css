@@ -7,43 +7,61 @@
 {
 	display: flex;
 	align-items: center;
-	gap: 0.6rem;
-	padding: 0.35rem 0;
+	gap: 0.5rem;
+	
+	width: 100%;
+	padding: 0.4rem;
+	
+	border-radius: var(--radius-lg);
+	background: rgba(255, 255, 255, 0.04);
+	
+	transition: background 0.15s ease;
 }
+.create-tasklist:focus-within { background: rgba(255, 255, 255, 0.07); }
 
 /* ====================================
     CreateTaskList Input Styles.
 ======================================= */
-.create-tasklist-input .MuiInputBase-root {
+.create-tasklist-input {
+	flex: 1;
+	
+	padding: 0.45rem 0.7rem;
 	font-size: 0.85rem;
-	border-radius: var(--radius-sm);
-	background: rgba(255, 255, 255, 0.035);
-	
-	transition: background 120ms ease, box-shadow 120ms ease;
-}
-.create-tasklist-input .MuiInputBase-root:hover { background: rgba(255, 255, 255, 0.055); }
-.create-tasklist-input .MuiInputBase-root.Mui-focused { box-shadow: 0 0 0 2px rgba(75, 123, 253, 0.4); }
-
-/* ====================================
-    CreateTaskList Button Styles.
-======================================= */
-.create-tasklist button {
-	text-transform: none;
-	font-weight: 500;
-	font-size: 0.8rem;
-	
-	padding: 0.35rem 0.75rem;
-	min-width: auto;
-	border-radius: 999px;
-	
-	transition: transform 120ms ease, opacity 120ms ease;
-}
-.create-tasklist button:not(:disabled):hover { transform: translateY(-1px); }
-.create-tasklist button:disabled { opacity: 0.45; transform: none; }
-
-/* ====================================
-    CreateTaskList Dark Mode Styles.
-======================================= */
-:root[data-theme="dark"] .create-tasklist-input input {
+	font-family: inherit;
 	color: inherit;
+	
+	background: transparent;
+	border: none;
+	outline: none;
+}
+.create-tasklist-input::placeholder { opacity: 0.5; }
+
+/* ====================================
+    CreateTaskList Named Add Button Styles.
+======================================= */
+.create-tasklist-action {
+	font-size: 0.75rem;
+	font-weight: 600;
+	letter-spacing: 0.02em;
+	
+	padding: 0.35rem 0.7rem;
+	border-radius: 999px;
+	cursor: pointer;
+	
+	transition: background 0.15s ease,
+                opacity 0.15s ease,
+				transform 0.15s ease;
+}
+.create-tasklist-action.primary { background: var(--primary); color: #fff; }
+.create-tasklist-action.primary:hover:not(:disabled) { transform: translateY(-1px); background: rgba(75, 123, 253, 0.9); }
+.create-tasklist-action.ghost { background: transparent; color: var(--primary); opacity: 0.7; }
+.create-tasklist-action.ghost:hover:not(:disabled) { opacity: 1; }
+.create-tasklist-action:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* ====================================
+    CreateTaskList Media Query Styles.
+======================================= */
+@media (max-width: 600px) {
+	.create-tasklist { padding: 0.35rem; }
+	.create-tasklist-input { font-size: 0.8rem; }
 }

@@ -2,7 +2,7 @@
 //
 //     Filename: JwtAuthenticationFilter.java
 //     Author: Kyle McColgan
-//     Date: 14 January 2026
+//     Date: 29 January 2026
 //     Description: This file provides the auth token validation implementation.
 //
 //***************************************************************************************
@@ -17,7 +17,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
@@ -72,7 +71,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter
                     try
                     {
                         // Use UserDetailsService to load user details
-                        UserDetails userDetails = userDetailsService.loadUserById(userId);
+                        UserDetailsImpl userDetails = (UserDetailsImpl) userDetailsService.loadUserById(userId);
 
                         // Create authentication token and set it in the context
                         UsernamePasswordAuthenticationToken token =

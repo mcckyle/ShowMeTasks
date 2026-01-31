@@ -1,58 +1,65 @@
 [![show-me-tasks-ci](https://github.com/kmccol1/ShowMeTasks/actions/workflows/show-me-tasks-ci.yml/badge.svg)](https://github.com/kmccol1/ShowMeTasks/actions/workflows/show-me-tasks-ci.yml)
 # ShowMeTasks
 
-ShowMeTasks is a simple, modern task management application built with Java Spring Boot and React. Designed for both individual and collaborative productivity, this secure and scalable platform enables users to manage tasks efficiently with advanced role-based access control and real-time features.
+ShowMeTasks is a simple, modern task management application built with **Java Spring Boot** and **React**. It's designed for individuals and teams to organize tasks efficiently with support for multiple task lists, real-time updates, and role-based access control.
+
+---
 
 ## Key Features
 
-- **User Authentication & Security**:  
-  Secure registration and login powered by **JWT (JSON Web Tokens)**, ensuring data integrity and user session security.
+- **Secure Authentication**:  
+  JWT-powered login and registration to make sure user sessions are safe and data integrity is maintained.
 
 - **Task Management**:  
-  Create, edit, delete, and organize tasks within multiple task lists, tailored to individual users or shared across teams.
+  Create, edit, delete, and organize tasks across multiple lists, for personal use or shared collaboration.
+
+- **Real-Time Updates**:  
+  Tasks and lists reflect changes instantly, keeping your workflow smooth and responsive.
 
 - **Scalable Architecture**:  
-  Efficient backend built with **Spring Boot**, ensuring robust performance even with growing user data.
+  Backend built with **Spring Boot**, ready to handle growing user data efficiently.
 
-## New & Upcoming Enhancements
+---
 
-- **User Sign-In and Profile Management**:  
-  Fully functional user authentication system with improved session handling and profile customization.
+## Upcoming Enhancements
+
+- **User Profiles & Sign-In Improvements**:  
+  Personalized dashboards and enhanced session handling.
 
 - **Multiple To-Do Lists per User**:  
-  Users can create and manage multiple task lists independently, facilitating better organization.
+  Organize tasks with multiple independent or shared lists.
 
-- **Task Editing and Prioritization**:  
-  Edit tasks seamlessly and prioritize them based on urgency or deadlines.
+- **Task Editing & Prioritization**:  
+  Seamless task updates with urgency or deadline prioritization.
 
-- **Future Enhancements**:  
-  - **Collaborative Task Lists**: Share task lists with other users in real-time.  
-  - **Task Reminders**: Set notifications for due dates and important deadlines.  
-  - **OAuth Integration**: Enable third-party logins for added convenience.
+- **Future Roadmap**:  
+  - Collaborative task lists in real-time
+  - Task reminders and notifications
+  - OAuth integration for third-party login
+
+---
 
 ## Tech Stack
 
-- **Front-End**: React, Material-UI (MUI)  
+- **Front-End**: React, Custom CSS 
 - **Back-End**: Java Spring Boot, Spring Security  
 - **Database**: MariaDB (production), H2 (development)  
 - **Authentication**: JWT (JSON Web Tokens)  
 - **CI/CD**: GitHub Actions  
 
-## Setup and Installation
+---
 
-Follow these steps to set up and run the ShowMeTasks application locally.
+## Quick Setup
 
-### 1. Prerequisites
-Ensure you have the following installed on your system:
-- **Java Development Kit (JDK)**: Version 11 or higher.
-- **MariaDB**: Installed and running.
-- **Node.js and npm**: Recommended version 14.x or higher for Node.js.
-- **Gradle**: Included with the project via the Gradle Wrapper.
+### Prerequisites
+- **Java 11+ (JDK)**
+- **Node.js 14+ & npm**
+- **MariaDB (running)**
+- **Gradle (via Gradle Wrapper)**
 
 ---
 
-### 2. Clone the Repository
-Start by cloning the repository and navigating to the project directory:
+### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/mcckyle/ShowMeTasks.git
@@ -61,13 +68,13 @@ cd ShowMeTasks
 
 ---
 
-### 3. Backend Setup (Spring Boot Application)
+### 2. Backend Setup (Spring Boot Application)
 1. **Navigate to the `backend` folder**:
    ```bash
    cd backend
    ```
 
-2. **Update Database Configuration**:
+3. **Update Database Configuration**:
    - Locate the `application.properties` file under `src/main/resources/`.
    - Update the following fields with your MariaDB credentials:
      ```properties
@@ -80,7 +87,7 @@ cd ShowMeTasks
      jwt.secret=your_secret_key
      ```
 
-3. **Start the Backend Server**:
+4. **Start the Backend Server**:
    - Use the Gradle Wrapper to start the Spring Boot application:
      ```bash
      ./gradlew bootRun
@@ -89,7 +96,7 @@ cd ShowMeTasks
 
 ---
 
-### 4. Frontend Setup (React Application)
+### 5. Frontend Setup (React Application)
 1. **Navigate to the `frontend` folder**:
    ```bash
    cd ../frontend
@@ -110,13 +117,13 @@ cd ShowMeTasks
 
 ---
 
-### 5. Verify the Application
+### 6. Verify the Application
 1. Open your browser and visit the React frontend: `http://localhost:5173`.
 2. Test the backend by interacting with the app or directly accessing API endpoints at `http://localhost:8080`.
 
 ---
 
-### 6. Optional: Build for Production
+### 7. Optional: Build for Production
 If you want to build the app for production deployment:
 
 #### Backend:
@@ -161,10 +168,10 @@ If you want to build the app for production deployment:
 
 ## Contribution Guidelines
 
-We welcome contributions to enhance ShowMeTasks!  
+We welcome contributions!  
 1. Fork the repository.  
-2. Create a new branch (`git checkout -b feature-branch`).  
-3. Commit your changes and push to GitHub.  
+2. Create a feature branch (`git checkout -b feature-branch`).  
+3. Commit and push changes.
 4. Submit a pull request.
 
 ## License
@@ -173,4 +180,4 @@ This project is licensed under the [MIT License](LICENSE).
 
 ---
 
-**ShowMeTasks** is a continuously evolving project. We’re excited to enhance it further, improve productivity features, and set a high standard for web development. Stay tuned for more updates! 🚀
+**ShowMeTasks** is actively evolving. We’re excited to enhance it further, improve productivity features, and set a high standard for web development. Stay productive, stay organized! 🚀

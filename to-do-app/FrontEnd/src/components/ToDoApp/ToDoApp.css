@@ -10,9 +10,7 @@
 	align-items: center;
 	justify-content: center;
 	padding: clamp(3rem, 8vh, 5rem) var(--space-lg);
-	background: var(--bg-dark);
-	
-	animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+	background: radial-gradient(1000px 320px at 50% -240px, rgba(75, 123, 253, 0.06), transparent 65%), var(--bg-dark);
 }
 
 /* ====================================
@@ -22,17 +20,15 @@
 	width: 100%;
 	max-width: 720px;
 	
-	padding: clamp(2rem, 4vw, 3rem);
+	padding: clamp(2.25rem, 4vw, 3.25rem);
 	border-radius: var(--radius-lg);
 	
-	background: var(--surface-dark);
-	border: 1px solid var(--border-dark);
-	box-shadow: 0 16px 36px rgba(0, 0, 0, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 0.02);
+	background: color-mix(in srgb, var(--surface-dark) 60%, transparent);
+	border-radius: var(--radius-lg);
 	
 	display: flex;
 	flex-direction: column;
-	gap: 2.5rem;
+	gap: 2.25rem;
 	
 	animation: fadeInUp 0.5s ease-out forwards;
 }
@@ -48,27 +44,19 @@
 }
 
 .auth-title {
-	font-size: clamp(1.8rem, 5vw, 2.25rem);
-	font-weight: 700;
+	font-size: clamp(2rem, 5vw, 2.5rem);
+	font-weight: 800;
 	line-height: 1.1;
+	letter-spacing: -0.025em;
 }
 
 .auth-subtitle {
-	font-size: 1rem;
+	font-size: 0.9rem;
 	line-height: 1.6;
-	opacity: 0.85;
-	max-width: 40ch;
+	opacity: 0.7;
+	max-width: 48ch;
 	margin-inline: auto;
-	color: var(--text-muted-light);
-}
-
-/* ====================================
-    Auth Divider Styles.
-======================================= */
-.auth-divider {
-	height: 1px;
-	background: var(--border-dark);
-	margin-block: 1.5rem;
+	color: var(--text-muted-dark);
 }
 
 /* ====================================
@@ -76,18 +64,14 @@
 ======================================= */
 .auth-forms {
 	display: grid;
+	align-items: stretch;
 	grid-template-columns: 1fr 1fr;
-	gap: 2rem;
+	gap: 2.25rem;
 }
-
+.auth-forms > * { align-self: stretch; }
 /* ====================================
     ToDoApp Animations Styles.
 ======================================= */
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
 @keyframes fadeInUp {
     from { opacity: 0; transform: translateY(12px); }
     to { opacity: 1; transform: translateY(0); }
@@ -97,20 +81,16 @@
     ToDoApp Light Mode Styles.
 ======================================= */
 @media (prefers-color-scheme: light) {
-  .todo-shell { background: var(--bg-light); }
-  .auth-surface {
-	  background: var(--surface-light);
-	  border-color: var(--border-light);
-  }
-  .auth-divider { background: var(--border-light); }
-  .auth-subtitle { color: var(--text-muted-dark); }
+	.todo-shell { background: var(--bg-light); }
+	.auth-subtitle { color: var(--text-muted-dark); }
 }
 
 /* ====================================
     ToDoApp Media Query Styles.
 ======================================= */
 @media (max-width: 780px) {
-	.auth-forms { grid-template-columns: 1fr; gap: 2rem; }
+	.auth-hero { margin-bottom: 0.5rem; }
+	.auth-forms { grid-template-columns: 1fr; gap: 2.5rem; }
 }
 
 @media (max-width: 480px) {

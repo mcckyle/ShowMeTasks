@@ -1,6 +1,6 @@
 //****************************************************************************************
 // Filename: apiClient.js
-// Date: 21 January 2026
+// Date: 28 January 2026
 // Author: Kyle McColgan
 // Description: This file contains the API client for ShowMeTasks.
 //****************************************************************************************
@@ -9,13 +9,22 @@ const API_BASE = import.meta.env.VITE_API_URL ?? "http://localhost:8080/api/todo
 
 async function request(path, { method = "GET", token, body } = {})
 {
+	const headers = {};
+	
+	if (token)
+	{
+		headers.Authorization = `Bearer ${token}`;
+	}
+	
+	if (body !== undefined)
+	{
+		headers["Content-Type"] = "application/json";
+	}
+	
 	const response = await fetch(`${API_BASE}${path}`, {
 		method,
-		headers: {
-			...(token && { Authorization: `Bearer ${token}` }),
-			...(body && { "Content-Type": "application/json" }),
-		},
-		body: body ? JSON.stringify(body) : undefined,
+		headers,
+		body: body !== undefined ? JSON.stringify(body) : undefined,
 	});
 	
 	if ( ! response.ok)

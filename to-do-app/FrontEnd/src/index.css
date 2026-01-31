@@ -62,14 +62,14 @@
 /* ====================================
     Global Reset Styles..
 ======================================= */
-* {
+*, *::before, *::after { box-sizing: border-box; }
+button, a, input, textarea, .card, .surface {
 	transition:
 	  background-color var(--transition-fast),
 	  color var(--transition-fast),
 	  box-shadow var(--transition-fast),
 	  border-color var(--transition-fast);
 }
-*, *::before, *::after { box-sizing: border-box; }
 
 /* ====================================
     Base Layout Styles.
@@ -95,7 +95,7 @@ h1 { font-size: var(--text-2xl); }
 h2 { font-size: var(--text-xl); }
 h3 { font-size: var(--text-lg); }
 h4 { font-size: var(--text-base); }
-h1, h2, h3 { color: var(--text-light); }
+h1, h2, h3 { color: rgba(232, 234, 241, 0.95); }
 p {
 	margin-top: 0.5rem;
 	margin-bottom: 1rem;
@@ -115,6 +115,15 @@ p {
 	padding-inline: var(--space-lg);
 }
 
+/* Surface Styles. */
+.surface {
+	background: var(--surface-dark);
+	border-radius: var(--radius-lg);
+	border: 1px solid var(--border-dark);
+	box-shadow: var(--shadow-sm);
+	padding: var(--space-xl);
+}
+
 /* ====================================
     Links Styles.
 ======================================= */
@@ -126,28 +135,11 @@ a {
 }
 a:hover { color: var(--accent); }
 
-/* Button Reset Styles. */
-button:not(.MuiButton-root) {
-	all: unset;
-	cursor: pointer;
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	padding: var(--space-sm) var(--space-md);
-	border-radius: var(--radius-md);
-	font-weight: 600;
-	font-size: var(--text-base);
-	background: var(--primary);
-	color: #fff;
-	box-shadow: var(--shadow-sm);
-}
-button:hover { background: var(--accent); }
-button:active { transform: scale(0.97); }
-
 /* Input Styles. */
 input, textarea {
 	width: 100%;
 	padding: var(--space-sm) var(--space-md);
+	border: 1px solid var(--border-dark);
 	border-radius: var(--radius-md);
 	background: var(--surface-dark);
 	color: var(--text-light);
@@ -158,6 +150,7 @@ input:focus, textarea:focus {
 	outline: none;
 	box-shadow: 0 0 0 3px rgba(75, 123, 253, 0.2);
 }
+input::placeholder, textarea::placeholder { color: var(--text-muted-dark); }
 
 ::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-thumb { background-color: rgba(75, 123, 253, 0.3); border-radius: 4px; }
@@ -176,5 +169,6 @@ button, input, textarea { font-family: inherit; }
 ======================================= */
 @media (prefers-color-scheme: light) {
   body { background: var(--bg-light); color: var(--text-dark); }
+  .route-surface { background: var(--surface-light); border-color: var(--border-light); }
   p { color: var(--text-muted-light); }
 }

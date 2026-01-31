@@ -1,13 +1,11 @@
 //****************************************************************************************
 // Filename: TaskComposer.jsx
-// Date: 23 January 2026
+// Date: 30 January 2026
 // Author: Kyle McColgan
 // Description: This file contains the TaskComposer React component for ShowMeTasks.
 //****************************************************************************************
 
 import { useState } from "react";
-import { TextField, Button } from "@mui/material";
-
 import "./TaskComposer.css";
 
 const TaskComposer = ({ onAdd, disabled }) => {
@@ -28,11 +26,10 @@ const TaskComposer = ({ onAdd, disabled }) => {
 	  role="region"
 	  aria-label="Add a new task"
 	>
-	  <TextField
+	  <input
+	    type="text"
 	    className="task-composer-input"
 	    placeholder="Add a task…"
-		size="small"
-		fullWidth
 		value={text}
 		disabled={disabled}
 		onChange={(e) => setText(e.target.value)}
@@ -40,17 +37,16 @@ const TaskComposer = ({ onAdd, disabled }) => {
 			if (e.key === "Enter") submit();
 			if (e.key === "Escape") setText("");
 		}}
-		inputProps={{ "aria-label": "Task description", }}
+		aria-label="Task description"
 	  />
-	  <Button
-	    variant="contained"
-		size="small"
+	  <button
+	    className="task-composer-button"
 		onClick={submit}
 		disabled={disabled || ! text.trim()}
 		aria-label="Add task"
 	  >
-	    Add
-	  </Button>
+	    Add task
+	  </button>
 	</section>
   );
 };

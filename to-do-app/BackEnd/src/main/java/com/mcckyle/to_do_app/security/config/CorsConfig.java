@@ -2,7 +2,7 @@
 //
 //     Filename: CorsConfig.java
 //     Author: Kyle McColgan
-//     Date: 1 January 2026
+//     Date: 28 January 2026
 //     Description: This file implements a custom CORS config bean for security.
 //
 //***************************************************************************************
@@ -30,7 +30,7 @@ public class CorsConfig
                 "http://localhost:5173",
                 "https://todo-backend-vnla.onrender.com" //Replace with real URL.
         ));
-        corsConfig.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        corsConfig.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         corsConfig.setAllowedHeaders(List.of("Authorization", "Content-Type", "Accept"));
         corsConfig.setExposedHeaders(List.of(
                 "Set-Cookie",

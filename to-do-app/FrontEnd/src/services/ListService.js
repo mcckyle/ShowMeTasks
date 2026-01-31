@@ -1,6 +1,6 @@
 //****************************************************************************************
 // Filename: ListService.jsx
-// Date: 21 January 2026
+// Date: 28 January 2026
 // Author: Kyle McColgan
 // Description: This file contains the List service for ShowMeTasks.
 //****************************************************************************************
@@ -35,6 +35,16 @@ export async function updateList(id, payload, token)
 	return request(`/list/${id}`, {
 		method: "PUT",
 		body: payload,
+		token,
+	});
+}
+
+//Soft-delete a list.
+export async function updateListDeleted(id, deleted, token)
+{
+	return request(`/list/${id}/deleted`, {
+		method: "PATCH",
+		body: { deleted },
 		token,
 	});
 }

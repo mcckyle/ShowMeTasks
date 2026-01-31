@@ -1,24 +1,23 @@
 //****************************************************************************************
 // Filename: CreateTaskList.jsx
-// Date: 26 January 2026
+// Date: 30 January 2026
 // Author: Kyle McColgan
 // Description: This file contains the CreateTaskList React component for ShowMeTasks.
 //****************************************************************************************
 
 import { useState, useContext } from "react";
-import { TextField, Button, IconButton } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
 import { AuthContext } from "../../context/AuthContext";
 import "./CreateTaskList.css"; // Import the CSS file
 
 const CreateTaskList = ({ onCreateNamed, onCreateToday }) => {
 	const { user, accessToken } = useContext(AuthContext);
     const [name, setName] = useState("");
-	const canQuickAdd = Boolean( (user) && (accessToken) );
-	const canNamedAdd = Boolean( (canQuickAdd) && (name.trim()) );
+	
+	const canCreate = Boolean( (user) && (accessToken) );
+	const hasText = Boolean(name.trim());
 
     const submitNamed = () => {
-		if ( ! canNamedAdd )
+		if ( ( ! canCreate) || ( ! hasText) )
 		{
             return;
         }
@@ -28,15 +27,13 @@ const CreateTaskList = ({ onCreateNamed, onCreateToday }) => {
     };
 	
 	const submitToday = () => {
-		if ( ! canQuickAdd )
+		if ( ! canCreate )
 		{
             return;
         }
 		
 		onCreateToday();
     };
-	
-	const hasText = Boolean(name.trim());
 
     return (
 		<section
@@ -44,38 +41,27 @@ const CreateTaskList = ({ onCreateNamed, onCreateToday }) => {
 		  role="group"
 		  aria-label="Create new task list"
 		>
-			<TextField
+			<input
+			    type="text"
 			    className="create-tasklist-input"
-			    placeholder="New list…"
-				size="small"
-				fullWidth
+				placeholder="New list…"
 				value={name}
 				onChange={(e) => setName(e.target.value)}
 				onKeyDown={(e) => {
 					if ( (e.key === "Enter") && (hasText) ) submitNamed();
 					if (e.key === "Escape") setName("");
 				}}
+				aria-label="New task list name"
 			/>
 			
-			{hasText ? (
-				<Button
-				  variant="contained"
-				  size="small"
-				  onClick={submitNamed}
-				  disabled={ ! canNamedAdd}
-				>
-					Add
-				</Button>
-			) : (
-			  <IconButton
-			    size="small"
-				onClick={submitToday}
-				disabled={ ! canQuickAdd}
-				aria-label="Create List of the Day"
-			  >
-			    <AddIcon />
-			  </IconButton>
-			)}
+			<button
+			  className={`create-tasklist-action ${hasText ? "primary" : "ghost"}`}
+			  onClick={hasText ? submitNamed : submitToday}
+			  disabled={ ! canCreate}
+			  aria-label={hasText ? "Add list" : "Create today's list"}
+			>
+			  {hasText ? "Add" : "Today"}
+			</button>
 		</section>
     );
 };

@@ -2,7 +2,7 @@
 //
 //   Filename: TaskListController.java
 //   Author: Kyle McColgan
-//   Date: 20 January 2026
+//   Date: 28 January 2026
 //   Description: This file implements task list functionality.
 //
 //***************************************************************************************
@@ -15,6 +15,7 @@ import com.mcckyle.to_do_app.Services.ToDoApplicationService;
 import com.mcckyle.to_do_app.Services.UserService;
 import com.mcckyle.to_do_app.payload.TaskListDTO;
 import com.mcckyle.to_do_app.payload.TaskListResponse;
+import com.mcckyle.to_do_app.payload.UpdateDeletedRequest;
 import com.mcckyle.to_do_app.security.UserDetailsImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -163,6 +164,19 @@ public class TaskListController
         TaskList updated = toDoService.updateTaskList(id, request.getName(), user);
 
         return ResponseEntity.ok(new TaskListDTO(updated, updated.getTasks()));
+    }
+
+    //UPDATE (soft-delete) a task list.
+    @PatchMapping("/{id}/deleted")
+    public ResponseEntity<Void> updateDeleted(
+            @PathVariable Integer id,
+            @RequestBody UpdateDeletedRequest request,
+            @AuthenticationPrincipal UserDetailsImpl principal)
+    {
+        User user = resolveUser(principal);
+        toDoService.setTaskListDeleted(id, request.isDeleted(), user);
+
+        return ResponseEntity.noContent().build();
     }
 
     //DELETE a task list.

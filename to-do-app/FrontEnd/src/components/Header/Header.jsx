@@ -1,6 +1,6 @@
 //****************************************************************************************
 // Filename: Header.jsx
-// Date: 26 January 2026
+// Date: 28 January 2026
 // Author: Kyle McColgan
 // Description: This file contains the React Header component for ShowMeTasks.
 //****************************************************************************************
@@ -54,11 +54,19 @@ const Header = () => {
 		
 		  {/* Primary Navigation. */}
 		  <nav className="nav" aria-label="Primary">
-		    <Link to="/" className={`nav-item ${isActive("/") ? "active" : ""}`}>
+		    <Link
+			  to="/"
+			  aria-current={isActive("/") ? "page" : undefined}
+			  className={`nav-item ${isActive("/") ? "active" : ""}`}
+			>
 			  Home
 			</Link>
-		    <Link to="/tasks" className={`nav-item ${isActive("/tasks") ? "active" : ""}`}>
-			  Dashboard
+		    <Link
+			  to="/tasks"
+			  aria-current={isActive("/tasks") ? "page" : undefined}
+			  className={`nav-item ${isActive("/tasks") ? "active" : ""}`}
+			>
+			  Tasks
 			</Link>
 		  </nav>
 		
@@ -86,7 +94,11 @@ const Header = () => {
 			    {user.username?.charAt(0).toUpperCase() || "?"}
 			  </div>
 			  
-			  <div className={`menu ${menuOpen ? "open" : ""}`} role="menu">
+			  <div
+			    className={`menu ${menuOpen ? "open" : ""}`}
+				role="menu"
+				onClick={(e) => e.stopPropagation()}
+			  >
 			    <Link to="/profile" className="menu-item" role="menuitem" onClick={() => setMenuOpen(false)}>
 				  Profile
 				</Link>
